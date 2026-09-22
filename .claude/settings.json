@@ -1,0 +1,42 @@
+{
+  "permissions": {
+    "defaultMode": "dontAsk",
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(Remove-Item -Recurse -Force *)",
+      "Bash(git push --force *)",
+      "Bash(git push -f *)",
+      "Bash(git reset --hard *)",
+      "Bash(DROP *)",
+      "Bash(TRUNCATE *)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "PowerShell|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& \"$env:CLAUDE_PROJECT_DIR\\.claude\\hooks\\archive-table.ps1\"",
+            "statusMessage": "Vérification table ouverture/clôture...",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "command": "& \"$env:CLAUDE_PROJECT_DIR\\.claude\\hooks\\check-doc-refs.ps1\"",
+            "statusMessage": "Vérification des références de doc...",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,37 @@
+# Dépendances
+node_modules/
+.pnpm-store/
+
+# Build
+dist/
+build/
+.astro/
+.next/
+.output/
+
+# Env & secrets — JAMAIS commités
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+
+# OS / éditeur
+.DS_Store
+Thumbs.db
+*.log
+
+# Claude Code — préférences locales (jamais partagées)
+.claude/settings.local.json
+.claude/projects/
+
+# Mémoire : on versionne la STRUCTURE (.gitkeep + MEMORY.md) mais pas les faits perso.
+# Décommente la ligne suivante si la mémoire doit rester strictement locale :
+# .claude/memory/*.md
+
+# Medias lourds - deployes par FTP, jamais versionnes (GitHub refuse > 100 Mo)
+*.mp4
+*.webm
+*.mov
+*.avi

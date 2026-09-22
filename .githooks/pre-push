@@ -1,0 +1,27 @@
+#!/bin/bash
+# .githooks/pre-push
+# Rappel NON-BLOQUANT : liste le contenu de todo/ avant un push.
+# But : ne jamais oublier un fichier de travail en suspens (specs, tests, handoffs).
+# Ne bloque JAMAIS (exit 0) — un fichier en cours est légitime ; c'est à l'humain
+# de juger s'il faut l'archiver (git mv vers zarchives/) ou le laisser.
+#
+# Remplace l'ancien hook de resync module bloquant (D_092 : synchro doc en pull,
+# pas en push — le « comment » se régénère depuis le code, pas de garde-fou bloquant).
+#
+# Installation (une fois par clone) :
+#   git config core.hooksPath .githooks
+
+TODO_DIR="todo"
+
+files=$(find "$TODO_DIR" -type f ! -name '.gitkeep' 2>/dev/null | sort)
+
+if [ -n "$files" ]; then
+  count=$(printf '%s\n' "$files" | grep -c .)
+  echo ""
+  echo "ℹ  todo/ contient $count fichier(s) en attente — encore actifs ?"
+  echo "   (sinon : git mv vers zarchives/, ou supprimer)"
+  printf '%s\n' "$files" | sed 's/^/   · /'
+  echo ""
+fi
+
+exit 0

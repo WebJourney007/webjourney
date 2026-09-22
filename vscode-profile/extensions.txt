@@ -1,0 +1,38 @@
+# Set curé pour un projet web — une extension par ligne (ID Marketplace).
+# Installées par install.ps1 via `code --install-extension`.
+
+# --- Stack (à adapter à ton framework) ---
+ecmel.vscode-html-css
+
+# --- Claude Code ---
+anthropic.claude-code
+
+# --- Formatage / lint ---
+esbenp.prettier-vscode
+dbaeumer.vscode-eslint
+foxundermoon.shell-format
+
+# --- Productivité éditeur ---
+aaron-bond.better-comments
+albert.tabout
+adrianwilczynski.toggle-hidden
+alefragnani.project-manager
+codesmith.markdown-inline-editor-vscode
+kisstkondoros.vscode-gutter-preview
+
+# --- Git / env ---
+codezombiech.gitignore
+github.vscode-github-actions
+mikestead.dotenv
+
+# --- Markdown ---
+shd101wyy.markdown-preview-enhanced
+
+# --- Thème & icônes ---
+pkief.material-icon-theme
+pkief.material-product-icons
+mkers.dark-palenight-mkers
+
+# --- Cosmétique / langue ---
+joeberria.statusbarerror
+ms-ceintl.vscode-language-pack-fr

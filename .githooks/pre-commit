@@ -1,0 +1,64 @@
+#!/bin/bash
+# Pour tout fichier ajouté dans zarchives/ :
+# auto-injecte l'heure d'ouverture (git log du fichier source, sinon mtime)
+# et l'heure de clôture (maintenant).
+
+TIME_PATTERN='[0-9][0-9]:[0-9][0-9]'
+NOW_DATE=$(date "+%Y-%m-%d")
+NOW_TIME=$(date "+%H:%M")
+
+get_open_time() {
+  local FILE="$1"
+  local BASENAME
+  BASENAME=$(basename "$FILE" | sed 's/^[0-9]\{8\}-//')
+
+  # 1. git log du fichier source dans todo/
+  local T
+  T=$(git log --follow --format="%ai" -- "todo/$BASENAME" 2>/dev/null \
+      | tail -1 | grep -oE '[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}')
+  [ -n "$T" ] && echo "$T" && return
+
+  # 2. Fallback Windows : LastWriteTime via PowerShell
+  if command -v powershell.exe &>/dev/null; then
+    local WINPATH
+    WINPATH=$(cygpath -w "$FILE" 2>/dev/null || echo "$FILE")
+    powershell.exe -NoProfile -Command \
+      "[System.IO.File]::GetLastWriteTime('$WINPATH').ToString('yyyy-MM-dd HH:mm')" \
+      2>/dev/null | tr -d '\r\n'
+    return
+  fi
+
+  # 3. Fallback Unix
+  date -r "$FILE" "+%Y-%m-%d %H:%M" 2>/dev/null
+}
+
+for FILE in $(git diff --cached --name-only --diff-filter=A | grep '^zarchives/'); do
+  MODIFIED=0
+
+  # --- Ouverture ---
+  if ! grep -qE "\| Ouverture \|.*$TIME_PATTERN" "$FILE"; then
+    T=$(get_open_time "$FILE")
+    if [ -n "$T" ]; then
+      D=$(echo "$T" | cut -d' ' -f1)
+      H=$(echo "$T" | cut -d' ' -f2 | cut -c1-5)
+      sed -i "s/^| Ouverture |.*$/| Ouverture | $D | $H |/" "$FILE"
+      MODIFIED=1
+      echo "HOOK — $FILE : Ouverture injectée ($D $H)"
+    else
+      echo "HOOK — $FILE : impossible de détecter l'heure d'ouverture — remplis manuellement."
+      exit 1
+    fi
+  fi
+
+  # --- Clôture ---
+  if ! grep -qE "\| Cl.ture \|.*$TIME_PATTERN" "$FILE"; then
+    sed -i "s/^| Cl.ture |.*$/| Clôture | $NOW_DATE | $NOW_TIME |/" "$FILE"
+    MODIFIED=1
+    echo "HOOK — $FILE : Clôture injectée ($NOW_DATE $NOW_TIME)"
+  fi
+
+  # Re-stage si modifié
+  [ $MODIFIED -ne 0 ] && git add "$FILE"
+done
+
+exit 0

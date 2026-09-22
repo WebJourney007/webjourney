@@ -1,0 +1,55 @@
+// keybindings.json
+// Setup : Alt+1 → Alt+4 pilotent l'interface VS Code (sidebar, terminal, auxbar, statusbar)
+
+[
+	// Neutraliser les raccourcis natifs Alt+1 → Alt+9
+	{ "key": "alt+1", "command": "-workbench.action.openEditorAtIndex1" },
+	{ "key": "alt+2", "command": "-workbench.action.openEditorAtIndex2" },
+	{ "key": "alt+3", "command": "-workbench.action.openEditorAtIndex3" },
+	{ "key": "alt+4", "command": "-workbench.action.openEditorAtIndex4" },
+	{ "key": "alt+5", "command": "-workbench.action.openEditorAtIndex5" },
+	{ "key": "alt+6", "command": "-workbench.action.openEditorAtIndex6" },
+	{ "key": "alt+7", "command": "-workbench.action.openEditorAtIndex7" },
+	{ "key": "alt+8", "command": "-workbench.action.openEditorAtIndex8" },
+	{ "key": "alt+9", "command": "-workbench.action.openEditorAtIndex9" },
+
+	// Side Bar primaire
+	{ "key": "alt+1", "command": "workbench.action.toggleSidebarVisibility" },
+
+	// Panel auxiliaire (droite)
+	{ "key": "alt+3", "command": "workbench.action.toggleAuxiliaryBar" },
+
+	// Binds utiles
+	{
+		"key": "shift+alt+f",
+		"command": "editor.action.formatSelection",
+		"when": "editorTextFocus && editorHasSelection"
+	},
+	{ "key": "ctrl+alt+space", "command": "claude-vscode.window.open" },
+	{ "key": "ctrl+alt+c", "command": "claude-vscode.editor.open" },
+	{ "key": "ctrl+alt+right", "command": "workbench.action.moveEditorToNextGroup" },
+	{ "key": "ctrl+alt+left", "command": "workbench.action.moveEditorToPreviousGroup" },
+
+	// Désactivation de raccourcis natifs conflictuels
+	{
+		"key": "ctrl+alt+space",
+		"command": "-toggleSuggestionFocus",
+		"when": "suggestWidgetVisible && textInputFocus"
+	},
+	{
+		"key": "ctrl+alt+space",
+		"command": "-workbench.action.terminal.suggestToggleDetailsFocus",
+		"when": "!textInputFocus"
+	},
+	{
+		"key": "alt+2",
+		"command": "workbench.action.terminal.toggleTerminal",
+		"when": "terminal.active"
+	},
+	{
+		"key": "ctrl+oem_3",
+		"command": "-workbench.action.terminal.toggleTerminal",
+		"when": "terminal.active"
+	},
+	{ "key": "alt+4", "command": "workbench.action.toggleStatusbarVisibility" }
+]
