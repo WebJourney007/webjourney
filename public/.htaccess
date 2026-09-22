@@ -1,0 +1,110 @@
+ErrorDocument 404 /404.html
+
+# Headers de sécurité HTTP pour Web Journey
+# À placer à la racine du site (si Apache/Infomaniak le supporte)
+
+<IfModule mod_headers.c>
+    # Protection contre le clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Empêcher MIME type sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # Protection XSS (navigateurs anciens)
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Politique de referrer
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Permissions Policy (anciennement Feature Policy)
+    Header set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+    
+    # Content Security Policy (à adapter selon vos besoins)
+    # Permet les scripts depuis votre domaine et les CDN utilisés
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://ssl.google-analytics.com https://www.google-analytics.com https://d3e54v103j8qbb.cloudfront.net https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://cdn.prod.website-files.com https://eu-assets.i.posthog.com https://connect.facebook.net https://googleads.g.doubleclick.net https://www.googleadservices.com https://eu.i.posthog.com; style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' data: https://fonts.gstatic.com; connect-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://ssl.google-analytics.com https://region1.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://cdn.jsdelivr.net https://tagassistant.google.com https://chatbot.webjourney.fr https://www.google.com https://googleads.g.doubleclick.net https://stats.g.doubleclick.net https://*.doubleclick.net https://www.googleadservices.com https://www.googleapis.com https://eu.i.posthog.com https://eu-assets.i.posthog.com https://www.facebook.com https://connect.facebook.net; frame-src https://www.googletagmanager.com https://tagassistant.google.com https://www.loom.com https://calendly.com https://www.facebook.com; frame-ancestors 'self'; object-src 'none'; base-uri 'self';"
+    
+    # HSTS (Forcer HTTPS)
+    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+</IfModule>
+
+# Compression GZIP pour améliorer les performances
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json
+</IfModule>
+
+# Mise en cache des fichiers statiques
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType text/javascript "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/otf "access plus 1 year"
+    ExpiresByType font/ttf "access plus 1 year"
+    ExpiresByType application/font-otf "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    ExpiresByType application/vnd.ms-fontobject "access plus 1 year"
+</IfModule>
+
+# Headers Cache-Control pour les fonts (backup si mod_expires n'est pas disponible)
+<IfModule mod_headers.c>
+    <FilesMatch "\.(otf|woff|woff2|ttf|eot)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
+</IfModule>
+
+# Réécriture d'URL pour supprimer l'extension .html
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # Redirection 301 : non-www vers www (unifier les URLs pour le SEO)
+    RewriteCond %{HTTP_HOST} ^webjourney\.ch$ [NC]
+    RewriteRule ^ https://www.webjourney.ch%{REQUEST_URI} [R=301,L]
+
+    # Favicon à la racine (pour Google SERP et navigateurs)
+    RewriteRule ^favicon\.ico$ assets/images/favicon.ico [L]
+
+    # Rediriger les URLs avec .html vers les URLs sans .html (301 permanent)
+    RewriteCond %{THE_REQUEST} \s/+(.+?)\.html[\s?] [NC]
+    RewriteRule ^ /%1 [R=301,L]
+    
+    # Réécrire les URLs sans extension vers les fichiers .html
+    # Vérifie d'abord si le fichier .html existe (priorité sur les dossiers)
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME}.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Bloquer accès aux fichiers et dossiers sensibles
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^\.git - [F,L]
+    RewriteRule ^node_modules - [F,L]
+    RewriteRule ^config - [F,L]
+    RewriteRule ^\.env - [F,L]
+    RewriteRule ^package(-lock)?\.json$ - [F,L]
+    RewriteRule ^composer\.(json|lock)$ - [F,L]
+</IfModule>
+
+# Bloquer fichiers sensibles par extension/nom
+<FilesMatch "(^\.htpasswd|^\.env|^composer\.(json|lock)|^package(-lock)?\.json|^Makefile|^Dockerfile|\.log$|\.sql$|\.bak$|\.swp$|\.orig$)">
+    Order Allow,Deny
+    Deny from all
+</FilesMatch>
+
+# Supprimer la signature du serveur Apache
+ServerSignature Off
+
+# Protéger contre le clickjacking sur toutes les pages (backup du header)
+<IfModule mod_headers.c>
+    Header always append X-Frame-Options "SAMEORIGIN"
+</IfModule>
+

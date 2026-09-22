@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9
+        http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+  
+  <!-- Page d'accueil -->
+  <url>
+    <loc>https://www.webjourney.ch/</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>1.0</priority>
+  </url>
+  
+  <!-- Solutions -->
+  <url>
+    <loc>https://www.webjourney.ch/creation-site-internet</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Nos sites / Réalisations -->
+  <url>
+    <loc>https://www.webjourney.ch/nos-sites-internet</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Demander un devis -->
+  <url>
+    <loc>https://www.webjourney.ch/demander-un-devis</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- À propos -->
+  <url>
+    <loc>https://www.webjourney.ch/a-propos</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Contact -->
+  <url>
+    <loc>https://www.webjourney.ch/contact</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.8</priority>
+  </url>
+  
+  <!-- Agence web Sion (landing page locale) -->
+  <url>
+    <loc>https://www.webjourney.ch/agence-web-sion</loc>
+    <lastmod>2026-03-15</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Création site vitrine (page service) -->
+  <url>
+    <loc>https://www.webjourney.ch/creation-site-vitrine</loc>
+    <lastmod>2026-03-15</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Création boutique en ligne (page service) -->
+  <url>
+    <loc>https://www.webjourney.ch/creation-boutique-en-ligne</loc>
+    <lastmod>2026-03-15</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Blog index -->
+  <url>
+    <loc>https://www.webjourney.ch/blog</loc>
+    <lastmod>2026-03-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Blog : Combien coûte un site web en Suisse en 2026 ? -->
+  <url>
+    <loc>https://www.webjourney.ch/blog/combien-coute-un-site-web-en-suisse-2026</loc>
+    <lastmod>2026-03-15</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Pages projets -->
+  <url>
+    <loc>https://www.webjourney.ch/cirque-de-noel</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/astral-motorclub</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/varela-brothers</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/cyclo-gordo</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/victor-rossi</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/dinoworld</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/insectopia</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/pirates-aventure</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/charlys-bike-store</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/la-meltingpote</loc>
+    <lastmod>2026-04-02</lastmod>
+    <priority>0.7</priority>
+  </url>
+
+  <!-- CGV -->
+  <url>
+    <loc>https://www.webjourney.ch/cgv</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+  
+  <!-- Mentions légales -->
+  <url>
+    <loc>https://www.webjourney.ch/mentions-legales</loc>
+    <lastmod>2026-02-06</lastmod>
+    <priority>0.3</priority>
+  </url>
+
+  <!-- Ressources -->
+  <url>
+    <loc>https://www.webjourney.ch/ressources</loc>
+    <lastmod>2026-04-03</lastmod>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.webjourney.ch/compresseur-images</loc>
+    <lastmod>2026-04-03</lastmod>
+    <priority>0.5</priority>
+  </url>
+
+</urlset>
+
