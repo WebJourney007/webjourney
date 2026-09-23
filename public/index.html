@@ -141,6 +141,11 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
             api_host: 'https://eu.i.posthog.com',
             defaults: '2026-01-30',
             person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+            // Fonctions inutilisées : on évite leur exécution au chargement.
+            // Le session replay et l'autocapture restent actifs.
+            disable_surveys: true,
+            capture_heatmaps: false,
+            capture_dead_clicks: false,
         })
     };
     document.readyState === 'complete'
