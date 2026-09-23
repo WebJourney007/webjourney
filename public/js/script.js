@@ -1,13 +1,14 @@
 
-function loadScript(src) {
-  return new Promise((resolve, reject) => {
+// Une promesse par URL : deux appels concurrents pour le même script partagent la même
+// attente. Sans ça, le second appel voyait la balise créée par le premier et résolvait
+// immédiatement, alors que la lib n'était pas encore exécutée (gsap undefined chez l'appelant).
+const scriptLoads = new Map();
 
-    const existingScript = document.querySelector(`script[src="${src}"]`);
-    if (existingScript) {
-      resolve();
-      return;
-    }
+function loadScript(src, attrs) {
+  const pending = scriptLoads.get(src);
+  if (pending) return pending;
 
+  const load = new Promise((resolve, reject) => {
     if (src.includes('gsap.min.js') && typeof gsap !== 'undefined') {
       resolve();
       return;
@@ -17,14 +18,32 @@ function loadScript(src) {
       return;
     }
 
+    // Balise écrite en dur dans le HTML : on attend son exécution au lieu de résoudre à l'aveugle.
+    const existingScript = document.querySelector(`script[src="${src}"]`);
+    if (existingScript) {
+      // Une balise defer déjà exécutée ne réémettra pas 'load' : on résout directement.
+      if (document.readyState === 'complete') {
+        resolve();
+      } else {
+        existingScript.addEventListener('load', resolve, { once: true });
+        existingScript.addEventListener('error', reject, { once: true });
+      }
+      return;
+    }
+
     const script = document.createElement('script');
     script.src = src;
     script.type = 'text/javascript';
     script.async = true;
+    // Attributs optionnels (integrity, crossorigin…) pour conserver le SRI.
+    Object.entries(attrs || {}).forEach(([name, value]) => script.setAttribute(name, value));
     script.onload = resolve;
     script.onerror = reject;
     document.head.appendChild(script);
   });
+
+  scriptLoads.set(src, load);
+  return load;
 }
 
 function initSimpleLotties() {
