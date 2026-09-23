@@ -9124,6 +9124,8 @@ margin: 0;
   .c.hero {
     position: relative;
     top: auto;
+    /* Variante mobile : 23 Ko au lieu de 61 Ko sur le chemin critique du LCP. */
+    background-image: url('../assets/images/webjourney--webjourney-mobile.webp');
   }
 
   .hero_content__wrapper {

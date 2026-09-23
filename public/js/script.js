@@ -69,10 +69,6 @@ function initSimpleLotties() {
 
 function initScripts() {
 
-  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
-    gsap.registerPlugin(ScrollTrigger);
-  }
-
   $(document).ready(function() {
 $("[tr-scroll-toggle='component']").each(function () {
   let component = $(this);
@@ -1261,8 +1257,7 @@ function initTextSplitAnimation() {
   });
 }
 
-// GSAP + ScrollTrigger sont préchargés via <link rel="preload"> dans le HTML.
-// loadScript() les retrouve dans le cache navigateur : exécution sans latence réseau.
+// GSAP pilote le menu et les animations visibles d'emblée : chargement immédiat.
 const gsapPromise = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined')
   ? Promise.resolve()
   : Promise.all([
@@ -1270,41 +1265,74 @@ const gsapPromise = (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'un
       loadScript('https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js')
     ]);
 
-const lottiePromise = new Promise((resolve) => {
-  if (typeof lottie !== 'undefined') {
-    resolve();
-  } else {
-    const checkLottie = setInterval(() => {
-      if (typeof lottie !== 'undefined') {
-        clearInterval(checkLottie);
+// jQuery (~90 Ko) et lottie-web (~260 Ko) ne servent qu'à des blocs situés sous la ligne
+// de flottaison. Les charger dès le départ vole de la bande passante au LCP et gonfle
+// le TBT. On attend donc l'approche de ces blocs, avec un filet au premier temps mort.
+const JQUERY_SRC = 'https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=68a5ea1e1a93d5624e764e91';
+const LOTTIE_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js';
+const HEAVY_SELECTOR = "[tr-scroll-toggle='component'], .trait, .lottie--split, [data-animation-type='lottie']";
+
+function whenApproaching(targets) {
+  return new Promise((resolve) => {
+    if (!('IntersectionObserver' in window)) {
+      resolve();
+      return;
+    }
+    // 1200px de marge : les libs sont prêtes bien avant que le bloc n'entre à l'écran,
+    // et les mutations DOM de initScripts() restent hors viewport (pas de CLS).
+    const observer = new IntersectionObserver((entries) => {
+      if (entries.some(entry => entry.isIntersecting)) {
+        observer.disconnect();
         resolve();
       }
-    }, 50);
-    setTimeout(() => {
-      clearInterval(checkLottie);
-      resolve();
-    }, 5000);
-  }
-});
+    }, { rootMargin: '1200px 0px' });
+    targets.forEach(target => observer.observe(target));
+  });
+}
 
-Promise.all([gsapPromise, lottiePromise]).then(() => {
-  initScripts();
-
+function onDomReady(callback) {
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      initSimpleLotties();
-      initPillAnimation();
-      initTextSplitAnimation();
-      initFAQAccordion();
-    });
+    document.addEventListener('DOMContentLoaded', callback, { once: true });
   } else {
-    initSimpleLotties();
-    initPillAnimation();
-    initTextSplitAnimation();
-    initFAQAccordion();
+    callback();
   }
+}
+
+// Animations visibles d'emblée : ne dépendent que de GSAP.
+gsapPromise.then(() => {
+  if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+  onDomReady(() => {
+    initPillAnimation();
+    initFAQAccordion();
+  });
 }).catch(err => {
 });
+
+// Blocs sous la ligne de flottaison. Si la page n'en contient aucun, jQuery et lottie
+// ne sont jamais téléchargés : un visiteur qui ne scrolle pas ne paie rien.
+const heavyTargets = document.querySelectorAll(HEAVY_SELECTOR);
+
+if (heavyTargets.length) {
+  const heavyLibsPromise = whenApproaching(heavyTargets).then(() => Promise.all([
+    typeof jQuery !== 'undefined'
+      ? Promise.resolve()
+      : loadScript(JQUERY_SRC, { integrity: 'sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=', crossorigin: 'anonymous' }),
+    typeof lottie !== 'undefined'
+      ? Promise.resolve()
+      : loadScript(LOTTIE_SRC)
+  ]));
+
+  Promise.all([gsapPromise, heavyLibsPromise]).then(() => {
+    initScripts();
+    onDomReady(() => {
+      initSimpleLotties();
+      initTextSplitAnimation();
+    });
+  }).catch(err => {
+  });
+}
 
 function initProjectAnimation() {
   const projetButtons = document.querySelectorAll('.button.is-projet');

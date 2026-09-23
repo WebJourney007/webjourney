@@ -39,20 +39,23 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="twitter:image" content="https://www.webjourney.ch/assets/images/google-product.png">
   <link rel="canonical" href="https://www.webjourney.ch/">
   <meta content="width=device-width, initial-scale=1" name="viewport">
-  <link rel="preconnect" href="https://cdn.prod.website-files.com">
   <link rel="preconnect" href="https://www.googletagmanager.com">
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link rel="preconnect" href="https://cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
   <link rel="dns-prefetch" href="https://www.google-analytics.com">
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js" as="script">
-  <link rel="preload" href="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js" as="script">
   <link rel="preload" href="css/style.css" as="style">
   <link href="css/style.css" rel="stylesheet" type="text/css">
+  <!-- LCP : l'image du hero est un background CSS, invisible pour le preload scanner.
+       On la déclare ici en priorité haute, variante mobile sous 991px. -->
+  <link rel="preload" as="image" fetchpriority="high"
+        href="assets/images/webjourney--webjourney-mobile.webp"
+        media="(max-width: 991px)">
+  <link rel="preload" as="image" fetchpriority="high"
+        href="assets/images/webjourney--webjourney.webp"
+        media="(min-width: 992px)">
   <link rel="icon" type="image/x-icon" href="https://www.webjourney.ch/favicon.ico">
   <link rel="apple-touch-icon" href="assets/images/webclip.png">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" media="print" onload="this.media='all'" />
-  <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" /></noscript>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -393,7 +396,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <div class="case-study__wrapper">
           <div class="case-study__img">
             <img src="assets/images/astral-motorclub--webjourney--use-2.webp"
-                 alt="Site web sur-mesure Astral Motorclub — réalisation Web Journey Valais" />
+                 alt="Site web sur-mesure Astral Motorclub — réalisation Web Journey Valais"
+                 loading="lazy" width="850" height="1133" />
           </div>
           <div class="case-study__content">
             <h2>Comment nous avons<br>transformé <span class="is-da-vinci accent-color">Astral</span> <span class="is-da-vinci accent-color">Motorclub</span></h2>
@@ -644,7 +648,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           </div>
           <div class="showcase__grid">
             <a href="/cirque-de-noel" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/cirque-de-noel--webjourney.webp" loading="lazy" alt="Site web Cirque de Noël Genève" class="project_img">
+              <img src="assets/images/cirque-de-noel--webjourney.webp" loading="lazy" width="850" height="585" alt="Site web Cirque de Noël Genève" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Cirque de Noël</div>
@@ -652,7 +656,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </a>
             <a href="/astral-motorclub" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/astral-motorclub--webjourney.webp" loading="lazy" alt="Site web Astral Motorclub" class="project_img">
+              <img src="assets/images/astral-motorclub--webjourney.webp" loading="lazy" width="850" height="531" alt="Site web Astral Motorclub" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Astral Motorclub</div>
@@ -660,7 +664,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </a>
             <a href="/varela-brothers" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/varela-brothers--webjourney.webp" loading="lazy" alt="Site web Varela Brothers" class="project_img">
+              <img src="assets/images/varela-brothers--webjourney.webp" loading="lazy" width="850" height="476" alt="Site web Varela Brothers" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Varela Brothers</div>
@@ -668,7 +672,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </a>
             <a href="/cyclo-gordo" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/cyclo-gordo--webjourney.webp" loading="lazy" alt="Site web Cyclo Gordo" class="project_img">
+              <img src="assets/images/cyclo-gordo--webjourney.webp" loading="lazy" width="850" height="637" alt="Site web Cyclo Gordo" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Cyclo Gordo</div>
@@ -676,7 +680,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </a>
             <a href="/victor-rossi" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/victor-rossi--webjourney.webp" loading="lazy" alt="Site web Victor Rossi" class="project_img">
+              <img src="assets/images/victor-rossi--webjourney.webp" loading="lazy" width="850" height="566" alt="Site web Victor Rossi" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Victor Rossi</div>
@@ -684,7 +688,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
               </div>
             </a>
             <a href="/dinoworld" class="project_item__homepage" filter-category="website">
-              <img src="assets/images/dinoworld--webjourney.webp" loading="lazy" alt="Site web Dinoworld" class="project_img">
+              <img src="assets/images/dinoworld--webjourney.webp" loading="lazy" width="850" height="425" alt="Site web Dinoworld" class="project_img">
               <div class="project_item__overlay"></div>
               <div class="project_item__label">
                 <div class="project_item__name">Dinoworld</div>
@@ -767,7 +771,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <div class="footer__left">
             <div class="footer__logo">
               <a href="/" class="footer__logo">
-                <img src="assets/images/webjourney--logo-white.png" alt="Web journey" class="footer__logo-img">
+                <img src="assets/images/webjourney--logo-white.png" alt="Web journey" class="footer__logo-img" loading="lazy" width="796" height="150">
               </a>
               <p class="footer__tagline">Votre aventure digitale commence ici</p>
             </div>
@@ -793,11 +797,10 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </section>
   <div id="footer-bottom"></div>
-  <script src="https://d3e54v103j8qbb.cloudfront.net/js/jquery-3.5.1.min.dc5e7f18c8.js?site=68a5ea1e1a93d5624e764e91" type="text/javascript" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous" defer></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+  <!-- jQuery et lottie-web ne servent qu'à des blocs sous la ligne de flottaison :
+       script.js les charge à l'approche de ces blocs (voir heavyLibsPromise). -->
   <script src="js/script.js" type="text/javascript" defer></script>
-  <script src="/js/chatbot-widget.js"></script>
+  <script src="/js/chatbot-widget.js" defer></script>
 
   <!-- Modale Calendly -->
   <div id="calendly-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:9999; align-items:center; justify-content:center; padding:1em;">
