@@ -51,7 +51,7 @@
   --black: #1e1e1e;
   /* Accent de marque — point de changement unique.
      Modifier --accent-rgb suffit : tout le site suit. */
-  --accent-rgb: 196, 68, 25;
+  --accent-rgb: 223, 160, 42;
   --accent: rgb(var(--accent-rgb));
   --accent-soft: rgba(var(--accent-rgb), 0.1);
   /* --black: #0d0d0d; */
@@ -2186,11 +2186,12 @@ ul.center {
 
 .button.is-orange:hover {
   background-color: var(--accent);
-  color: var(--white);
+  color: var(--black);
 }
 
-.button.is-orange:hover .contact_button_arrow {
-  filter: brightness(0) invert(1);
+.button.is-orange:hover .contact_button_arrow,
+.button.is-orange:hover .dark_button_arrow {
+  filter: brightness(0);
 }
 
 .button.is-orange:hover .courbe_left path,
@@ -4246,7 +4247,7 @@ margin: 0;
   height: 2.5em;
   border-radius: 50%;
   background-color: var(--accent);
-  color: var(--white);
+  color: var(--black);
   font-weight: 700;
   font-size: 0.9em;
   display: flex;
@@ -6642,7 +6643,7 @@ margin: 0;
   justify-content: center;
   border-radius: 50%;
   background: var(--accent);
-  color: var(--white);
+  color: var(--black);
   font-size: 1em;
   font-weight: 700;
   line-height: 1;
