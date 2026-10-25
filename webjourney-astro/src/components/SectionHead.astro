@@ -1,0 +1,37 @@
+---
+// Tête de section : un titre, et au besoin une accroche dessous.
+// Un seul style de titre de section pour tout le site.
+interface Props {
+  as?: "h1" | "h2" | "h3";
+  /** Centré : hero, CTA final et méthode de la home. */
+  align?: "start" | "center";
+}
+
+const { as: Tag = "h2", align = "start" } = Astro.props;
+---
+
+<header class:list={["head", align === "center" && "head--center"]}>
+  <Tag class="head__title"><slot name="title" /></Tag>
+  {Astro.slots.has("default") && (
+    <div class="head__lead lead">
+      <slot />
+    </div>
+  )}
+</header>
+
+<style>
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .head__title {
+    max-width: 20em;
+  }
+
+  .head--center {
+    align-items: center;
+    text-align: center;
+  }
+</style>

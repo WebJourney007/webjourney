@@ -1,0 +1,38 @@
+---
+// Pages légales (mentions légales, CGV) : titre seul, puis le texte sur fond clair.
+import BaseLayout from "./BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import HeroText from "../components/HeroText.astro";
+import "../styles/prose.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  /** Début du H1, puis ses mots d'accent. */
+  heading: string;
+  accent: string;
+}
+
+const { title, description, path, heading, accent } = Astro.props;
+---
+
+<BaseLayout {title} {description} {path}>
+  <HeroText>
+    <h1>{heading} <Accent text={accent} /></h1>
+  </HeroText>
+  <article class="section section--white legal">
+    <div class="container">
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Le texte suit le titre de près : pas de grand vide sous un héro sans accroche. */
+  .legal {
+    padding-top: 0;
+  }
+</style>

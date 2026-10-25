@@ -1,0 +1,102 @@
+---
+// Corps repris de l'ancienne page `public/blog/7-erreurs-site-web-pme.html`.
+// Corrigé : « nfrancs suissesciences » (remplacement automatique raté de « euro »).
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import Accent from "../../components/Accent.astro";
+import Button from "../../components/Button.astro";
+import Cta from "../../components/Cta.astro";
+import { posts } from "../../data/blog";
+
+const post = posts.find((item) => item.slug === "7-erreurs-site-web-pme")!;
+---
+
+<ArticleLayout post={post}>
+  <p>Vous avez un site web. Des gens y passent. Mais le téléphone ne sonne pas, les demandes de devis sont rares, et vous ne savez pas pourquoi.</p>
+  <p>Dans la grande majorité des cas, la cause n'est pas le marché ni votre offre. Ce sont des erreurs précises sur votre site — souvent invisibles pour vous parce que vous le connaissez par cœur, mais immédiatement perçues par un visiteur qui arrive pour la première fois.</p>
+  <p>Nous avons identifié les 7 plus fréquentes sur les sites de PME et d'entrepreneurs en Suisse. Pour chacune : le problème, ce que ça coûte en clients, et la correction à apporter.</p>
+  <nav class="toc" aria-label="Sommaire de l'article"><p class="toc__title">Dans cet article</p>
+  <ol><li><a href="#vitesse">Erreur 1 — Votre site est trop lent</a></li>
+  <li><a href="#message">Erreur 2 — Votre message n'est pas clair</a></li>
+  <li><a href="#design">Erreur 3 — Votre design ne reflète pas votre qualité</a></li>
+  <li><a href="#cta">Erreur 4 — Personne ne sait quoi faire</a></li>
+  <li><a href="#mobile">Erreur 5 — Inutilisable sur mobile</a></li>
+  <li><a href="#seo">Erreur 6 — Google ne vous connaît pas</a></li>
+  <li><a href="#confiance">Erreur 7 — Aucune preuve de crédibilité</a></li></ol></nav>
+  <h2 id="vitesse">Erreur 1 — Votre site met trop de temps à charger</h2>
+  <p>Chaque seconde de chargement supplémentaire coûte des visiteurs. Un site lent est vécu comme un signe de manque de sérieux — et la plupart des internautes ne patientent pas plus de 3 secondes avant de partir.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p><strong>53% des visiteurs mobiles abandonnent un site qui met plus de 3 secondes à charger</strong> (Google). En SEO, la vitesse est un critère de classement direct depuis 2021 via les Core Web Vitals.</p></div>
+  <h3>Comment corriger</h3>
+  <div class="defs"><div class="defs__item"><h3>Convertir les images en WebP</h3>
+  <p>Le format WebP est 25 à 35% plus léger que le JPEG à qualité égale. C'est souvent la correction la plus rapide et la plus impactante sur la vitesse d'un site existant.</p></div>
+  <div class="defs__item"><h3>Activer le lazy loading</h3>
+  <p>Les images qui ne sont pas visibles à l'écran dès le chargement ne doivent pas être téléchargées immédiatement. L'attribut <code>loading="lazy"</code> est supporté nativement par tous les navigateurs modernes.</p></div>
+  <div class="defs__item"><h3>Mesurer avec PageSpeed Insights</h3>
+  <p>L'outil gratuit de Google vous donne un score précis et une liste de corrections priorisées. Un score inférieur à 70 sur mobile doit être considéré comme une priorité avant toute action marketing.</p></div></div>
+  <h2 id="message">Erreur 2 — Votre message n'est pas clair en 5 secondes</h2>
+  <p>Un visiteur qui arrive sur votre site doit comprendre immédiatement : qui vous êtes, ce que vous faites, et pourquoi c'est pour lui. Si ce n'est pas évident dès la première section visible, il repart — sans avoir lu une seule ligne de plus.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p>Le taux de rebond moyen d'un site web est de <strong>45 à 55%</strong>. Pour les sites dont le message est flou ou générique, il dépasse régulièrement 70%.</p></div>
+  <h3>Le test des 5 secondes</h3>
+  <p>Montrez votre page d'accueil à quelqu'un qui ne vous connaît pas pendant 5 secondes, puis demandez-lui : "Qu'est-ce que ce site propose ?" Si la réponse est vague ou incorrecte, votre titre principal doit être retravaillé.</p>
+  <p>La formule qui fonctionne : <em>[Ce que vous faites] pour [votre cible] à [localisation].</em> Simple, direct, sans jargon.</p>
+  <div class="callout"><p class="callout__label">Erreur fréquente</p>
+  <p>Les formules comme "Nous créons des solutions innovantes pour votre croissance" ne disent rien. Votre titre doit répondre à la question silencieuse du visiteur : <strong>"Est-ce que c'est pour moi ?"</strong></p></div>
+  <h2 id="design">Erreur 3 — Votre design ne reflète pas votre qualité</h2>
+  <p>Le design de votre site est votre première impression — et elle se forme en 50 millisecondes selon les études en neurosciences. Un site vieillissant, des couleurs incohérentes ou des photos de stock bas de gamme envoient un signal immédiat : "Ce n'est pas sérieux."</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p><strong>75% des jugements de crédibilité d'une marque sont basés sur son design</strong> (Stanford Web Credibility Research). Un prospect qui voit un site amateur paiera moins cher — ou n'achètera pas du tout.</p></div>
+  <p>Un bon design web n'est pas synonyme de "beau". Il signifie <strong>cohérent et crédible</strong>. Votre site doit inspirer autant confiance qu'un rendez-vous en personne avec un client que vous cherchez à convaincre.</p>
+  <h3>Les bases d'un design crédible</h3>
+  <ul><li>2 couleurs principales + 1 couleur d'accent, utilisées de façon cohérente sur toutes les pages</li>
+  <li>Des photos réelles de votre activité plutôt que des images de stock génériques</li>
+  <li>Maximum 2 typographies cohérentes entre elles</li>
+  <li>Une cohérence avec vos autres supports (carte de visite, réseaux sociaux, devis)</li></ul>
+  <h2 id="cta">Erreur 4 — Personne ne sait quoi faire sur votre site</h2>
+  <p>Un visiteur intéressé ne cherchera pas comment vous contacter. Si le chemin n'est pas évident — un bouton visible, une action claire — il partira. Sans appel à l'action fort, votre site est une vitrine sans porte d'entrée.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p>Un simple test A/B sur la couleur et le texte d'un bouton CTA peut augmenter les conversions de <strong>10 à 30%</strong>. Sans aucun CTA visible, le taux de conversion d'un site atteint rarement 1%.</p></div>
+  <h3>La règle d'or du CTA</h3>
+  <p>Chaque page de votre site doit avoir <strong>un seul objectif</strong> et guider le visiteur vers <strong>une seule action principale</strong>. La confusion tue la conversion. Pas de cinq boutons différents, pas de menus surchargés.</p>
+  <p>Le CTA doit être visible sans scroller ("above the fold"), utiliser un verbe d'action clair ("Demander un devis", "Prendre rendez-vous") et se répéter toutes les 2 à 3 sections pour les pages longues.</p>
+  <h2 id="mobile">Erreur 5 — Votre site est inutilisable sur mobile</h2>
+  <p>Votre futur client consulte votre site depuis son téléphone — en déplacement, entre deux réunions, le soir sur son canapé. Si les boutons sont trop petits, le texte illisible sans zoom ou le menu cassé sur iOS, il aura une mauvaise expérience et ne reviendra pas.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p><strong>Plus de 70% du trafic web mondial provient des appareils mobiles</strong> (Statista, 2025). Google indexe votre site en version mobile en priorité depuis 2019 — le "mobile-first indexing" est la norme.</p></div>
+  <h3>Comment tester correctement</h3>
+  <p>Ne vous fiez pas au mode responsive de votre navigateur desktop — testez sur un vrai téléphone. Vérifiez iOS Safari ET Chrome Android, qui se comportent différemment. Testez le formulaire de contact jusqu'à l'envoi. Essayez de taper dans chaque champ.</p>
+  <p>Chez Web journey, nous concevons tous nos sites en <strong>mobile-first</strong> : le design mobile est pensé en premier, le desktop vient après. C'est l'inverse de l'approche classique — et ça change tout pour l'expérience de vos clients.</p>
+  <h2 id="seo">Erreur 6 — Google ne connaît pas votre existence</h2>
+  <p>Avoir un site, c'est bien. Être trouvé sur Google quand un client cherche exactement ce que vous proposez dans votre région, c'est ce qui génère des clients. Sans SEO de base, votre site est invisible — même si son design est parfait.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p><strong>68% des expériences en ligne commencent par un moteur de recherche</strong> (BrightEdge, 2024). Les 3 premiers résultats Google captent plus de 50% des clics. Au-delà de la page 1, vous n'existez pas pour ces prospects.</p></div>
+  <h3>Le SEO local : l'opportunité sous-estimée</h3>
+  <p>Pour une PME suisse, le SEO local est souvent le levier le plus rentable. Une fiche Google Business Profile bien complétée, des mots-clés locaux dans vos titres (ex: "plombier Sion" et non pas juste "plombier"), et quelques avis Google peuvent générer des appels sans aucun budget publicitaire.</p>
+  <div class="defs"><div class="defs__item"><h3>Les actions prioritaires</h3>
+  <p>Créer et compléter votre fiche Google Business Profile — c'est gratuit et souvent plus important que votre site lui-même pour les recherches locales. Vérifier que chaque page a un titre unique et une meta description. Intégrer les mots-clés locaux dans vos titres H1 et H2.</p></div></div>
+  <h2 id="confiance">Erreur 7 — Vous n'avez aucune preuve que vous êtes fiable</h2>
+  <p>Un prospect qui ne vous connaît pas a une question légitime : "Est-ce que je peux leur faire confiance ?" Sans avis clients, sans témoignages, sans exemples de travaux, votre site ne répond pas à cette question — et le doute profite systématiquement au concurrent qui, lui, en a.</p>
+  <div class="callout"><p class="callout__label">Chiffre clé</p>
+  <p><strong>92% des consommateurs lisent des avis en ligne avant d'acheter</strong> (BrightLocal, 2024). Les pages avec témoignages clients convertissent en moyenne 34% mieux que celles qui n'en ont pas.</p></div>
+  <p>La preuve sociale est le levier de conversion le plus puissant — et souvent le plus négligé. Dès qu'un client est satisfait, demandez-lui un témoignage écrit avec son prénom et son métier. Affichez vos avis Google directement sur la page d'accueil. Montrez des exemples concrets de résultats obtenus.</p>
+  <p>Un chiffre simple — "45 projets livrés" ou "98% de clients satisfaits" — peut suffire à déclencher la confiance nécessaire à la prise de contact.</p>
+  <h2>Récapitulatif : le test en 7 points</h2>
+  <p>Voici les 7 questions à vous poser pour évaluer votre site :</p>
+  <ol><li>Mon site charge en moins de 3 secondes sur mobile ? (testez sur PageSpeed Insights)</li>
+  <li>Mon message est compris en moins de 5 secondes par quelqu'un qui ne me connaît pas ?</li>
+  <li>Mon design reflète le niveau de qualité de mon offre ?</li>
+  <li>J'ai un appel à l'action visible sans scroller sur toutes mes pages clés ?</li>
+  <li>Mon site est parfaitement utilisable sur iOS et Android ?</li>
+  <li>Mon site apparaît sur Google pour mes mots-clés locaux ?</li>
+  <li>J'affiche des avis clients, des témoignages ou des réalisations sur ma page d'accueil ?</li></ol>
+  <p>Si vous avez répondu "non" à 3 points ou plus, votre site perd activement des clients. La bonne nouvelle : toutes ces erreurs sont corrigeables.</p>
+
+  <Cta slot="cta">
+    <Fragment slot="title">Le guide complet, <Accent text="offert" /></Fragment>
+    <p>Les 7 erreurs en détail, avec leurs solutions et une checklist pour auditer votre site en 5 minutes.</p>
+    <Fragment slot="actions">
+      <Button href="/guide-gratuit" variant="accent" icon="arrow">Recevoir le guide</Button>
+      <Button href="/audit">Auditer mon site</Button>
+    </Fragment>
+  </Cta>
+</ArticleLayout>

@@ -1,0 +1,140 @@
+/* Styles spécifiques à la landing page de prospection */
+
+.h-flex.is--centered {
+  justify-content: center;
+}
+
+/* CTA section — centrage et boutons noirs */
+.section.is--last .v-flex {
+  align-items: center;
+}
+
+.section.is--last .button {
+  background-color: var(--white);
+  color: var(--black);
+}
+
+.section.is--last .button:hover,
+.section.is--last .button:hover {
+  color: var(--white);
+  background-color: var(--black);
+}
+
+/* 3 boxes sur une seule ligne (desktop) */
+.solutions_wrapper {
+  grid-template-columns: repeat(3, 1fr) !important;
+}
+
+.solution_item:nth-child(n) {
+  grid-column: span 1 !important;
+}
+
+.solution_item p {
+  font-size: 1.2em;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────────────── */
+@media screen and (max-width: 990px) {
+  /* NavBar mobile : logo centré, boutons masqués */
+  .menu {
+    justify-content: center;
+  }
+
+  .menu__left,
+  .menu__right {
+    display: none !important;
+  }
+
+  .logo {
+    position: static;
+    transform: none;
+  }
+
+  /* Grille solutions : 1 colonne sur mobile */
+  .solutions_wrapper {
+    grid-template-columns: 1fr !important;
+  }
+
+  .solution_item:nth-child(n) {
+    grid-column: span 1 !important;
+  }
+
+  /* Boutons CTA : empilés verticalement */
+  .section.is--last .h-flex.is--centered {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .section.is--last .h-flex.is--centered .button {
+    width: 100%;
+    max-width: 320px;
+    justify-content: center;
+  }
+
+  /* Masquer les <br> décoratifs sur mobile */
+  .home_subtitle br,
+  .br--desktop {
+    display: none;
+  }
+
+  /* Vidéo Loom : border-radius réduit sur mobile */
+  .loom-wrapper {
+    border-radius: 8px;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  /* Titre hero moins large */
+  .home_title.w-720 {
+    font-size: clamp(2rem, 8vw, 3rem);
+  }
+
+  /* Solution item text légèrement réduit */
+  .solution_item p {
+    font-size: 1em;
+  }
+}
+
+
+/* Lottie trait dans le hero (même style que .trait sur l'accueil) */
+.offre-trait {
+  height: 15em;
+  position: relative;
+  bottom: -5vh;
+}
+
+@media screen and (max-width: 990px) {
+  .offre-trait {
+    height: 8em;
+    bottom: 0vh;
+  }
+}
+
+.not-interested-link {
+  font-size: 1em;
+  color: rgba(0, 0, 0, 0.35);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color 0.2s ease;
+}
+
+.not-interested-link:hover {
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.loom-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* ratio 16:9 */
+  border-radius: 15px;
+  overflow: hidden;
+}
+
+.loom-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}

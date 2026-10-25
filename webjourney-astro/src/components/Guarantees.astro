@@ -1,0 +1,66 @@
+---
+// Garanties qui inversent le risque : une ligne de titre, une phrase de preuve.
+export interface Guarantee {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: Guarantee[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="guarantees">
+  {items.map((item) => (
+    <li class="guarantees__item">
+      <svg class="guarantees__icon" viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+        <path
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M12 2.5l7.5 3v6c0 4.6-3.2 8.6-7.5 10-4.3-1.4-7.5-5.4-7.5-10v-6l7.5-3zM8.5 12l2.5 2.5 4.5-5"
+        ></path>
+      </svg>
+      <h3 class="guarantees__title">{item.title}</h3>
+      <p class="muted">{item.text}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  /* Quatre garanties : 2 × 2 sur tablette, une rangée sur desktop, sans orpheline. */
+  .guarantees {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .guarantees__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .guarantees__icon {
+    color: var(--color-accent);
+  }
+
+  .guarantees__title {
+    font-size: var(--fs-body);
+  }
+
+  @media (min-width: 37.5em) {
+    .guarantees {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 62em) {
+    .guarantees {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

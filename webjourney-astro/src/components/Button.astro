@@ -1,0 +1,159 @@
+---
+// Bouton à crochets : le libellé entre deux crochets qui s'écartent au survol.
+// Les couleurs suivent le fond de la section (rôles --fg / --bg), donc le même
+// bouton fonctionne sur clair et sur sombre sans variante dédiée.
+import type { HTMLAttributes } from "astro/types";
+
+// Le composant rend un lien s'il reçoit un href, un <button> sinon : `type` prend
+// donc les valeurs d'un bouton, pas le type MIME d'un lien.
+interface Props extends Omit<HTMLAttributes<"a">, "type"> {
+  type?: "button" | "submit" | "reset";
+  /** "accent" : crochets orange et fond orange au survol. Réservé à l'action principale. */
+  variant?: "default" | "accent";
+  icon?: "arrow" | "whatsapp" | "mail";
+  /** Bouton réduit à son icône : le libellé reste lu par les lecteurs d'écran. */
+  iconOnly?: boolean;
+}
+
+const { variant = "default", icon, iconOnly = false, class: className, ...attrs } = Astro.props;
+const Tag = attrs.href ? "a" : "button";
+---
+
+<Tag class:list={["btn", `btn--${variant}`, iconOnly && "btn--icon", className]} {...attrs}>
+  <svg class="btn__bracket btn__bracket--left" viewBox="0 0 5 35" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M5 2C3.34315 2 2 3.34315 2 5V30C2 31.6569 3.34315 33 5 33V35L4.74316 34.9932C2.18618 34.8638 0.136224 32.8138 0.00683594 30.2568L0 30V5C0 2.32472 2.10111 0.140529 4.74316 0.00683594L5 0V2Z"
+    ></path>
+  </svg>
+
+  {icon === "whatsapp" && (
+    <svg class="btn__icon" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"
+      ></path>
+    </svg>
+  )}
+
+  {icon === "mail" && (
+    <svg class="btn__icon" viewBox="0 0 60 44" width="27" height="20" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M59.2324 7.77441C59.7272 9.08895 60 10.5125 60 12V32C60 38.6274 54.6274 44 48 44H12C5.37258 44 1.93283e-07 38.6274 0 32V12C0 10.5137 0.271628 9.09099 0.765625 7.77734L28.8203 22.7393L29.9971 23.3672L31.1738 22.7393L59.2324 7.77441ZM48 0C51.3326 0 54.347 1.35931 56.5215 3.55273L29.9971 17.7002L3.47559 3.55469C5.6502 1.35983 8.66617 4.86122e-08 12 0H48Z"
+      ></path>
+    </svg>
+  )}
+
+  <span class:list={["btn__label", iconOnly && "visually-hidden"]}><slot /></span>
+
+  {icon === "arrow" && (
+    <svg class="btn__icon btn__icon--arrow" viewBox="0 0 13 13" width="13" height="13" fill="none" aria-hidden="true">
+      <path
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12.063 0.749965H3.57767M12.063 0.749965V9.23525M12.063 0.749965L4.63833 8.17459M0.749245 12.0637L2.51701 10.2959"
+      ></path>
+    </svg>
+  )}
+
+  <svg class="btn__bracket btn__bracket--right" viewBox="0 0 5 35" aria-hidden="true">
+    <path
+      fill="currentColor"
+      d="M0.256836 0.00683594C2.89889 0.140528 5 2.32472 5 5V30L4.99316 30.2568C4.86378 32.8138 2.81382 34.8638 0.256836 34.9932L0 35V33C1.65685 33 3 31.6569 3 30V5C3 3.34315 1.65685 2 0 2V0L0.256836 0.00683594Z"
+    ></path>
+  </svg>
+</Tag>
+
+<style>
+  .btn {
+    --btn-bracket: var(--fg);
+    --btn-hover-bg: var(--fg);
+    --btn-hover-fg: var(--bg);
+
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    /* 44px : la hauteur minimale d'une cible tactile. */
+    height: 2.75rem;
+    padding-inline: 1.75rem;
+    border-radius: var(--radius-sm);
+    color: var(--fg);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    transition:
+      background-color 0.3s var(--ease),
+      color 0.3s var(--ease);
+  }
+
+  .btn--accent {
+    --btn-bracket: var(--color-accent);
+    --btn-hover-bg: var(--color-accent);
+    --btn-hover-fg: var(--color-ink);
+  }
+
+  .btn--icon {
+    padding-inline: 1rem;
+  }
+
+  .btn__bracket {
+    position: absolute;
+    top: 0;
+    height: 100%;
+    width: auto;
+    color: var(--btn-bracket);
+    transition: transform 0.3s var(--ease);
+  }
+
+  .btn__bracket--left {
+    left: 0;
+  }
+
+  .btn__bracket--right {
+    right: 0;
+  }
+
+  .btn__icon {
+    flex-shrink: 0;
+  }
+
+  /* La flèche du site pointe en haut à droite ; tournée, elle pointe vers la droite. */
+  .btn__icon--arrow {
+    rotate: 45deg;
+  }
+
+  .btn:focus-visible {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-fg);
+  }
+
+  .btn:focus-visible .btn__bracket--left {
+    transform: translateX(-7px) scale(1.1);
+  }
+
+  .btn:focus-visible .btn__bracket--right {
+    transform: translateX(7px) scale(1.1);
+  }
+
+  /* Survol réservé aux pointeurs : sur écran tactile, il resterait collé après un tap. */
+  @media (hover: hover) {
+    .btn:hover {
+      background-color: var(--btn-hover-bg);
+      color: var(--btn-hover-fg);
+    }
+
+    .btn:hover .btn__bracket--left {
+      transform: translateX(-7px) scale(1.1);
+    }
+
+    .btn:hover .btn__bracket--right {
+      transform: translateX(7px) scale(1.1);
+    }
+  }
+</style>

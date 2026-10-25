@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import AuditReport from "../components/AuditReport.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import ExplainList from "../components/ExplainList.astro";
+import HeroText from "../components/HeroText.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { auditChecks, auditStructuredData } from "../data/magnets";
+import { PROJECT_CTA } from "../lib/site";
+---
+
+<BaseLayout
+  title="Audit gratuit de votre site web — Web journey"
+  description="Analysez gratuitement les performances, le SEO et l'accessibilité de votre site en moins d'une minute. Rapport Lighthouse complet, immédiat et sans inscription."
+  path="/audit"
+  structuredData={[auditStructuredData]}
+>
+  <div data-audit>
+    <HeroText>
+      <h1>Quel est le score <Accent text="de votre site ?" /></h1>
+      <p class="lead">
+        Entrez l'adresse de votre site : performances, SEO, accessibilité et bonnes pratiques, analysés par Lighthouse,
+        l'outil de Google. Gratuit et sans inscription.
+      </p>
+      <form class="audit-form" data-audit-form novalidate>
+        <label for="audit-url" class="visually-hidden">Adresse de votre site</label>
+        <input
+          id="audit-url"
+          type="text"
+          inputmode="url"
+          placeholder="monsite.ch"
+          autocomplete="url"
+          autocapitalize="none"
+          spellcheck="false"
+          data-audit-url
+        />
+        <Button type="submit" variant="accent" icon="arrow">Analyser</Button>
+      </form>
+      <p class="audit-hero__error" role="alert" data-audit-form-error hidden>Entrez une adresse valide, par exemple monsite.ch.</p>
+      <div class="audit-hero__loader" role="status" data-audit-loader hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Analyse de <strong data-audit-loader-url></strong> en cours. Comptez jusqu'à une minute.</p>
+      </div>
+      <div class="audit-hero__failure" role="alert" data-audit-failure hidden>
+        <p><strong>Impossible d'analyser ce site.</strong> Vérifiez que l'adresse est accessible publiquement.</p>
+        <Button type="button" data-audit-restart>Essayer une autre adresse</Button>
+      </div>
+    </HeroText>
+
+    <div class="page-deep tone-ink">
+    <Section>
+      <AuditReport />
+    </Section>
+
+    <!-- ─── CE QUE MESURE L'AUDIT ─── -->
+    <Section>
+      <div class="two-col">
+        <SectionHead>
+          <Fragment slot="title">Ce que mesure <Accent text="l'audit" /></Fragment>
+          <p>Quatre notes sur 100, les mêmes que Google utilise pour juger la qualité technique d'une page.</p>
+        </SectionHead>
+        <ExplainList items={auditChecks} />
+      </div>
+    </Section>
+
+    <!-- ─── APPEL À L'ACTION ─── -->
+    <Section>
+      <Cta>
+        <Fragment slot="title">Un score à <Accent text="améliorer ?" /></Fragment>
+        <p>Écrivez-nous : on vous dit par où commencer pour améliorer votre site, gratuitement et sans engagement.</p>
+        <ReplyNote />
+        <Fragment slot="actions">
+          <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">
+            {PROJECT_CTA.label}
+          </Button>
+          <Button href="/demander-un-devis">Demander un devis</Button>
+        </Fragment>
+      </Cta>
+    </Section>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/audit";
+</script>
+
+<style>
+  .audit-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    width: 100%;
+    max-width: 40rem;
+  }
+
+  .audit-form input {
+    flex: 1 1 16rem;
+    padding: var(--space-3) var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--fg);
+    font: inherit;
+    font-size: 1.125rem;
+  }
+
+  .audit-form input:focus-visible {
+    border-color: var(--color-accent);
+    outline-offset: 0;
+  }
+
+  .audit-hero__error {
+    color: #c0392b;
+  }
+
+  .audit-hero__loader {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+  }
+
+  .audit-hero__loader[hidden],
+  .audit-hero__failure[hidden] {
+    display: none;
+  }
+
+  .spinner {
+    flex-shrink: 0;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid var(--line);
+    border-top-color: var(--color-accent);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  @keyframes spin {
+    to {
+      rotate: 360deg;
+    }
+  }
+
+  .audit-hero__failure {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+
+  /* La section du rapport ne prend de place qu'une fois le rapport affiché. */
+  .page-deep > :global(.section:first-child:has([data-audit-report][hidden])) {
+    display: none;
+  }
+</style>

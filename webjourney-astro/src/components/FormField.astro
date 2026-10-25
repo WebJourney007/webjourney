@@ -1,0 +1,87 @@
+---
+// Champ de formulaire : libellé au-dessus, champ texte ou zone de texte dessous.
+// Le `name` est celui que lit `send-email.php` : ne pas le renommer.
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: "text" | "email" | "tel" | "url";
+  /** Zone de texte sur plusieurs lignes au lieu d'un champ d'une ligne. */
+  rows?: number;
+  required?: boolean;
+  placeholder?: string;
+  pattern?: string;
+  /** Message d'aide du navigateur quand le motif n'est pas respecté. */
+  title?: string;
+  autocomplete?: string;
+  inputmode?: "text" | "email" | "tel" | "url";
+  /** Occupe toute la largeur de la grille du formulaire. */
+  full?: boolean;
+  /** Ex. `data-append-to` : voir `scripts/form-submit.ts`. */
+  [data: `data-${string}`]: string;
+}
+
+const { id, name, label, type = "text", rows, required = false, full = false, ...attrs } = Astro.props;
+---
+
+<div class:list={["field", full && "field--full"]}>
+  <label for={id} class="field__label">{label}{required && <span aria-hidden="true"> *</span>}</label>
+  {rows ? (
+    <textarea id={id} name={name} rows={rows} required={required} class="field__input" {...attrs}></textarea>
+  ) : (
+    <input id={id} name={name} type={type} required={required} class="field__input" {...attrs} />
+  )}
+</div>
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .field__label {
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+
+  .field__input {
+    width: 100%;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface);
+    color: var(--fg);
+    font: inherit;
+    transition: border-color 0.2s ease;
+  }
+
+  .field__input::placeholder {
+    color: var(--fg-muted);
+    opacity: 0.7;
+  }
+
+  .field__input:hover {
+    border-color: var(--fg-muted);
+  }
+
+  .field__input:focus-visible {
+    border-color: var(--color-accent);
+    outline-offset: 0;
+  }
+
+  textarea.field__input {
+    resize: vertical;
+  }
+
+  /* Rouge seulement après une saisie : un champ vide au chargement n'est pas une erreur. */
+  .field__input:user-invalid {
+    border-color: #c0392b;
+  }
+
+  @media (min-width: 37.5em) {
+    .field--full {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

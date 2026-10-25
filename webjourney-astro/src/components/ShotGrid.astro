@@ -1,0 +1,44 @@
+---
+// Grille de captures d'accueil de sites livrés, avec le nom du site en légende.
+// Sans lien : les sites qui n'ont pas d'étude de cas.
+import CardGrid from "./CardGrid.astro";
+import type { Shot } from "./HeroCenter.astro";
+
+interface Props {
+  items: Shot[];
+  /** Colonnes à partir de 992px. */
+  lg?: 3 | 4;
+}
+
+const { items, lg = 3 } = Astro.props;
+---
+
+<CardGrid md={2} lg={lg}>
+  {items.map((shot) => (
+    <figure class="shot">
+      <img src={shot.src} alt={`Page d'accueil du site ${shot.name}`} width={shot.width} height={shot.height} loading="lazy" decoding="async" />
+      <figcaption>{shot.name}</figcaption>
+    </figure>
+  ))}
+</CardGrid>
+
+<style>
+  .shot {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .shot img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 850 / 438;
+    object-fit: cover;
+    object-position: top;
+    border-radius: var(--radius-md);
+  }
+
+  .shot figcaption {
+    font-weight: 700;
+  }
+</style>

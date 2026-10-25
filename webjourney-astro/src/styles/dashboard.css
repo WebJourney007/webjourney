@@ -1,0 +1,163 @@
+/* ============================================================
+   TABLEAUX DE BORD D'ILLUSTRATION (sections produit de la home)
+   Cadre, cartes claires, chiffres, courbes et notification, communs à
+   SiteResults et AppResults. Les animations partent quand le bloc reçoit
+   .is-visible (scripts/dashboard-reveal.ts).
+   ============================================================ */
+
+.dash {
+  /* Même marge intérieure sur les quatre côtés ; la notification se cale dessus. */
+  --dash-pad: clamp(var(--space-4), 3vw, var(--space-6));
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: 0;
+  padding: var(--dash-pad);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background-color: rgb(255 255 255 / 0.04);
+}
+
+/* Les trois chiffres restent sur une rangée, même sur mobile. */
+.dash__tiles {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-3);
+}
+
+.dash__row {
+  display: grid;
+  gap: var(--space-4);
+}
+
+/* min-width: 0 : un texte long ne peut pas élargir sa colonne de grille. */
+.dash__card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  min-width: 0;
+  padding: clamp(var(--space-3), 2vw, var(--space-5));
+  border-radius: var(--radius-md);
+  background-color: var(--color-paper);
+  color: var(--color-ink);
+}
+
+.dash__label {
+  color: #5c5c5c;
+  font-size: clamp(0.75rem, 1.2vw, var(--fs-small));
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.dash__value {
+  font-size: clamp(1.25rem, 2.6vw, 2.25rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.dash__trend {
+  color: #2f9e5b;
+  font-size: clamp(0.6875rem, 1vw, 0.875rem);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* Courbe révélée par un rideau de gauche à droite : un tracé en pointillés
+   animé casse avec un trait d'épaisseur fixe sur un SVG étiré. */
+.dash__spark {
+  width: 100%;
+  height: 2.5rem;
+  margin-top: auto;
+  clip-path: inset(0 100% 0 0);
+}
+
+.dash__spark polyline {
+  fill: none;
+  stroke: var(--color-accent);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+/* Notification qui arrive en dernier : elle part juste sous la dernière carte,
+   avec un petit décalage, et déborde du cadre. */
+.dash__notif {
+  position: absolute;
+  top: calc(100% - var(--dash-pad) + var(--space-3));
+  right: var(--space-3);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5) var(--space-3) var(--space-3);
+  border-radius: var(--radius-md);
+  background-color: var(--color-white);
+  color: var(--color-ink);
+  box-shadow: 0 1.5rem 3rem rgb(0 0 0 / 0.35);
+  opacity: 0;
+  transform: translateY(1rem);
+}
+
+.dash__notif-icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+.dash__notif strong,
+.dash__notif small {
+  display: block;
+  line-height: 1.3;
+}
+
+.dash__notif strong {
+  font-size: var(--fs-small);
+}
+
+.dash__notif small {
+  color: #5c5c5c;
+  font-size: 0.75rem;
+}
+
+.dash.is-visible .dash__spark {
+  transition: clip-path 1.6s var(--ease) 0.2s;
+  clip-path: inset(0 0 0 0);
+}
+
+.dash.is-visible .dash__notif {
+  transition:
+    opacity 0.6s ease 1.6s,
+    transform 0.6s var(--ease) 1.6s;
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dash * {
+    transition: none !important;
+  }
+}
+
+/* La notification dépasse sous le cadre : on lui garde la place dans la page. */
+.dash--notif {
+  margin-bottom: var(--space-7);
+}
+
+@media (min-width: 37.5em) {
+  .dash__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 62em) {
+  .dash__notif {
+    right: calc(-1 * var(--space-5));
+  }
+}

@@ -1,0 +1,36 @@
+---
+// Grille de cartes à nombre de colonnes déclaré : on choisit des valeurs qui
+// divisent le nombre de cartes, pour ne jamais laisser de carte orpheline.
+interface Props {
+  /** Colonnes à partir de 600px. */
+  md?: 1 | 2 | 3;
+  /** Colonnes à partir de 992px. */
+  lg?: 2 | 3 | 4;
+}
+
+const { md = 1, lg = 3 } = Astro.props;
+---
+
+<div class="card-grid" style={`--cols-md: ${md}; --cols-lg: ${lg}`}>
+  <slot />
+</div>
+
+<style>
+  .card-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 37.5em) {
+    .card-grid {
+      grid-template-columns: repeat(var(--cols-md), 1fr);
+    }
+  }
+
+  @media (min-width: 62em) {
+    .card-grid {
+      grid-template-columns: repeat(var(--cols-lg), 1fr);
+      gap: var(--space-6);
+    }
+  }
+</style>

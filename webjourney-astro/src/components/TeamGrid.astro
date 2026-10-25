@@ -1,0 +1,62 @@
+---
+// L'équipe : portrait carré (série fond sombre + tracé doré), nom et rôle.
+export interface Member {
+  name: string;
+  role: string;
+  photo: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  items: Member[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="team" style={`--members: ${items.length}`}>
+  {items.map((member) => (
+    <li class="team__member">
+      <img src={member.photo} alt={`${member.name}, ${member.role}`} width={member.width} height={member.height} loading="lazy" decoding="async" />
+      <h3 class="team__name">{member.name}</h3>
+      <p class="team__role muted">{member.role}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .team {
+    display: grid;
+    gap: var(--space-7) var(--space-6);
+  }
+
+  .team__member {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .team__member img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1;
+    margin-bottom: var(--space-3);
+    object-fit: cover;
+    border-radius: var(--radius-md);
+  }
+
+  .team__name {
+    font-size: var(--fs-h3);
+  }
+
+  .team__role {
+    font-size: var(--fs-small);
+  }
+
+  @media (min-width: 37.5em) {
+    .team {
+      grid-template-columns: repeat(var(--members), 1fr);
+    }
+  }
+</style>

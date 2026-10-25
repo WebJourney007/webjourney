@@ -1,0 +1,47 @@
+---
+// Avis clients : un témoignage vidéo portrait à gauche, les avis écrits empilés
+// à droite. Leur hauteur cumulée est proche de celle de la vidéo. Sur mobile,
+// la vidéo passe au-dessus.
+import TestimonialCard from "./TestimonialCard.astro";
+import VideoReview, { type VideoReviewProps } from "./VideoReview.astro";
+
+interface Props {
+  video: VideoReviewProps;
+  items: { quote: string; name: string; role: string }[];
+}
+
+const { video, items } = Astro.props;
+---
+
+<div class="reviews">
+  <div class="reviews__video">
+    <VideoReview {...video} />
+  </div>
+  <div class="reviews__cards">
+    {items.map((item) => <TestimonialCard {...item} />)}
+  </div>
+</div>
+
+<style>
+  .reviews {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .reviews__video {
+    max-width: 20rem;
+  }
+
+  .reviews__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 62em) {
+    .reviews {
+      grid-template-columns: 20rem 1fr;
+      align-items: start;
+    }
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+// Fenêtre de navigateur qui montre un site livré : barre à trois pastilles, puis
+// une boucle vidéo muette. La vidéo ne joue qu'à l'écran, sur écran large, hors
+// « réduire les animations » : sinon l'image fixe reste affichée. Sans vidéo,
+// l'image fixe seule.
+interface Props {
+  video?: string;
+  poster: string;
+  width: number;
+  height: number;
+  /** Nom du site, affiché dans la barre et repris dans le texte alternatif. */
+  label: string;
+}
+
+const { video, poster, width, height, label } = Astro.props;
+---
+
+<figure class="browser">
+  <div class="browser__bar" aria-hidden="true">
+    <span class="browser__dots"><i></i><i></i><i></i></span>
+    <span class="browser__label">{label}</span>
+  </div>
+  <div class="browser__screen" style={`aspect-ratio: ${width} / ${height}`}>
+    <img src={poster} alt={`Site ${label}, réalisé par Web journey`} width={width} height={height} loading="lazy" decoding="async" />
+    {video && <video src={video} muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-browser-video></video>}
+  </div>
+</figure>
+
+<script>
+  import { wantsVideo } from "../scripts/wants-video";
+
+  if (wantsVideo()) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(({ target, isIntersecting }) => {
+        const video = target as HTMLVideoElement;
+        if (isIntersecting) video.play().catch(() => {});
+        else video.pause();
+      });
+    });
+    document.querySelectorAll<HTMLVideoElement>("[data-browser-video]").forEach((video) => {
+      video.addEventListener("playing", () => video.classList.add("is-playing"), { once: true });
+      observer.observe(video);
+    });
+  }
+</script>
+
+<style>
+  .browser {
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background-color: var(--color-coal-deep);
+    box-shadow: 0 2rem 5rem rgb(0 0 0 / 0.35);
+  }
+
+  .browser__bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid rgb(255 255 255 / 0.08);
+  }
+
+  .browser__dots {
+    display: flex;
+    gap: 0.4rem;
+  }
+
+  .browser__dots i {
+    width: 0.65rem;
+    height: 0.65rem;
+    border-radius: 50%;
+    background-color: rgb(255 255 255 / 0.18);
+  }
+
+  .browser__label {
+    flex-grow: 1;
+    max-width: 18rem;
+    margin-inline: auto;
+    padding: var(--space-1) var(--space-4);
+    border-radius: var(--radius-sm);
+    background-color: rgb(255 255 255 / 0.06);
+    color: rgb(245 245 245 / 0.6);
+    font-size: var(--fs-small);
+    text-align: center;
+  }
+
+  .browser__screen {
+    position: relative;
+  }
+
+  .browser__screen img,
+  .browser__screen video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .browser__screen video {
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .browser__screen video.is-playing {
+    opacity: 1;
+  }
+</style>

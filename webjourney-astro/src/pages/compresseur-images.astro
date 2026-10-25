@@ -1,0 +1,230 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import Section from "../components/Section.astro";
+import { SITE } from "../lib/site";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "Compresseur d'images Web journey",
+  url: `${SITE.url}/compresseur-images`,
+  applicationCategory: "MultimediaApplication",
+  operatingSystem: "Navigateur web",
+  offers: { "@type": "Offer", price: 0, priceCurrency: "CHF" },
+  publisher: { "@id": `${SITE.url}/#business` },
+};
+---
+
+<BaseLayout
+  title="Compresseur d'images gratuit — Web journey"
+  description="Compressez vos images JPG, PNG et WebP en quelques secondes, dans votre navigateur. Aucun fichier envoyé sur un serveur. Outil gratuit de Web journey."
+  ogImage="/assets/images/ressource--compresseur-images.webp"
+  path="/compresseur-images"
+  structuredData={[structuredData]}
+>
+  <div data-compressor>
+    <HeroText>
+      <h1>Compresseur d'images, <Accent text="gratuit" /></h1>
+      <p class="lead">
+        Réduisez le poids de vos images JPG, PNG et WebP en quelques secondes. Tout se passe dans votre navigateur : vos
+        fichiers ne sont envoyés nulle part.
+      </p>
+
+      <div class="tool">
+        <div class="tool__options">
+          <label class="tool__option">
+            <span>Format de sortie</span>
+            <select name="format">
+              <option value="webp">WebP (recommandé)</option>
+              <option value="png">PNG</option>
+              <option value="jpeg">JPEG</option>
+            </select>
+          </label>
+          <label class="tool__option">
+            <span>Qualité</span>
+            <select name="quality">
+              <option value="0.82">Élevée (82 %)</option>
+              <option value="0.70">Moyenne (70 %)</option>
+              <option value="0.55">Faible (55 %)</option>
+            </select>
+          </label>
+          <label class="tool__option">
+            <span>Largeur max (px)</span>
+            <input type="number" name="width" placeholder="Aucune limite" min="100" max="6000" step="10" />
+          </label>
+        </div>
+
+        <label class="tool__drop" data-dropzone>
+          <input type="file" accept="image/*" multiple class="visually-hidden" data-file-input />
+          <strong>Glissez vos images ici, ou cliquez pour les choisir</strong>
+          <span class="muted">JPG · PNG · WebP · BMP</span>
+        </label>
+
+        <div class="tool__results" data-results hidden>
+          <div class="tool__results-head">
+            <p><strong>Fichiers compressés</strong></p>
+            <Button type="button" data-download-all>Tout télécharger</Button>
+          </div>
+          <ul class="tool__list" data-results-list></ul>
+        </div>
+
+        <template data-card-template>
+          <li class="card">
+            <img class="card__thumb" alt="" data-thumb />
+            <div class="card__info">
+              <p class="card__name" data-name></p>
+              <p class="card__stats muted" data-stats>Compression en cours…</p>
+            </div>
+            <a class="card__download text-link" data-download hidden>Télécharger</a>
+          </li>
+        </template>
+      </div>
+    </HeroText>
+  </div>
+
+  <div class="page-deep tone-ink">
+    <Section>
+      <Cta>
+        <Fragment slot="title">Un site lent <Accent text="malgré tout ?" /></Fragment>
+        <p>Les images ne sont qu'une partie du problème. Mesurez la vitesse et le SEO de votre site en une minute.</p>
+        <Fragment slot="actions">
+          <Button href="/audit" variant="accent" icon="arrow">Auditer mon site</Button>
+          <Button href="/ressources">Toutes les ressources</Button>
+        </Fragment>
+      </Cta>
+    </Section>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/image-compressor";
+</script>
+
+<style>
+  .tool {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    width: 100%;
+    max-width: 48rem;
+  }
+
+  .tool__options {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .tool__option {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+
+  .tool__option select,
+  .tool__option input {
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+    color: var(--fg);
+    font: inherit;
+    font-weight: 400;
+  }
+
+  .tool__drop {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-8) var(--space-5);
+    border: 2px dashed var(--line);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    text-align: center;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+  }
+
+  .tool__drop:hover,
+  .tool__drop:focus-within,
+  .tool__drop.is-over {
+    border-color: var(--color-accent);
+  }
+
+  .tool__results[hidden] {
+    display: none;
+  }
+
+  .tool__results-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .tool__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    max-width: none;
+    padding: var(--space-3);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-white);
+  }
+
+  .card__thumb {
+    flex-shrink: 0;
+    width: 3.5rem;
+    height: 3.5rem;
+    object-fit: cover;
+    border-radius: var(--radius-sm);
+  }
+
+  .card__info {
+    flex-grow: 1;
+    min-width: 0;
+  }
+
+  .card__name {
+    overflow: hidden;
+    font-weight: 700;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card__stats {
+    font-size: var(--fs-small);
+  }
+
+  .card__stats[data-state="good"] {
+    color: #1a7f45;
+  }
+
+  .card__stats[data-state="bad"] {
+    color: #c0392b;
+  }
+
+  .card__download[hidden] {
+    display: none;
+  }
+
+  @media (min-width: 37.5em) {
+    .tool__options {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

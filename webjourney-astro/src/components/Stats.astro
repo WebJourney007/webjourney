@@ -1,0 +1,63 @@
+---
+// Chiffres clés : une valeur en grand, son libellé dessous.
+export interface Stat {
+  value: string;
+  label: string;
+}
+
+interface Props {
+  items: Stat[];
+  /** Colonnes à partir de 600px. Deux par défaut ; trois pour trois chiffres sur une ligne. */
+  cols?: 2 | 3;
+}
+
+const { items, cols = 2 } = Astro.props;
+---
+
+<dl class="stats" style={`--cols: ${cols}`}>
+  {items.map((item) => (
+    <div class="stats__item">
+      <dt class="stats__label">{item.label}</dt>
+      <dd class="stats__value">{item.value}</dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  /* Deux colonnes, puis `cols` sur desktop : prévu pour un nombre de chiffres
+     qui tombe juste, sans case orpheline. */
+  .stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-5) var(--space-6);
+    width: 100%;
+  }
+
+  .stats__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-1);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+
+  .stats__value {
+    color: var(--color-accent);
+    /* Un cran sous le titre de la section qui les porte, au-dessus des h3. */
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  @media (min-width: 37.5em) {
+    .stats {
+      grid-template-columns: repeat(var(--cols), 1fr);
+    }
+  }
+
+  .stats__label {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+</style>

@@ -1,0 +1,27 @@
+---
+// Grille d'études de cas : une colonne sur mobile, deux dès la tablette.
+import CaseCard, { type CaseItem } from "./CaseCard.astro";
+
+interface Props {
+  items: CaseItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="case-grid">
+  {items.map((item) => <CaseCard item={item} />)}
+</div>
+
+<style>
+  .case-grid {
+    display: grid;
+    gap: var(--space-8) var(--space-6);
+  }
+
+  @media (min-width: 48em) {
+    .case-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

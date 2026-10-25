@@ -1,0 +1,207 @@
+---
+// Page interne : montre les tokens et chaque composant du design system.
+// Hors index et hors sitemap (voir astro.config.mjs).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import CardGrid from "../components/CardGrid.astro";
+import Cta from "../components/Cta.astro";
+import Faq from "../components/Faq.astro";
+import FeatureList from "../components/FeatureList.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Stats from "../components/Stats.astro";
+import Steps from "../components/Steps.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import { caseStudyStats, featuredProjects, methodSteps, services, testimonials } from "../data/home";
+
+const colors = [
+  { name: "Encre", token: "--color-ink", value: "#1e1e1e" },
+  { name: "Papier", token: "--color-paper", value: "#f5f5f5" },
+  { name: "Blanc", token: "--color-white", value: "#ffffff" },
+  { name: "Accent", token: "--color-accent", value: "rgb(223 160 42)" },
+];
+
+const typeScale = [
+  { token: "--fs-h1", weight: 700, label: "Titre de page", sample: "Des sites web sur-mesure" },
+  { token: "--fs-h2", weight: 700, label: "Titre de section", sample: "Tout ce dont votre entreprise a besoin" },
+  { token: "--fs-h3", weight: 700, label: "Titre de bloc", sample: "Design, Développement, SEO" },
+  { token: "--fs-lead", weight: 400, label: "Accroche", sample: "Nous sommes une agence web valaisanne." },
+  { token: "--fs-body", weight: 400, label: "Texte courant", sample: "Du site vitrine au site e-commerce qui met votre entreprise en valeur." },
+  { token: "--fs-small", weight: 400, label: "Petit texte", sample: "augmentation des clics Google" },
+];
+
+// Exemple de mise en forme uniquement : les vraies questions arrivent avec les pages services.
+const faqSample = [
+  { question: "Exemple de question", answer: "Exemple de réponse, dans le style du texte courant." },
+  { question: "Seconde question d'exemple", answer: "Chaque réponse se déplie au clic ou au clavier." },
+];
+---
+
+<BaseLayout
+  title="Design system — Web journey"
+  description="Tokens et composants du site Web journey."
+  path="/design-system"
+  noindex
+>
+  <Section class="ds-first">
+    <SectionHead as="h1">
+      <Fragment slot="title">Design <Accent text="system" /></Fragment>
+      <p>Les réglages et les blocs dont toutes les pages du site sont faites.</p>
+    </SectionHead>
+  </Section>
+
+  <Section>
+    <div class="flow">
+      <SectionHead><Fragment slot="title">Couleurs</Fragment></SectionHead>
+      <CardGrid md={2} lg={4}>
+        {colors.map((color) => (
+          <div class="ds-swatch">
+            <div class="ds-swatch__chip" style={`background-color: var(${color.token})`}></div>
+            <p><strong>{color.name}</strong></p>
+            <p class="ds-code">{color.token} · {color.value}</p>
+          </div>
+        ))}
+      </CardGrid>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="flow">
+      <SectionHead><Fragment slot="title">Typographie</Fragment></SectionHead>
+      <div class="ds-type">
+        {typeScale.map((row) => (
+          <div class="ds-type__row">
+            <p class="ds-code">{row.label}<br />{row.token}</p>
+            <p class="ds-type__sample" style={`font-size: var(${row.token}); font-weight: ${row.weight}`}>{row.sample}</p>
+          </div>
+        ))}
+        <div class="ds-type__row">
+          <p class="ds-code">Mots d'accent<br />Accent</p>
+          <p class="ds-type__sample" style="font-size: var(--fs-h2)">
+            <Accent text="pensés pour vous servir" /> · <Accent text="à sa hauteur" tone="inherit" />
+          </p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="flow">
+      <SectionHead><Fragment slot="title">Boutons</Fragment></SectionHead>
+      <div class="ds-row">
+        <Button href="#" variant="accent" icon="arrow">Action principale</Button>
+        <Button href="#" icon="arrow">Action secondaire</Button>
+        <Button href="#">Sans icône</Button>
+        <Button href="#" icon="whatsapp">WhatsApp</Button>
+      </div>
+    </div>
+  </Section>
+
+  <Section tone="ink">
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Sur fond <Accent text="sombre" /></Fragment>
+        <p>Les mêmes composants, sans variante : ils lisent les couleurs de la section.</p>
+      </SectionHead>
+      <div class="ds-row">
+        <Button href="#" variant="accent" icon="arrow">Action principale</Button>
+        <Button href="#" icon="arrow">Action secondaire</Button>
+      </div>
+      <Stats items={caseStudyStats} />
+    </div>
+  </Section>
+
+  <Section>
+    <div class="flow flow--lg">
+      <SectionHead>
+        <Fragment slot="title">Rangs alternés</Fragment>
+        <p>Un titre et son accroche, puis des rangs visuel + texte qui s'inversent de l'un à l'autre.</p>
+      </SectionHead>
+      <FeatureList items={services} />
+    </div>
+  </Section>
+
+  <Section>
+    <div class="flow">
+      <SectionHead><Fragment slot="title">Étapes</Fragment></SectionHead>
+      <Steps items={methodSteps} />
+    </div>
+  </Section>
+
+  <Section>
+    <div class="flow">
+      <SectionHead><Fragment slot="title">Cartes</Fragment></SectionHead>
+      <CardGrid lg={3}>
+        {testimonials.map((testimonial) => <TestimonialCard {...testimonial} />)}
+      </CardGrid>
+      <CardGrid md={3} lg={3}>
+        {featuredProjects.slice(0, 3).map((project) => <ProjectCard {...project} />)}
+      </CardGrid>
+    </div>
+  </Section>
+
+  <Section>
+    <div class="two-col">
+      <SectionHead><Fragment slot="title">Questions fréquentes</Fragment></SectionHead>
+      <Faq items={faqSample} />
+    </div>
+  </Section>
+
+  <Section>
+    <Cta>
+      <Fragment slot="title">Appel à l'action <Accent text="final" /></Fragment>
+      <p>Le seul bloc centré avec le premier écran.</p>
+      <Fragment slot="actions">
+        <Button href="#" variant="accent" icon="arrow">Action principale</Button>
+      </Fragment>
+    </Cta>
+  </Section>
+</BaseLayout>
+
+<style>
+  /* Pas de hero sur cette page : on dégage la hauteur de la barre de navigation. */
+  :global(.ds-first) {
+    padding-top: calc(var(--nav-height) + var(--space-8));
+  }
+
+  .ds-swatch__chip {
+    height: 6rem;
+    margin-bottom: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .ds-code {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+
+  .ds-type__row {
+    display: grid;
+    gap: var(--space-2);
+    padding-block: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .ds-type__sample {
+    max-width: none;
+    line-height: 1.2;
+  }
+
+  .ds-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  @media (min-width: 48em) {
+    .ds-type__row {
+      grid-template-columns: 12rem 1fr;
+      align-items: baseline;
+      gap: var(--space-6);
+    }
+  }
+</style>

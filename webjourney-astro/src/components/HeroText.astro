@@ -1,0 +1,39 @@
+---
+// Héro des pages intérieures : texte seul, sur toute la largeur, fond clair.
+// Le titre, l'accroche et les boutons arrivent par le slot.
+---
+
+<section class="hero-text">
+  <div class="container hero-text__inner">
+    <slot />
+  </div>
+</section>
+
+<style>
+  /* La barre de navigation chevauche le haut de page : le héro décale son contenu d'autant. */
+  .hero-text {
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+  }
+
+  .hero-text__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .hero-text__inner :global(h1) {
+    max-width: 14em;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+  }
+
+  .hero-text__inner :global(.lead) {
+    max-width: 36em;
+  }
+
+  .hero-text__inner :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+</style>

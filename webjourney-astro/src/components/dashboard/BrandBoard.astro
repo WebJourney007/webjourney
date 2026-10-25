@@ -1,0 +1,208 @@
+---
+// Illustration de la section « Identité visuelle » : la planche de marque de
+// Varela Brothers (logo, palette, typographies, gravures, papeterie), dans le
+// même cadre que les tableaux de bord des sites et des applications. Images
+// recadrées de la charte fournie par Max (`public/assets/showreel/`). Les tuiles
+// apparaissent l'une après l'autre quand le bloc arrive à l'écran.
+import "../../styles/dashboard.css";
+
+const DIR = "/assets/showreel";
+const SWATCHES = [
+  { name: "Sang de bœuf", hex: "#590C05", light: false },
+  { name: "Blanc ivoire", hex: "#FFFBDC", light: true },
+  { name: "Beige lin", hex: "#E9E5D7", light: true },
+  { name: "Rouge sang foncé", hex: "#400701", light: false },
+];
+---
+
+<figure class="dash brand" data-dash aria-label="Charte graphique de Varela Brothers : logo, palette de couleurs, typographies, illustrations gravées et papeterie">
+  <div class="brand__grid">
+    <div class="brand__tile brand__logo">
+      <img src={`${DIR}/varela--logo-ivory.webp`} alt="Logo Varela Brothers, deux clés croisées" width="558" height="295" loading="lazy" decoding="async" />
+    </div>
+
+    <ul class="brand__tile brand__palette">
+      {SWATCHES.map(({ name, hex, light }) => (
+        <li class:list={["brand__swatch", light && "is-light"]} style={`--c: ${hex}`}>
+          <span>{name}</span><span>{hex}</span>
+        </li>
+      ))}
+    </ul>
+
+    <div class="brand__tile brand__type">
+      <img src={`${DIR}/varela--typo.webp`} alt="Typographies : Playfair Display et Montserrat" width="916" height="145" loading="lazy" decoding="async" />
+    </div>
+
+    <div class="brand__tile brand__gravures">
+      {[1, 2, 3].map((n) => (
+        <img src={`${DIR}/varela--gravure-${n}.webp`} alt="" loading="lazy" decoding="async" />
+      ))}
+    </div>
+
+    <div class="brand__tile brand__photo">
+      <img src={`${DIR}/varela--papeterie-photo.webp`} alt="Papeterie Varela Brothers : papier à lettres, enveloppe et cartes de visite" width="927" height="726" loading="lazy" decoding="async" />
+    </div>
+  </div>
+  <figcaption class="brand__caption">Varela Brothers, conciergerie de luxe à Genève</figcaption>
+</figure>
+
+<script>
+  import "../../scripts/dashboard-reveal";
+</script>
+
+<style>
+  .brand__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+
+  .brand__tile {
+    position: relative;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    opacity: 0;
+    transform: translateY(1.5rem);
+  }
+
+  .brand__logo {
+    grid-column: span 2;
+    display: grid;
+    place-items: center;
+    padding: var(--space-5);
+    background-color: #590c05;
+  }
+
+  .brand__logo img {
+    width: min(70%, 18rem);
+    height: auto;
+  }
+
+  .brand__palette {
+    grid-column: span 2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2);
+    padding: var(--space-3);
+    background-color: #fffbdc;
+  }
+
+  .brand__swatch {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 3.25rem;
+    padding: var(--space-2);
+    border-radius: 8px;
+    background-color: var(--c);
+    color: #fffbdc;
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .brand__swatch.is-light {
+    box-shadow: inset 0 0 0 1px rgb(89 12 5 / 0.15);
+    color: #590c05;
+  }
+
+  .brand__swatch span:first-child {
+    font-weight: 700;
+  }
+
+  .brand__type {
+    grid-column: span 2;
+    padding: var(--space-4) var(--space-5);
+    background-color: #fffbdc;
+  }
+
+  .brand__type img {
+    width: 100%;
+    height: auto;
+  }
+
+  .brand__gravures {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background-color: #400701;
+  }
+
+  .brand__gravures img {
+    width: 30%;
+    height: auto;
+  }
+
+  .brand__photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .brand__caption {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+
+  /* Les tuiles arrivent l'une après l'autre, puis la palette se déroule. */
+  :global(.dash.is-visible) .brand__tile {
+    opacity: 1;
+    transform: none;
+    transition:
+      opacity 0.6s ease calc(var(--i, 0) * 0.12s),
+      transform 0.8s var(--ease) calc(var(--i, 0) * 0.12s);
+  }
+
+  :global(.dash.is-visible) .brand__swatch {
+    transform: none;
+    transition: transform 0.8s var(--ease) calc(0.5s + var(--s, 0) * 0.08s);
+  }
+
+  .brand__logo { --i: 0; }
+  .brand__palette { --i: 1; }
+  .brand__type { --i: 2; }
+  .brand__gravures { --i: 3; }
+  .brand__photo { --i: 4; }
+  .brand__swatch:nth-child(2) { --s: 1; }
+  .brand__swatch:nth-child(3) { --s: 2; }
+  .brand__swatch:nth-child(4) { --s: 3; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .brand__tile,
+    .brand__swatch {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  /* Écran large : logo et palette côte à côte, gravures et photo en dessous. */
+  @media (min-width: 37.5em) {
+    .brand__grid {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .brand__palette {
+      grid-column: span 1;
+      grid-template-columns: 1fr;
+    }
+
+    .brand__swatch {
+      min-height: 0;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .brand__type {
+      grid-column: span 3;
+    }
+
+    .brand__photo {
+      grid-column: span 2;
+    }
+  }
+</style>

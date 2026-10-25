@@ -1,0 +1,17 @@
+---
+// Enveloppe de section : porte le fond, le rythme vertical et le conteneur.
+// Toutes les sections partent ainsi de la même colonne de gauche.
+interface Props {
+  tone?: "paper" | "white" | "ink";
+  id?: string;
+  class?: string;
+}
+
+const { tone = "paper", id, class: className } = Astro.props;
+---
+
+<section id={id} class:list={["section", `section--${tone}`, tone === "ink" && "tone-ink", className]}>
+  <div class="container">
+    <slot />
+  </div>
+</section>

@@ -1,0 +1,141 @@
+/* ============================================================
+   ARTICLE : le corps d'un article du blog, en HTML simple
+   (titres, paragraphes, listes, tableaux, encadrés, sommaire).
+   ============================================================ */
+
+.prose {
+  max-width: 44rem;
+  margin-inline: auto;
+}
+
+.prose > * + * {
+  margin-top: var(--space-5);
+}
+
+.prose h2 {
+  margin-top: var(--space-8);
+  /* Le sommaire mène aux titres : ils ne passent pas sous la barre de navigation. */
+  scroll-margin-top: calc(var(--nav-height) + var(--space-5));
+}
+
+.prose h3 {
+  margin-top: var(--space-6);
+}
+
+.prose ul,
+.prose ol {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: 1.25em;
+}
+
+.prose ul {
+  list-style: disc;
+}
+
+.prose ol {
+  list-style: decimal;
+}
+
+.prose li::marker {
+  color: var(--accent-text);
+}
+
+.prose a:not(.btn) {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.prose code {
+  padding: 0.1em 0.35em;
+  border-radius: var(--radius-sm);
+  background-color: var(--section-veil);
+  font-size: 0.9em;
+}
+
+/* Sommaire */
+.prose .toc {
+  padding: var(--space-5) var(--space-6);
+  border-left: 3px solid var(--color-accent);
+  background-color: var(--section-veil);
+}
+
+.prose .toc__title {
+  margin-bottom: var(--space-3);
+  font-weight: 700;
+}
+
+/* Encadrés : note, chiffre clé, point d'attention. */
+.prose .callout {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding: var(--space-5) var(--space-6);
+  border-radius: var(--radius-md);
+  background-color: var(--section-veil);
+}
+
+.prose .callout--highlight {
+  border-left: 3px solid var(--color-accent);
+}
+
+.prose .callout__label {
+  color: var(--accent-text);
+  font-size: var(--fs-small);
+  font-weight: 700;
+}
+
+/* Définitions : un titre court, un paragraphe. */
+.prose .defs {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.prose .defs__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  padding-left: var(--space-5);
+  border-left: 2px solid var(--line);
+}
+
+.prose .defs__item h3 {
+  margin-top: 0;
+  font-size: var(--fs-body);
+}
+
+/* Tableaux : défilent dans leur cadre sur mobile. */
+.prose .table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+}
+
+.prose table {
+  width: 100%;
+  min-width: 36rem;
+  border-collapse: collapse;
+  font-size: var(--fs-small);
+}
+
+.prose th,
+.prose td {
+  padding: var(--space-3) var(--space-4);
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.prose th {
+  background-color: var(--section-veil);
+}
+
+.prose tbody tr:last-child > * {
+  border-bottom: 0;
+}
+
+.prose tbody td:first-child {
+  font-weight: 700;
+}

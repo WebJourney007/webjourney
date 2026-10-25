@@ -1,0 +1,91 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import CheckList from "../components/CheckList.astro";
+import FormChoices from "../components/FormChoices.astro";
+import FormField from "../components/FormField.astro";
+import FormHero from "../components/FormHero.astro";
+import Guarantees from "../components/Guarantees.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import SendForm from "../components/SendForm.astro";
+import Steps from "../components/Steps.astro";
+import { nextSteps, quoteBenefits, quoteStructuredData, revenueRanges, siteProblems, swissPhone } from "../data/contact";
+import { guarantees } from "../data/offers";
+---
+
+<BaseLayout
+  title="Demander un devis de site internet | Web journey"
+  description="Devis gratuit pour votre site internet en Valais : décrivez votre projet, vos objectifs et votre budget. Réponse sous 24 h de Web journey, à Sion."
+  ogDescription="Demandez un devis gratuit pour votre site web. Formulaire simple et réponse rapide."
+  path="/demander-un-devis"
+  structuredData={[quoteStructuredData]}
+>
+  <FormHero>
+    <Fragment slot="intro">
+      <h1>Devis gratuit pour votre site internet <Accent text="en Valais" /></h1>
+      <p class="lead">
+        Décrivez votre projet en quelques lignes. Nous analysons vos besoins et revenons vers vous avec une proposition
+        claire, adaptée à votre budget.
+      </p>
+      <CheckList items={quoteBenefits} />
+    </Fragment>
+
+    <SendForm id="devis-form" submitLabel="Envoyer ma demande" label="Formulaire de demande de devis" track>
+      <FormField id="devis-firstname" name="firstname" label="Prénom" required placeholder="Votre prénom" autocomplete="given-name" />
+      <FormField id="devis-lastname" name="lastname" label="Nom" required placeholder="Votre nom" autocomplete="family-name" />
+      <FormField id="devis-email" name="email" type="email" label="E-mail" required placeholder="email@mail.ch" autocomplete="email" />
+      <FormField id="devis-phone" name="phone" type="tel" label="Téléphone" required autocomplete="tel" {...swissPhone} />
+      <FormField
+        id="devis-company"
+        name="company_description"
+        label="Décrivez brièvement votre entreprise"
+        rows={3}
+        required
+        placeholder="1 à 2 phrases"
+        full
+      />
+      <FormField
+        id="devis-website"
+        name="website"
+        label="Lien de votre site actuel"
+        placeholder="mon-entreprise.ch"
+        inputmode="url"
+        autocomplete="url"
+        full
+      />
+      <FormChoices name="site_problem" legend="Quel est le plus gros problème de votre site actuel ?" options={siteProblems} required />
+      <FormChoices name="revenue" legend="Quel est votre chiffre d'affaires mensuel approximatif ?" options={revenueRanges} required />
+      <FormField
+        id="devis-project"
+        name="project_description"
+        label="Décrivez votre projet"
+        rows={5}
+        required
+        placeholder="Que souhaitez-vous créer ou améliorer ? Quels sont vos objectifs ? Avez-vous un délai particulier ?"
+        full
+      />
+    </SendForm>
+  </FormHero>
+
+  <div class="page-deep tone-ink">
+    <Section>
+      <div class="flow">
+        <SectionHead>
+          <Fragment slot="title">Après votre demande, <Accent text="trois étapes" /></Fragment>
+        </SectionHead>
+        <Steps items={nextSteps} />
+      </div>
+    </Section>
+
+    <Section>
+      <div class="flow">
+        <SectionHead>
+          <Fragment slot="title">Nos engagements, <Accent text="noir sur blanc" /></Fragment>
+        </SectionHead>
+        <Guarantees items={guarantees} />
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
+

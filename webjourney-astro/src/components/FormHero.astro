@@ -1,0 +1,60 @@
+---
+// Premier écran des pages de conversion : le texte à gauche (slot "intro", qui
+// reste en vue au défilement), le formulaire à droite dans un panneau blanc.
+// Sur mobile, le formulaire passe sous le texte.
+---
+
+<section class="form-hero">
+  <div class="container form-hero__grid">
+    <div class="form-hero__intro">
+      <slot name="intro" />
+    </div>
+    <div class="form-hero__panel">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .form-hero {
+    padding-block: calc(var(--nav-height) + var(--space-7)) var(--section-y);
+  }
+
+  .form-hero__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .form-hero__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .form-hero__intro :global(h1) {
+    max-width: 12em;
+  }
+
+  .form-hero__panel {
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: var(--radius-md);
+    background-color: var(--color-white);
+    box-shadow: 0 1.5rem 4rem rgb(30 30 30 / 0.08);
+    /* Les champs se détachent du panneau blanc sur un fond gris clair. */
+    --surface: var(--color-paper);
+  }
+
+  @media (min-width: 62em) {
+    .form-hero__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-8);
+      align-items: start;
+    }
+
+    .form-hero__intro {
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-6));
+    }
+  }
+</style>

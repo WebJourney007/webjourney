@@ -1,0 +1,62 @@
+---
+// Témoignage vidéo d'un client, au format portrait. Rien n'est téléchargé avant
+// que le visiteur lance la lecture : seul le poster est chargé.
+export interface VideoReviewProps {
+  src: string;
+  poster: string;
+  width: number;
+  height: number;
+  name: string;
+  role: string;
+}
+
+const { src, poster, width, height, name, role } = Astro.props as VideoReviewProps;
+---
+
+<figure class="video-review">
+  <video
+    class="video-review__player"
+    src={src}
+    poster={poster}
+    width={width}
+    height={height}
+    controls
+    playsinline
+    preload="none"
+    aria-label={`Témoignage vidéo de ${name}, ${role}`}
+  ></video>
+  <figcaption>
+    <span class="video-review__name">{name}</span>
+    <span class="video-review__role">{role}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .video-review {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .video-review__player {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    background-color: var(--color-ink);
+  }
+
+  .video-review__name,
+  .video-review__role {
+    display: block;
+    line-height: 1.35;
+  }
+
+  .video-review__name {
+    font-weight: 700;
+  }
+
+  .video-review__role {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+</style>

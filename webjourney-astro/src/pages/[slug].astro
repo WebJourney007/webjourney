@@ -1,0 +1,203 @@
+---
+// Étude de cas d'une réalisation : contexte, défi, ce qui a été fait, résultat,
+// le site en vidéo, l'avis du client, puis deux autres réalisations et le CTA.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import BrowserFrame from "../components/BrowserFrame.astro";
+import Button from "../components/Button.astro";
+import CaseGrid from "../components/CaseGrid.astro";
+import CheckList from "../components/CheckList.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Stats from "../components/Stats.astro";
+import TestimonialCard from "../components/TestimonialCard.astro";
+import { caseStudies, type CaseStudy } from "../data/case-studies";
+import { cases } from "../data/projects";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+export function getStaticPaths() {
+  return caseStudies.map((study) => ({ params: { slug: study.slug }, props: { study } }));
+}
+
+interface Props {
+  study: CaseStudy;
+}
+
+const { study } = Astro.props;
+const path = `/${study.slug}`;
+const index = cases.findIndex((item) => item.href === path);
+const card = cases[index];
+if (!card) throw new Error(`Étude de cas sans carte dans projects.ts : ${path}`);
+
+// Les deux réalisations suivantes dans l'ordre de la page Réalisations, en boucle.
+const others = [1, 2].map((step) => cases[(index + step) % cases.length]).filter((item) => item !== undefined);
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CreativeWork",
+      "@id": `${SITE.url}${path}#work`,
+      name: `${study.headline} ${card.name}`,
+      description: study.description,
+      url: `${SITE.url}${path}`,
+      image: `${SITE.url}${card.image}`,
+      creator: { "@id": `${SITE.url}/#business` },
+      keywords: card.tags.join(", "),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE.url}/` },
+        { "@type": "ListItem", position: 2, name: "Réalisations", item: `${SITE.url}/nos-sites-internet` },
+        { "@type": "ListItem", position: 3, name: card.name, item: `${SITE.url}${path}` },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title={study.title}
+  description={study.description}
+  path={path}
+  ogImage={card.image}
+  structuredData={[structuredData]}
+>
+  <HeroText>
+    <h1>{study.headline} <Accent text={card.name} /></h1>
+    <p class="lead">{study.intro}</p>
+    <div class="actions">
+      <Button href={study.site} target="_blank" rel="noopener noreferrer" variant="accent" icon="arrow">Voir le site en ligne</Button>
+      <Button href="/nos-sites-internet">Toutes nos réalisations</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── LE PROJET ─── -->
+  <Section>
+    <div class="story">
+      <div class="story__row">
+        <h2>Le <Accent text="contexte" /></h2>
+        <p class="lead">{study.context}</p>
+      </div>
+      <div class="story__row">
+        <h2>Le <Accent text="défi" /></h2>
+        <p class="lead">{study.challenge}</p>
+      </div>
+      <div class="story__row">
+        <h2>Ce que nous avons <Accent text="fait" /></h2>
+        <div class="story__work">
+          <p class="lead">{study.work}</p>
+          <CheckList items={study.services} />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ─── RÉSULTAT ─── -->
+  {study.outcome && (
+    <Section>
+      <div class="flow">
+        <SectionHead>
+          <Fragment slot="title">Le <Accent text="résultat" /></Fragment>
+          {study.outcome.text && <p>{study.outcome.text}</p>}
+        </SectionHead>
+        {study.outcome.stats && <Stats items={study.outcome.stats} />}
+      </div>
+    </Section>
+  )}
+
+  <!-- ─── LE SITE EN VIDÉO ─── -->
+  <Section>
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">Le site <Accent text="en ligne" /></Fragment>
+        </SectionHead>
+        <a href={study.site} target="_blank" rel="noopener noreferrer" class="text-link">{new URL(study.site).hostname}</a>
+      </div>
+      <BrowserFrame {...study.media} label={card.name} />
+    </div>
+  </Section>
+
+  <!-- ─── AVIS ─── -->
+  {study.review && (
+    <Section>
+      <div class="flow">
+        <SectionHead>
+          <Fragment slot="title">Ce qu'en dit <Accent text="le client" /></Fragment>
+        </SectionHead>
+        <div class="review"><TestimonialCard {...study.review} /></div>
+      </div>
+    </Section>
+  )}
+
+  <!-- ─── AUTRES RÉALISATIONS ─── -->
+  <Section>
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">D'autres <Accent text="réalisations" /></Fragment>
+        </SectionHead>
+        <Button href="/nos-sites-internet" icon="arrow">Voir tous nos sites</Button>
+      </div>
+      <CaseGrid items={others} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Votre projet, <Accent text="le prochain ?" /></Fragment>
+      <p>Décrivez votre projet en quelques lignes : on vous dit ce qu'on peut faire pour vous, gratuitement et sans engagement.</p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href="/demander-un-devis">Demander un devis</Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .story {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  /* Titre à gauche, texte à droite, sur la grille de `.two-col`. */
+  .story__row {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .story__row:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .story__work {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .review {
+    max-width: 40rem;
+  }
+
+  @media (min-width: 62em) {
+    .story__row {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

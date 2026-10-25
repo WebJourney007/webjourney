@@ -1,0 +1,133 @@
+---
+// Corps repris de l'ancienne page `public/blog/combien-coute-un-site-web-en-suisse-2026.html`.
+// Corrigé : « Les prix s'entendent en € » (le tableau est en CHF).
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import Accent from "../../components/Accent.astro";
+import Button from "../../components/Button.astro";
+import Cta from "../../components/Cta.astro";
+import ReplyNote from "../../components/ReplyNote.astro";
+import { posts } from "../../data/blog";
+import { offers } from "../../data/offers";
+import { PROJECT_CTA } from "../../lib/site";
+
+const post = posts.find((item) => item.slug === "combien-coute-un-site-web-en-suisse-2026")!;
+const vitrine = offers.find((offer) => offer.name === "Site vitrine");
+---
+
+<ArticleLayout post={post}>
+  <p>C'est la question que posent la grande majorité des entrepreneurs, PME et indépendants avant de lancer leur projet web. Et la réponse honnête est : <strong>ça dépend</strong>. Mais "ça dépend" n'aide personne à budgétiser.</p>
+  <p>Ce guide vous donne des fourchettes de prix réelles pour le marché suisse en 2026, les facteurs qui font monter ou descendre la facture, et les erreurs à éviter quand vous choisissez un prestataire.</p>
+  <nav class="toc" aria-label="Sommaire de l'article"><p class="toc__title">Dans cet article</p>
+  <ol><li><a href="#types">Les 3 grands types de sites web</a></li>
+  <li><a href="#prix">Tableau des prix en Suisse en 2026</a></li>
+  <li><a href="#facteurs">Ce qui influence le prix</a></li>
+  <li><a href="#inclus">Ce que le prix devrait inclure</a></li>
+  <li><a href="#agence-freelance">Agence, freelance ou DIY ?</a></li>
+  <li><a href="#erreurs">Les 3 erreurs à éviter</a></li>
+  <li><a href="#faq">Questions fréquentes</a></li></ol></nav>
+  <h2 id="types">Les 3 grands types de sites web</h2>
+  <p>Avant de parler de prix, il faut clarifier de quoi on parle. Tous les sites web ne se ressemblent pas, et la nature du projet est le premier facteur qui détermine le budget.</p>
+  <div class="defs"><div class="defs__item"><h3>Le site vitrine</h3>
+  <p>Il présente votre activité, renforce votre crédibilité et invite vos visiteurs à vous contacter. C'est la solution la plus courante pour les PME, les artisans, les professions libérales et les startups qui n'ont pas besoin de vendre en ligne. Un site vitrine bien fait génère des leads qualifiés et remplace efficacement le bouche-à-oreille.</p></div>
+  <div class="defs__item"><h3>La boutique en ligne (e-commerce)</h3>
+  <p>Elle permet de vendre des produits ou des services directement en ligne. Plus complexe qu'un site vitrine, elle nécessite une gestion des paiements, des stocks, des livraisons et du back-office. En Suisse, l'intégration TWINT est incontournable pour maximiser les conversions.</p></div>
+  <div class="defs__item"><h3>L'application web sur mesure</h3>
+  <p>Un outil digital pensé pour un processus métier spécifique : portail client, outil de réservation, plateforme de gestion interne, interface sur mesure. Les coûts sont plus élevés car le développement est entièrement personnalisé — mais c'est souvent la solution qui crée le plus de valeur à long terme.</p></div></div>
+  <h2 id="prix">Tableau des prix en Suisse en 2026</h2>
+  <p>Voici une synthèse des fourchettes de prix observées sur le marché suisse. Les prix s'entendent en francs suisses, pour un projet clé en main (conception, design, développement, mise en ligne).</p>
+  <div class="table-wrap"><table><thead><tr><th>Type de site</th>
+  <th>Solution DIY</th>
+  <th>Agence entrée de gamme</th>
+  <th>Agence professionnelle</th>
+  <th>Sur mesure avancé</th></tr></thead>
+  <tbody><tr><td>Site vitrine</td>
+  <td>CHF 200–800 / an</td>
+  <td>CHF 1'500–3'000</td>
+  <td>CHF 3'000–8'000</td>
+  <td>CHF 8'000–20'000+</td></tr>
+  <tr><td>Boutique en ligne</td>
+  <td>CHF 500–2'000 / an</td>
+  <td>CHF 3'000–6'000</td>
+  <td>CHF 6'000–15'000</td>
+  <td>CHF 15'000–50'000+</td></tr>
+  <tr><td>Application web</td>
+  <td>—</td>
+  <td>—</td>
+  <td>CHF 15'000–30'000</td>
+  <td>CHF 30'000–100'000+</td></tr></tbody></table></div>
+  <div class="callout"><p class="callout__label">Note</p>
+  <p>Ces fourchettes concernent la création initiale du site. Des frais récurrents s'y ajoutent : hébergement (CHF 100–300/an), nom de domaine (CHF 15–40/an) et, selon les besoins, une maintenance mensuelle (CHF 99–199/mois).</p></div>
+  <h2 id="facteurs">Ce qui influence le prix</h2>
+  <p>Pour un même type de site, l'écart entre CHF 3'000 et CHF 15'000 peut s'expliquer par plusieurs facteurs cumulatifs. En voici les principaux :</p>
+  <div class="defs"><div class="defs__item"><h3>Le nombre de pages et de fonctionnalités</h3>
+  <p>Un site de 5 pages avec un formulaire de contact n'a pas le même coût qu'un site de 20 pages avec une section blog, un système de réservation et une interface multilingue. Chaque fonctionnalité supplémentaire représente du temps de développement et de test.</p></div>
+  <div class="defs__item"><h3>Le niveau de personnalisation du design</h3>
+  <p>Un site construit sur un template existant (même retravaillé) coûte moins cher qu'un design créé de zéro par un directeur artistique. La différence est visible : un site sur mesure se distingue immédiatement de la concurrence, ce qui a une valeur commerciale directe.</p></div>
+  <div class="defs__item"><h3>L'intégration d'un CMS</h3>
+  <p>Si vous souhaitez pouvoir modifier vous-même les textes, images ou articles de blog, il faut intégrer un système de gestion de contenu (WordPress, Craft CMS, etc.). Cette couche technique ajoute du temps de développement et de configuration.</p></div>
+  <div class="defs__item"><h3>Le SEO et les données structurées</h3>
+  <p>Un site livré avec une optimisation SEO sérieuse (balises, structure, données Schema.org, performance) coûte plus cher à produire — mais rapporte sur le long terme. Un site non optimisé ne sera tout simplement pas visible sur Google.</p></div>
+  <div class="defs__item"><h3>La rédaction des contenus</h3>
+  <p>Rédiger des textes efficaces pour le web est un métier. Si vous ne fournissez pas vos propres contenus, le prestataire peut les rédiger — mais cela se facture en supplément. Un copywriting de qualité peut doubler le taux de conversion d'un site.</p></div>
+  <div class="defs__item"><h3>La localisation du prestataire</h3>
+  <p>Un prestataire suisse coûte plus cher qu'une agence offshore — mais offre une communication directe, une disponibilité réelle, un droit suisse applicable et un engagement sur le long terme. La différence de prix est souvent récupérée dès le premier problème évité.</p></div></div>
+  <h2 id="inclus">Ce que le prix devrait inclure</h2>
+  <p>Quel que soit votre budget, un prestataire sérieux doit vous livrer un site professionnel avec ces éléments inclus dans le prix de base :</p>
+  <ul><li>Un design adaptatif (responsive) qui fonctionne sur mobile, tablette et desktop</li>
+  <li>Une optimisation des performances (temps de chargement, compression des images)</li>
+  <li>Les balises SEO de base (title, meta description, balises Hn)</li>
+  <li>Un certificat SSL (HTTPS) activé — indispensable pour la sécurité et Google</li>
+  <li>La mise en ligne sur l'hébergement et la configuration du domaine</li>
+  <li>Un test de compatibilité sur les principaux navigateurs</li>
+  <li>Une remise des accès complets (FTP, hébergement, CMS si applicable)</li></ul>
+  <div class="callout callout--highlight"><p class="callout__label">Point d'attention</p>
+  <p>Méfiez-vous des offres où le site "vous appartient" uniquement si vous continuez à payer un abonnement mensuel. Chez un prestataire sérieux, une fois livré et payé, le site est entièrement à vous — sans condition.</p></div>
+  <h2 id="agence-freelance">Agence, freelance ou DIY ?</h2>
+  <p>Le choix du type de prestataire est aussi important que le budget. Voici une comparaison objective :</p>
+  <div class="table-wrap"><table><thead><tr><th>Critère</th>
+  <th>DIY (Wix, Squarespace…)</th>
+  <th>Freelance</th>
+  <th>Agence web</th></tr></thead>
+  <tbody><tr><td>Coût initial</td>
+  <td>Faible (CHF 200–800/an)</td>
+  <td>Moyen (CHF 1'500–5'000)</td>
+  <td>Plus élevé (CHF 3'000+)</td></tr>
+  <tr><td>Temps investi</td>
+  <td>Très élevé (vous faites tout)</td>
+  <td>Faible à moyen</td>
+  <td>Faible (processus géré)</td></tr>
+  <tr><td>Qualité du résultat</td>
+  <td>Limitée, peu différenciante</td>
+  <td>Variable selon le profil</td>
+  <td>Professionnelle, sur mesure</td></tr>
+  <tr><td>Disponibilité long terme</td>
+  <td>Dépend de la plateforme</td>
+  <td>Risque d'indisponibilité</td>
+  <td>Équipe stable et continue</td></tr>
+  <tr><td>SEO inclus</td>
+  <td>Basique, limité</td>
+  <td>Selon compétences</td>
+  <td>Inclus ou en option</td></tr>
+  <tr><td>Droit suisse applicable</td>
+  <td>Non (hébergement étranger)</td>
+  <td>Selon contrat</td>
+  <td>Oui (prestataire local)</td></tr></tbody></table></div>
+  <p>Pour une activité professionnelle avec des enjeux commerciaux réels, une agence offre le meilleur rapport qualité/risque. Un freelance peut être un bon choix pour un budget serré, à condition de vérifier ses références et sa disponibilité sur le long terme. Le DIY reste pertinent uniquement pour des besoins très simples ou une phase de test.</p>
+  <h2 id="erreurs">Les 3 erreurs à éviter</h2>
+  <div class="callout"><p class="callout__label">Erreur n°1</p>
+  <p><strong>Choisir uniquement sur le prix.</strong> Un site à CHF 500 peut paraître attractif, mais si le résultat est peu différenciant, lent et invisible sur Google, il ne génère aucun client. Le coût d'un mauvais site, c'est le chiffre d'affaires que vous ne ferez jamais.</p></div>
+  <div class="callout"><p class="callout__label">Erreur n°2</p>
+  <p><strong>Ne pas prévoir la maintenance.</strong> Un site web n'est pas un investissement unique. Les mises à jour de sécurité, les évolutions de contenu et les optimisations SEO sont indispensables pour maintenir sa performance dans le temps. Prévoyez un budget récurrent dès le départ.</p></div>
+  <div class="callout"><p class="callout__label">Erreur n°3</p>
+  <p><strong>Confondre "beau" et "efficace".</strong> Un site peut être visuellement impressionnant tout en ayant un taux de conversion proche de zéro. Ce qui compte, c'est que le visiteur comprenne en quelques secondes ce que vous faites, pourquoi vous êtes le bon choix, et comment vous contacter. L'esthétique doit servir la conversion.</p></div>
+
+  <Cta slot="cta">
+    <Fragment slot="title">Un site vitrine <Accent text="à prix fixe" /></Fragment>
+    <p>{vitrine?.price}, annoncé avant de commencer. Premier échange gratuit et sans engagement.</p>
+    <ReplyNote />
+    <Fragment slot="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="/demander-un-devis">Demander un devis</Button>
+    </Fragment>
+  </Cta>
+</ArticleLayout>

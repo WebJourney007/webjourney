@@ -1,0 +1,55 @@
+---
+// Labo : trois directions pour les sections produit de la home, appliquées au
+// produit « Création de site internet ». Page non indexée, hors sitemap, à
+// supprimer une fois la direction choisie.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Section from "../../components/Section.astro";
+import ProductPortfolio from "../../components/lab/ProductPortfolio.astro";
+import ProductSplit from "../../components/lab/ProductSplit.astro";
+import ProductStage from "../../components/lab/ProductStage.astro";
+import { siteProduct } from "../../data/products";
+
+const directions = [
+  { id: "a", label: "Direction A — Produit + écran", Component: ProductSplit },
+  { id: "b", label: "Direction B — Scène", Component: ProductStage },
+  { id: "c", label: "Direction C — Portfolio", Component: ProductPortfolio },
+];
+---
+
+<BaseLayout title="Labo — sections produit | Web journey" description="Labo interne." path="/labo/services" noindex>
+  <section class="lab-intro">
+    <div class="container">
+      <h1>Labo : sections produit</h1>
+      <p class="lead">Trois façons de présenter « Création de site internet » sur la home. Même contenu, trois mises en scène.</p>
+    </div>
+  </section>
+
+  <div class="page-deep tone-ink">
+    {directions.map(({ id, label, Component }) => (
+      <Section id={id}>
+        <p class="lab-label">{label}</p>
+        <Component product={siteProduct} />
+      </Section>
+    ))}
+  </div>
+</BaseLayout>
+
+<style>
+  .lab-intro {
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--space-8);
+  }
+
+  .lab-intro .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .lab-label {
+    margin-bottom: var(--space-7);
+    padding-bottom: var(--space-3);
+    border-bottom: 1px dashed var(--line);
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+</style>

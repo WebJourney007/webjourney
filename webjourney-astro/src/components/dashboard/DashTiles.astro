@@ -1,0 +1,31 @@
+---
+// Rangée de trois chiffres avec leur tendance et une courbe qui se dessine.
+import "../../styles/dashboard.css";
+
+export interface DashTile {
+  label: string;
+  value: string;
+  trend: string;
+  /** Points de la courbe dans un repère 120 × 40 (y vers le bas). */
+  curve: string;
+}
+
+interface Props {
+  tiles: DashTile[];
+}
+
+const { tiles } = Astro.props;
+---
+
+<div class="dash__tiles">
+  {tiles.map((tile) => (
+    <div class="dash__card">
+      <p class="dash__label">{tile.label}</p>
+      <p class="dash__value">{tile.value}</p>
+      <p class="dash__trend">{tile.trend}</p>
+      <svg class="dash__spark" viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points={tile.curve} />
+      </svg>
+    </div>
+  ))}
+</div>

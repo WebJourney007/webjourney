@@ -1,0 +1,174 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import CompareTable from "../components/CompareTable.astro";
+import Cta from "../components/Cta.astro";
+import Faq from "../components/Faq.astro";
+import FitList from "../components/FitList.astro";
+import HeroText from "../components/HeroText.astro";
+import OfferGlance from "../components/OfferGlance.astro";
+import PointList from "../components/PointList.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Pricing from "../components/Pricing.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ShotGrid from "../components/ShotGrid.astro";
+import Steps from "../components/Steps.astro";
+import { faqStructuredData } from "../data/faq";
+import {
+  compareColumns,
+  compareRows,
+  fitNo,
+  fitYes,
+  glance,
+  included,
+  plans,
+  serviceFaq,
+  serviceSteps,
+  serviceStructuredData,
+  showcase,
+} from "../data/services";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+---
+
+<BaseLayout
+  title="Création de site internet en Valais et à Sion | Web journey"
+  description="Création de site internet sur mesure en Valais : landing page dès CHF 990.–, site vitrine à CHF 2'990.–. Prix clairs, délais tenus, hébergement en Suisse."
+  ogDescription="Création de site internet sur mesure en Valais et à Sion. Prix annoncés d'avance, délais tenus, site hébergé en Suisse."
+  path="/creation-site-internet"
+  structuredData={[serviceStructuredData, faqStructuredData(serviceFaq)]}
+>
+  <HeroText>
+    <h1>Création de site internet en Valais, <Accent text="clé en main" /></h1>
+    <p class="lead">
+      Landing page, site vitrine ou projet sur-mesure, puis maintenance : un seul partenaire en Valais pour
+      accompagner chaque étape de votre croissance, avec des prix clairs dès le départ.
+    </p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#formules">Voir les formules</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── L'OFFRE D'UN COUP D'ŒIL ─── -->
+  <Section id="formules">
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Trois formules, <Accent text="un prix affiché" /></Fragment>
+      </SectionHead>
+      <OfferGlance items={glance} />
+      <a href="#comparatif" class="text-link">Comparer les formules ligne à ligne</a>
+    </div>
+  </Section>
+
+  <!-- ─── COMPARATIF DES FORMULES ─── -->
+  <Section id="comparatif">
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Le détail, <Accent text="ligne à ligne" /></Fragment>
+        <p>Chaque formule correspond à un stade de votre entreprise. Le prix est fixé avant de commencer.</p>
+      </SectionHead>
+      <CompareTable columns={compareColumns} rows={compareRows} caption="Comparatif des formules de création de site internet" />
+      <p class="muted">
+        Le détail du <a href="/creation-site-vitrine" class="text-link">site vitrine</a>. Vous vendez en ligne ? Voir la{" "}
+        <a href="/creation-boutique-en-ligne" class="text-link">création de boutique en ligne</a>.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ─── INCLUS ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Inclus dans <Accent text="chaque site" /></Fragment>
+      </SectionHead>
+      <PointList items={included} cols={3} />
+    </div>
+  </Section>
+
+  <!-- ─── MÉTHODE ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Quatre étapes, <Accent text="zéro surprise" /></Fragment>
+        <p>Un site vitrine en ligne en 3 à 6 semaines. Vous validez chaque étape avant la suivante.</p>
+      </SectionHead>
+      <Steps items={serviceSteps} />
+    </div>
+  </Section>
+
+  <!-- ─── PREUVES ─── -->
+  <Section>
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">Des sites vitrines <Accent text="déjà en ligne" /></Fragment>
+        </SectionHead>
+        <Button href="/nos-sites-internet" icon="arrow">Voir tous nos sites</Button>
+      </div>
+      <ShotGrid items={showcase} />
+    </div>
+  </Section>
+
+  <!-- ─── POUR QUI ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Est-ce <Accent text="pour vous ?" /></Fragment>
+      </SectionHead>
+      <FitList yes={fitYes} no={fitNo} />
+    </div>
+  </Section>
+
+  <!-- ─── ABONNEMENTS ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Votre site entre de bonnes mains, <Accent text="toute l'année" /></Fragment>
+        <p>Sans engagement. Le site vitrine inclut déjà 2 mois de support.</p>
+      </SectionHead>
+      <Pricing items={plans} />
+    </div>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre futur site" /></Fragment>
+      </SectionHead>
+      <Faq items={serviceFaq} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Parlons de <Accent text="votre site" /></Fragment>
+      <p>
+        Décrivez votre projet en quelques lignes, gratuitement et sans engagement : on vous indique la formule qui vous convient et son prix.
+      </p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" icon="whatsapp">
+          {SITE.phoneDisplay}
+        </Button>
+      </Fragment>
+    </Cta>
+    <p class="after-cta muted">
+      Vous avez déjà un site ? <a href="/audit" class="text-link">Faites-le auditer gratuitement</a>.
+    </p>
+  </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .after-cta {
+    margin: var(--space-6) auto 0;
+    text-align: center;
+  }
+</style>

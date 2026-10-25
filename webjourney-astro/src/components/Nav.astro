@@ -1,0 +1,350 @@
+---
+// Barre de navigation.
+// Logo au centre, bouton de réservation à droite. À gauche : les liens sur desktop,
+// le bouton du menu déroulant sur mobile et tablette.
+// Elle suit le bandeau de contact puis reste collée en haut de l'écran.
+// En haut d'une page à hero sombre elle est transparente ; elle sort de l'écran
+// quand on descend et revient avec son fond quand on remonte (scripts/nav.ts).
+import Accent from "./Accent.astro";
+import Button from "./Button.astro";
+import { NAV_LINKS, PROJECT_CTA, SITE } from "../lib/site";
+
+interface Props {
+  currentPath: string;
+  /** Barre sans fond tant qu'on est en haut de page. « dark » : le hero est sombre, le texte passe en clair. */
+  overlay?: "light" | "dark";
+}
+
+const { currentPath, overlay } = Astro.props;
+const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
+---
+
+<header class:list={["nav", overlay && "nav--overlay", overlay === "dark" && "nav--overlay-dark"]} data-nav>
+  <div class="nav__bg" aria-hidden="true"></div>
+  <div class="container nav__inner">
+    <div class="nav__start">
+      <Button class="nav__trigger" type="button" aria-expanded="false" aria-controls="site-menu" data-menu-trigger>
+        <span class="nav__trigger-open">menu +</span>
+        <span class="nav__trigger-close">close −</span>
+      </Button>
+
+      <nav class="nav__links" aria-label="Navigation principale">
+        <ul>
+          {NAV_LINKS.map((link) => (
+            <li>
+              <a href={link.href} class="nav__link" aria-current={isCurrent(link.href)}>
+                <span data-label={link.label}>{link.label}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </div>
+
+    <a href="/" class="nav__logo" aria-label={`${SITE.name}, retour à l'accueil`}>
+      <Accent text="web journey" tone="inherit" />
+    </a>
+
+    <div class="nav__end">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow" class="nav__cta">
+        <span class="nav__cta-long">{PROJECT_CTA.label}</span><span class="nav__cta-short">{PROJECT_CTA.short}</span>
+      </Button>
+    </div>
+  </div>
+
+  <div id="site-menu" class="menu" data-menu-panel inert>
+    <nav aria-label="Menu">
+      <ul class="menu__list">
+        {NAV_LINKS.map((link) => (
+          <li>
+            <a href={link.href} class="menu__link" aria-current={isCurrent(link.href)}>{link.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <div class="menu__contact">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow"
+        >{PROJECT_CTA.label}</Button
+      >
+      <Button href={`mailto:${SITE.email}`} icon="mail">{SITE.email}</Button>
+    </div>
+  </div>
+</header>
+
+<script>
+  import "../scripts/nav";
+</script>
+
+<style>
+  .nav {
+    /* Les boutons de la barre lisent ces deux rôles, comme dans une section. */
+    --fg: var(--color-ink);
+    --bg: var(--color-paper);
+
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    height: var(--nav-height);
+    /* La barre ne prend pas de place dans la page : le hero passe dessous. */
+    margin-bottom: calc(-1 * var(--nav-height));
+    color: var(--fg);
+    transition:
+      translate 0.45s var(--ease),
+      color 0.3s ease;
+  }
+
+  /* Fond flouté de la barre, repris de l'ancien site. */
+  .nav__bg {
+    position: absolute;
+    inset: 0;
+    border-bottom: 1px solid var(--line);
+    background-color: rgb(245 245 245 / 0.86);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    transition: opacity 0.3s ease;
+  }
+
+  /* En haut de page : pas de fond. Dès qu'on a scrollé ou que le menu est
+     ouvert, la barre reprend son fond. */
+  .nav--overlay:not(.is-scrolled, .is-open) .nav__bg {
+    opacity: 0;
+  }
+
+  /* Sur un hero sombre, le texte passe en clair tant que la barre n'a pas de fond. */
+  .nav--overlay-dark:not(.is-scrolled, .is-open) {
+    --fg: var(--color-white);
+    --bg: var(--color-ink);
+    --accent-text: var(--color-accent);
+  }
+
+  /* Sortie de l'écran quand on descend. Un lien qui prend le focus au clavier la ramène. */
+  .nav.is-hidden:not(:focus-within) {
+    translate: 0 -100%;
+  }
+
+  /* Trois zones : menu ou liens à gauche, logo au centre, réservation à droite.
+     Les deux colonnes latérales ont la même largeur : le logo reste au centre exact
+     de l'écran, quelle que soit la longueur des liens ou du bouton. */
+  .nav__inner {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    height: 100%;
+  }
+
+  .nav__start {
+    display: flex;
+    align-items: center;
+    justify-self: start;
+  }
+
+  .nav__end {
+    display: flex;
+    justify-self: end;
+  }
+
+  .nav__logo {
+    font-size: clamp(1.75rem, 3vw, 2.25rem);
+    line-height: 1;
+  }
+
+  .nav__links ul {
+    display: flex;
+    gap: var(--space-5);
+  }
+
+  .nav__link {
+    display: block;
+    overflow: hidden;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.2;
+  }
+
+  /* L'espace vertical est porté par le span : le lien masque ainsi tout le mot,
+     jambages compris, pendant qu'il roule. Il agrandit aussi la zone de clic. */
+  .nav__link span {
+    position: relative;
+    display: block;
+    padding-block: 0.75em;
+  }
+
+  .nav__link[aria-current="page"] span {
+    color: var(--accent-text);
+  }
+
+  /* Survol : le mot roule vers son double doré. */
+  @media (hover: hover) {
+    .nav__link span {
+      transition: translate 0.3s var(--ease);
+    }
+
+    .nav__link span::after {
+      content: attr(data-label);
+      content: attr(data-label) / "";
+      position: absolute;
+      top: 100%;
+      left: 0;
+      padding-block: 0.75em;
+      color: var(--accent-text);
+    }
+
+    .nav__link:hover span,
+    .nav__link:focus-visible span {
+      translate: 0 -100%;
+    }
+  }
+
+  .nav :global(.nav__trigger) {
+    min-width: 6.5rem;
+  }
+
+  .nav__trigger-close,
+  .nav :global([aria-expanded="true"]) .nav__trigger-open {
+    display: none;
+  }
+
+  .nav :global([aria-expanded="true"]) .nav__trigger-close {
+    display: inline;
+  }
+
+  /* ─── Menu déroulant (mobile et tablette) ─── */
+
+  /* Accroché sous la barre : il la suit, qu'elle soit sous le bandeau ou collée en haut. */
+  .menu {
+    --fg: var(--color-ink);
+    --bg: var(--color-paper);
+    --accent-text: var(--color-accent-strong);
+
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    right: var(--gutter);
+    left: var(--gutter);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    background-color: var(--color-paper);
+    color: var(--color-ink);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.18);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -0.5rem;
+    transition:
+      opacity 0.3s var(--ease),
+      translate 0.3s var(--ease),
+      visibility 0s 0.3s;
+  }
+
+  .menu[data-open] {
+    opacity: 1;
+    visibility: visible;
+    translate: 0;
+    transition:
+      opacity 0.3s var(--ease),
+      translate 0.3s var(--ease);
+  }
+
+  .menu__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .menu__link {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    min-height: 2.75rem;
+    font-size: clamp(1.5rem, 6vw, 2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  /* Le trait devant chaque lien, repris de l'ancien menu. */
+  .menu__link::before {
+    content: "";
+    width: 2rem;
+    height: 5px;
+    background-color: currentColor;
+  }
+
+  .menu__link[aria-current="page"]::before {
+    width: 3rem;
+    background-color: var(--color-accent);
+  }
+
+  .menu__contact {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  /* ─── Bascule desktop / mobile ─── */
+
+  @media (min-width: 62em) {
+    .nav :global(.nav__trigger),
+    .menu,
+    .nav__cta-short {
+      display: none;
+    }
+  }
+
+  /* Mobile et tablette : le bouton de réservation reste visible, en version courte. */
+  @media (max-width: 61.99em) {
+    .nav__links,
+    .nav__cta-long {
+      display: none;
+    }
+  }
+
+  /* Téléphone : boutons resserrés, sans flèche, et logo réduit. Mesuré : le logo
+     reste au centre exact dès 360 px de large. */
+  @media (max-width: 29.99em) {
+    .nav__inner {
+      gap: var(--space-2);
+    }
+
+    .nav :global(.nav__trigger),
+    .nav :global(.nav__cta) {
+      min-width: 0;
+      padding-inline: 0.75rem;
+    }
+
+    .nav :global(.nav__cta .btn__icon) {
+      display: none;
+    }
+
+    .nav__logo {
+      font-size: 1.5rem;
+    }
+  }
+
+  /* Très petit écran (320 px) : la place manque pour centrer, le logo rétrécit
+     et les colonnes s'adaptent à leur contenu pour ne pas déborder. Le menu,
+     même fermé, élargissait la page : il gagne de la place sur ses marges. */
+  @media (max-width: 22.49em) {
+    .nav__inner {
+      grid-template-columns: auto 1fr auto;
+    }
+
+    .menu {
+      padding: var(--space-4);
+    }
+
+    .menu__contact :global(.btn) {
+      padding-inline: 1rem;
+      font-size: 0.9375rem;
+    }
+
+    .nav__logo {
+      justify-self: center;
+      font-size: 1.125rem;
+    }
+  }
+</style>

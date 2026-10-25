@@ -1,0 +1,250 @@
+---
+// Scène 6 : identité visuelle, avec la charte Varela Brothers (fournie par Max le
+// 2026-10-25, recadrée dans `public/assets/showreel/`). Trois temps : couverture,
+// bento de la charte, puis le site.
+import Browser from "./Browser.astro";
+import Words from "./Words.astro";
+
+const DIR = "/assets/showreel";
+const SWATCHES = [
+  { name: "Sang de bœuf", hex: "#590C05" },
+  { name: "Blanc ivoire", hex: "#FFFBDC" },
+  { name: "Beige lin", hex: "#E9E5D7" },
+  { name: "Rouge sang foncé", hex: "#400701" },
+];
+---
+
+<section class="scene s6a">
+  <img class="s6a-img" src={`${DIR}/varela--cover.webp`} alt="" />
+  <div class="s6a-shade"></div>
+  <div class="s6a-label">
+    <p class="kicker"><b>03</b> Identité visuelle</p>
+    <h2 class="title s6a-title"><Words text="Varela Brothers" /></h2>
+  </div>
+  <p class="s6a-meta">Conciergerie de luxe à Genève</p>
+</section>
+
+<section class="scene s6b">
+  <div class="s6b-grid">
+    <div class="vb-tile vb-logo"><img class="vb-img" src={`${DIR}/varela--logo-ivory.webp`} alt="" /></div>
+    <div class="vb-tile vb-palette">
+      <ul class="vb-swatches">
+        {SWATCHES.map(({ name, hex }) => (
+          <li class="vb-swatch" style={`--c: ${hex}`}><span>{name}</span><span>{hex}</span></li>
+        ))}
+      </ul>
+      <p class="vb-type"><span class="vb-type__aa">Aa</span><span>Playfair Display<br />Montserrat</span></p>
+    </div>
+    <div class="vb-tile vb-photo vb-office"><img class="vb-img" src={`${DIR}/varela--bureau.webp`} alt="" /></div>
+    <div class="vb-tile vb-gravures">
+      {[1, 2, 3].map((n) => <img class="vb-gravure" src={`${DIR}/varela--gravure-${n}.webp`} alt="" />)}
+    </div>
+    <div class="vb-tile vb-photo vb-print"><img class="vb-img" src={`${DIR}/varela--papeterie-photo.webp`} alt="" /></div>
+  </div>
+</section>
+
+<section class="scene s6c">
+  <div class="s6c-text">
+    <p class="kicker"><b>03</b> Identité visuelle</p>
+    <h2 class="title s6c-title">
+      <span class="line"><Words text="Une image" /></span>
+      <span class="line"><Words text="à la hauteur" /></span>
+      <span class="line"><Words text="de votre travail." /></span>
+    </h2>
+    <p class="s6c-sub">Logo, charte graphique, papeterie et site internet pour Varela Brothers.</p>
+  </div>
+  <div class="s6c-browser">
+    <Browser label="Varela Brothers" ratio={1600 / 756} video={`${DIR}/clip--varela.mp4`} />
+  </div>
+</section>
+
+<style>
+  .s6a {
+    background-color: var(--vb-red);
+    color: var(--vb-ivory);
+  }
+
+  .s6a-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .s6a-shade {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgb(64 7 1 / 0.85), transparent 40%);
+  }
+
+  .s6a-label {
+    position: absolute;
+    left: 120px;
+    bottom: 100px;
+  }
+
+  .s6a-title {
+    margin-top: 16px;
+    font-size: 96px;
+  }
+
+  .s6a-meta {
+    position: absolute;
+    right: 120px;
+    bottom: 110px;
+    font-size: 26px;
+    font-weight: 500;
+    opacity: 0.8;
+  }
+
+  .s6b {
+    background-color: var(--vb-lin);
+  }
+
+  .s6b-grid {
+    position: absolute;
+    inset: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .vb-tile {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .vb-logo {
+    grid-column: 1 / 3;
+    display: grid;
+    place-items: center;
+    background-color: var(--vb-red);
+  }
+
+  .vb-logo img {
+    width: 520px;
+  }
+
+  .vb-palette {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 28px;
+    background-color: var(--vb-ivory);
+    color: var(--vb-red);
+    font-family: "Montserrat", Arial, sans-serif;
+  }
+
+  .vb-swatches {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .vb-swatch {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 54px;
+    padding: 0 18px;
+    border: 1px solid rgb(89 12 5 / 0.18);
+    border-radius: 8px;
+    background-color: var(--c);
+    color: var(--vb-ivory);
+    font-size: 15px;
+    font-weight: 500;
+    transform-origin: left;
+  }
+
+  .vb-swatch:nth-child(2),
+  .vb-swatch:nth-child(3) {
+    color: var(--vb-red);
+  }
+
+  .vb-type {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    font-size: 17px;
+    line-height: 1.5;
+  }
+
+  .vb-type__aa {
+    font-family: "Playfair Display", serif;
+    font-size: 104px;
+    line-height: 1;
+  }
+
+  .vb-office {
+    grid-column: 4;
+    grid-row: 1 / 3;
+  }
+
+  .vb-photo img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .vb-print img {
+    object-position: 50% 55%;
+  }
+
+  .vb-gravures {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+    background-color: var(--vb-dark);
+  }
+
+  .vb-gravure {
+    height: 118px;
+  }
+
+  .vb-print {
+    grid-column: 2 / 4;
+  }
+
+  .s6c {
+    background-color: var(--vb-red);
+    color: var(--vb-ivory);
+  }
+
+  .s6c-text {
+    position: absolute;
+    top: 50%;
+    left: 120px;
+    width: 580px;
+    transform: translateY(-50%);
+  }
+
+  .s6c-title {
+    margin-block: 28px 32px;
+    font-size: 80px;
+  }
+
+  .s6c-sub {
+    font-size: 26px;
+    line-height: 1.45;
+    opacity: 0.8;
+  }
+
+  .s6c .kicker b {
+    color: var(--vb-ivory);
+  }
+
+  .s6c-browser {
+    position: absolute;
+    top: 50%;
+    left: 760px;
+    width: 1060px;
+    margin-top: -280px;
+  }
+</style>

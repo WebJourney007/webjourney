@@ -1,0 +1,45 @@
+---
+// Labo : showreel des services, composé sur une scène fixe de 1920 × 1080.
+// Lecture : Espace. Export MP4 image par image : scripts/export-showreel.mjs.
+// Page non indexée, hors sitemap (filtre `/labo/` dans astro.config.mjs).
+import "../../styles/showreel.css";
+import SceneOpening from "../../components/showreel/SceneOpening.astro";
+import SceneServices from "../../components/showreel/SceneServices.astro";
+import SceneVarela from "../../components/showreel/SceneVarela.astro";
+import SceneClosing from "../../components/showreel/SceneClosing.astro";
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex" />
+    <title>Showreel | Web journey</title>
+    <!-- Polices de la charte Varela Brothers, pour la tuile typographie. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500&family=Playfair+Display&display=block" rel="stylesheet" />
+  </head>
+  <body>
+    <main class="stage" data-stage>
+      <SceneOpening />
+      <SceneServices />
+      <SceneVarela />
+      <SceneClosing />
+    </main>
+    <p class="hud" data-hud></p>
+
+    <script>
+      import { start } from "../../scripts/showreel/engine";
+      import { opening } from "../../scripts/showreel/timeline-opening";
+      import { services } from "../../scripts/showreel/timeline-services";
+      import { DURATION, closing } from "../../scripts/showreel/timeline-closing";
+
+      opening();
+      services();
+      closing();
+      start(DURATION);
+    </script>
+  </body>
+</html>

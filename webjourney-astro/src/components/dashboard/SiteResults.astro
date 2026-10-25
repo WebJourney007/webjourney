@@ -1,0 +1,166 @@
+---
+// Illustration de la section « Création de site internet » : ce qu'un site bien
+// fait apporte, en tableau de bord. Chiffres d'illustration, sans client nommé
+// (décision de Max du 2026-10-25). Courbes, barres et cercles se dessinent quand
+// le bloc arrive à l'écran.
+import "../../styles/dashboard.css";
+import DashTiles, { type DashTile } from "./DashTiles.astro";
+
+const TILES: DashTile[] = [
+  { label: "Visites via Google", value: "1 240", trend: "▲ +64 %", curve: "0,34 20,30 40,31 60,22 80,20 100,11 120,6" },
+  { label: "Demandes de contact", value: "27", trend: "▲ +12", curve: "0,36 20,33 40,27 60,28 80,18 100,14 120,7" },
+  { label: "Position moyenne", value: "4,2", trend: "▲ 9 places", curve: "0,32 20,34 40,26 60,24 80,19 100,12 120,5" },
+];
+
+const SOURCES = [
+  { name: "Recherche Google", share: 58 },
+  { name: "Google Maps", share: 22 },
+  { name: "ChatGPT et autres IA", share: 11 },
+  { name: "Réseaux sociaux", share: 9 },
+];
+
+const SCORES = [
+  { name: "Performances", score: 98 },
+  { name: "Accessibilité", score: 100 },
+  { name: "Bonnes pratiques", score: 100 },
+  { name: "SEO", score: 100 },
+];
+---
+
+<figure class="dash" data-dash aria-label="Tableau de bord d'un site : visibilité sur Google, demandes de contact et scores PageSpeed">
+  <DashTiles tiles={TILES} />
+
+  <div class="dash__row">
+    <div class="dash__card">
+      <p class="dash__label">Où l'on vous trouve</p>
+      <ul class="sources">
+        {SOURCES.map(({ name, share }) => (
+          <li>
+            <span class="sources__name">{name}<span>{share} %</span></span>
+            <span class="sources__bar"><i style={`--w: ${share}%`}></i></span>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="dash__card">
+      <p class="dash__label">Un site prêt pour Google</p>
+      <ul class="scores">
+        {SCORES.map(({ name, score }) => (
+          <li>
+            <svg viewBox="0 0 40 40" aria-hidden="true">
+              <circle class="scores__track" cx="20" cy="20" r="16" />
+              <circle class="scores__ring" cx="20" cy="20" r="16" pathLength="100" style={`--score: ${score}`} />
+            </svg>
+            <span class="scores__value">{score}</span>
+            <span class="scores__name">{name}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</figure>
+
+<script>
+  import "../../scripts/dashboard-reveal";
+</script>
+
+<style>
+  .sources {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .sources__name {
+    display: flex;
+    justify-content: space-between;
+    font-size: var(--fs-small);
+  }
+
+  .sources__name span {
+    font-weight: 700;
+  }
+
+  .sources__bar {
+    display: block;
+    height: 6px;
+    margin-top: var(--space-1);
+    overflow: hidden;
+    border-radius: 999px;
+    background-color: rgb(30 30 30 / 0.08);
+  }
+
+  .sources__bar i {
+    display: block;
+    width: var(--w);
+    height: 100%;
+    border-radius: inherit;
+    background-color: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .scores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4) var(--space-3);
+    margin-top: var(--space-2);
+  }
+
+  .scores li {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    gap: var(--space-1);
+    text-align: center;
+  }
+
+  .scores svg {
+    width: 3.5rem;
+    height: 3.5rem;
+    transform: rotate(-90deg);
+  }
+
+  .scores circle {
+    fill: none;
+    stroke-width: 3.5;
+  }
+
+  .scores__track {
+    stroke: rgb(47 158 91 / 0.15);
+  }
+
+  /* Vert PageSpeed : le visiteur reconnaît le code couleur des 90-100. */
+  .scores__ring {
+    stroke: #2f9e5b;
+    stroke-linecap: round;
+    stroke-dasharray: 0 100;
+  }
+
+  .scores__value {
+    position: absolute;
+    top: 1.75rem;
+    left: 50%;
+    color: #1f7a45;
+    font-size: 1rem;
+    font-weight: 700;
+    transform: translate(-50%, -50%);
+  }
+
+  .scores__name {
+    font-size: 0.75rem;
+    line-height: 1.2;
+  }
+
+  :global(.dash.is-visible) .sources__bar i {
+    transition: transform 1.2s var(--ease) 0.4s;
+    transform: scaleX(1);
+  }
+
+  :global(.dash.is-visible) .scores__ring {
+    transition: stroke-dasharray 1.4s var(--ease) 0.5s;
+    stroke-dasharray: var(--score) 100;
+  }
+</style>

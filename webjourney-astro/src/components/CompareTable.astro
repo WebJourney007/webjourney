@@ -1,0 +1,136 @@
+---
+// Tableau comparatif des formules : une colonne par formule, une ligne par critère.
+// Sur mobile, le tableau défile dans son cadre et la colonne des critères reste en place.
+export interface CompareColumn {
+  name: string;
+  price: string;
+  featured?: boolean;
+}
+
+export interface CompareRow {
+  label: string;
+  /** Une valeur par colonne. `true` affiche une coche, `false` un tiret. */
+  values: (string | boolean)[];
+}
+
+interface Props {
+  columns: CompareColumn[];
+  rows: CompareRow[];
+  caption: string;
+}
+
+const { columns, rows, caption } = Astro.props;
+---
+
+<div class="compare" tabindex="0" role="region" aria-label={caption}>
+  <table class="compare__table">
+    <caption class="visually-hidden">{caption}</caption>
+    <thead>
+      <tr>
+        <td></td>
+        {columns.map((column) => (
+          <th scope="col" class:list={["compare__head", column.featured && "is-featured"]}>
+            {column.featured && <span class="compare__badge">Recommandé</span>}
+            <span class="compare__name">{column.name}</span>
+            <span class="compare__price">{column.price}</span>
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {rows.map((row) => (
+        <tr>
+          <th scope="row" class="compare__label">{row.label}</th>
+          {row.values.map((value, index) => (
+            <td class:list={[columns[index]?.featured && "is-featured"]}>
+              {value === true && <span class="compare__yes" role="img" aria-label="Inclus">✓</span>}
+              {value === false && <span class="compare__no" role="img" aria-label="Non inclus">–</span>}
+              {typeof value === "string" && value}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style>
+  .compare {
+    overflow-x: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  .compare__table {
+    width: 100%;
+    min-width: 40rem;
+    border-collapse: collapse;
+  }
+
+  .compare th,
+  .compare td {
+    padding: var(--space-4) var(--space-5);
+    border-bottom: 1px solid var(--line);
+    text-align: left;
+    vertical-align: top;
+  }
+
+  .compare tbody tr:last-child > * {
+    border-bottom: 0;
+  }
+
+  /* La colonne des critères reste visible quand le tableau défile sur mobile. */
+  .compare__label {
+    position: sticky;
+    left: 0;
+    width: 28%;
+    background-color: var(--bg);
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    font-weight: 400;
+  }
+
+  .compare__head {
+    padding-top: var(--space-6);
+  }
+
+  .compare__badge {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+
+  .compare__name,
+  .compare__price {
+    display: block;
+  }
+
+  .compare__name {
+    font-size: var(--fs-h3);
+  }
+
+  .compare__price {
+    margin-top: var(--space-1);
+    color: var(--color-accent);
+    font-size: clamp(1.25rem, 2vw, 1.5rem);
+    font-weight: 700;
+  }
+
+  .is-featured {
+    background-color: var(--surface);
+  }
+
+  .compare__yes {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .compare__no {
+    color: var(--fg-muted);
+  }
+</style>

@@ -1,0 +1,126 @@
+---
+// Labo, direction C « Portfolio » : l'argumentaire reste fixe à gauche pendant
+// que trois sites livrés défilent à droite. Le produit se vend par ses réalisations.
+import Accent from "../Accent.astro";
+import Button from "../Button.astro";
+import type { Product } from "../../data/products";
+import { PROJECT_CTA } from "../../lib/site";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<div class="pc two-col">
+  <div class="pc__text">
+    <h2>{product.title} <Accent text={product.accent} /></h2>
+    <p class="lead">{product.pitch}</p>
+    <ul class="pc__checks">
+      {product.deliverables.map((item) => <li>{item}</li>)}
+    </ul>
+    <p class="pc__price">
+      <span class="pc__amount">{product.price}</span>
+      <span class="muted">{product.priceNote}</span>
+    </p>
+    <div class="pc__actions">
+      <Button href={product.href} variant="accent" icon="arrow">Voir les formules</Button>
+      <Button href={PROJECT_CTA.href}>{PROJECT_CTA.label}</Button>
+    </div>
+  </div>
+  <ul class="pc__projects">
+    {(product.projects ?? []).map((project) => (
+      <li>
+        <a href={project.href} class="pc__project">
+          <img src={project.shot.src} alt={`Capture du site ${project.name}`} width={project.shot.width} height={project.shot.height} loading="lazy" decoding="async" />
+          <span class="pc__meta">
+            <span class="pc__name">{project.name}</span>
+            <span class="pc__tags muted">{project.tags}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</div>
+
+<style>
+  .pc__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .pc__checks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pc__checks li {
+    padding-left: 1.75em;
+    background: no-repeat left 0.3em / 1em
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .pc__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .pc__amount {
+    color: var(--color-accent);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .pc__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .pc__projects {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .pc__project {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .pc__project img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.3);
+    transition: translate 0.4s var(--ease);
+  }
+
+  .pc__project:hover img {
+    translate: 0 -0.35rem;
+  }
+
+  .pc__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-5);
+  }
+
+  .pc__name {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .pc__tags {
+    font-size: var(--fs-small);
+  }
+</style>

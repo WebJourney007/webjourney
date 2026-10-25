@@ -1,0 +1,18 @@
+# Dépendances
+node_modules/
+
+# Build
+dist/
+.astro/
+
+# Env & secrets — JAMAIS commités
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# OS / éditeur
+.DS_Store
+Thumbs.db
+*.log

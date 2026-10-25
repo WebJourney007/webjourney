@@ -1,0 +1,140 @@
+---
+// Section produit de la home (direction A du labo, choisie par Max). En haut :
+// titre, promesse, prix et actions à côté du produit qui tourne dans un cadre de
+// navigateur, ou le visuel passé par le slot `media`. En dessous : les livrables
+// sur une rangée. Les chiffres clés ont leur propre section, après la méthode.
+import Accent from "./Accent.astro";
+import BrowserFrame from "./BrowserFrame.astro";
+import Button from "./Button.astro";
+import type { Product } from "../data/products";
+
+interface Props {
+  product: Product;
+  /** Visuel à gauche : à alterner d'une section produit à l'autre. */
+  reverse?: boolean;
+  /** Rangée des livrables sous le produit. À masquer quand une section à part les détaille. */
+  checks?: boolean;
+}
+
+const { product, reverse = false, checks = true } = Astro.props;
+---
+
+<div class="product">
+  <div class:list={["product__grid", reverse && "product__grid--reverse"]}>
+    <div class="product__text">
+      <h2>{product.title} <Accent text={product.accent} /></h2>
+      <p class="product__pitch muted">{product.pitch}</p>
+      <p class="product__price">
+        <span class="product__amount">{product.price}</span>
+        <span class="product__note muted">{product.priceNote}</span>
+      </p>
+      <div class="product__actions">
+        {product.actions.map((action, index) => (
+          <Button
+            href={action.href}
+            variant={index === 0 ? "accent" : "default"}
+            icon={index === 0 ? "arrow" : undefined}
+          >
+            {action.label}
+          </Button>
+        ))}
+      </div>
+    </div>
+    <div class="product__media">
+      {Astro.slots.has("media") ? <slot name="media" /> : <BrowserFrame {...product.media} />}
+    </div>
+  </div>
+
+  {checks && (
+    <ul class="product__checks">
+      {product.deliverables.map((item) => <li>{item}</li>)}
+    </ul>
+  )}
+
+</div>
+
+<style>
+  .product {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .product__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .product__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  /* De l'air sous le prix : les boutons forment un bloc à part. */
+  .product__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    margin-block: var(--space-2) var(--space-4);
+  }
+
+  .product__amount {
+    color: var(--color-accent);
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .product__note {
+    font-size: var(--fs-small);
+  }
+
+  .product__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  /* Livrables : une rangée sous filet. */
+  .product__checks {
+    display: grid;
+    gap: var(--space-4) var(--space-6);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .product__checks li {
+    padding-left: 1.75em;
+    background: no-repeat left 0.3em / 1em
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  @media (min-width: 37.5em) {
+    .product__checks {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 62em) {
+    .product__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-8);
+    }
+
+    /* Visuel à gauche : la colonne large passe en premier. */
+    .product__grid--reverse {
+      grid-template-columns: 7fr 5fr;
+    }
+
+    .product__grid--reverse .product__media {
+      order: -1;
+    }
+
+    .product__checks {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+</style>

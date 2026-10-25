@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import PointList from "../components/PointList.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Stats from "../components/Stats.astro";
+import Steps from "../components/Steps.astro";
+import TeamGrid from "../components/TeamGrid.astro";
+import { aboutStructuredData, principles, team } from "../data/about";
+import { keyFigures, methodSteps } from "../data/home";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+---
+
+<BaseLayout
+  title="À propos — Web journey, agence web à Sion"
+  description="Web journey, agence web à Sion : une petite équipe qui conçoit des sites internet sur mesure pour les PME du Valais. Réponse sous 24 h."
+  path="/a-propos"
+  structuredData={[aboutStructuredData]}
+>
+  <HeroText>
+    <h1>Une agence web à Sion, <Accent text="à taille humaine" /></h1>
+    <p class="lead">
+      Une petite équipe de créatifs et de développeurs, un seul interlocuteur, et un objectif : que votre site vous
+      apporte des clients.
+    </p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="/nos-sites-internet">Voir nos réalisations</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── ÉQUIPE ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">L'équipe <Accent text="derrière vos projets" /></Fragment>
+        <p>Trois profils complémentaires, du design au code. Vous parlez toujours à la même personne.</p>
+      </SectionHead>
+      <TeamGrid items={team} />
+    </div>
+  </Section>
+
+  <!-- ─── CE QUI NOUS GUIDE ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Pensé par des humains, <Accent text="pour des humains" /></Fragment>
+        <p>
+          Votre site existe pour rendre service à vos clients : leur donner la bonne information, au bon moment. C'est
+          comme ça qu'il vous apporte des résultats.
+        </p>
+      </SectionHead>
+      <PointList items={principles} />
+    </div>
+  </Section>
+
+  <!-- ─── EN CHIFFRES ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Des résultats <Accent text="concrets" /></Fragment>
+      </SectionHead>
+      <Stats items={keyFigures} cols={3} />
+    </div>
+  </Section>
+
+  <!-- ─── POURQUOI CE NOM ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Pourquoi <Accent text="Web journey ?" /></Fragment>
+      </SectionHead>
+      <div class="story">
+        <p>
+          Web journey est née d'une envie : accompagner les entreprises et les entrepreneurs dans leur développement
+          digital, sans jargon et sans mauvaise surprise.
+        </p>
+        <p>
+          Chaque projet est un parcours, construit ensemble, pour mettre en valeur vos services et renforcer votre
+          crédibilité. Un site n'est pas une fin : c'est le début de votre aventure en ligne.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- ─── MÉTHODE ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Comment on <Accent text="travaille ensemble" /></Fragment>
+      </SectionHead>
+      <Steps items={methodSteps} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">On fait <Accent text="connaissance ?" /></Fragment>
+      <p>Parlez-nous de votre projet, même s'il n'est pas encore très clair : c'est gratuit et sans engagement.</p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" icon="whatsapp">
+          {SITE.phoneDisplay}
+        </Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .story {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+</style>

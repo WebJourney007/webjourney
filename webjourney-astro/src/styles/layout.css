@@ -1,0 +1,120 @@
+/* ============================================================
+   MISE EN PAGE
+   ============================================================ */
+
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.section {
+  padding-block: var(--section-y);
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* Les deux tons clairs de la page : l'un laisse voir le dégradé, l'autre le fonce. */
+.section--white {
+  --bg: var(--color-white);
+  --surface: var(--color-paper);
+  background-color: transparent;
+}
+
+.section--paper {
+  background-color: var(--section-veil);
+}
+
+/* Fond continu, repris d'Astral : un seul dégradé d'anthracite qui démarre sous
+   le premier écran et finit sur la couleur du pied de page. Les sections qu'il
+   contient sont transparentes ; à poser avec `tone-ink`, le texte y est clair. */
+.page-deep {
+  background-image: linear-gradient(180deg, var(--color-coal), var(--color-coal-deep));
+}
+
+.page-deep .section {
+  background: none;
+}
+
+/* Deux sections de même fond qui se suivent : un seul espace entre elles, pas deux. */
+.section--paper + .section--paper,
+.section--white + .section--white,
+.section--ink + .section--ink {
+  padding-top: 0;
+}
+
+/* Colonne de titre à gauche, contenu à droite : la grille de base des sections.
+   Le titre reste en vue pendant qu'on lit la colonne de droite. */
+.two-col {
+  display: grid;
+  gap: var(--space-7);
+}
+
+@media (min-width: 62em) {
+  .two-col {
+    grid-template-columns: 5fr 7fr;
+    gap: var(--space-8);
+    align-items: start;
+  }
+
+  .two-col > :first-child {
+    position: sticky;
+    top: calc(var(--nav-height) + var(--space-6));
+  }
+}
+
+/* Empile des blocs avec un écart régulier. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--stack-gap, var(--space-5));
+}
+
+/* Espace les blocs d'une section sans toucher à leur largeur. */
+.flow > * + * {
+  margin-top: var(--flow-gap, var(--space-7));
+}
+
+.flow--lg {
+  --flow-gap: var(--space-8);
+}
+
+/* Titre de section à gauche, action à droite ; l'action passe dessous sur mobile. */
+.head-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-5) var(--space-7);
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  line-height: var(--lh-lead);
+}
+
+.muted {
+  color: var(--fg-muted);
+}
+
+/* Lien dans un paragraphe : souligné, pour se distinguer du texte autour. */
+.text-link {
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* Garde ensemble un mot composé que le navigateur couperait au trait d'union. */
+.nowrap {
+  white-space: nowrap;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}

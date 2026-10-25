@@ -1,0 +1,105 @@
+---
+// Cartes de formules : nom, prix, promesse, ce qui est inclus.
+// La formule `featured` est mise en avant (effet d'ancrage sur celle du milieu).
+export interface Offer {
+  name: string;
+  price: string;
+  pitch: string;
+  features: string[];
+  featured?: boolean;
+  /** Pour qui est faite la formule, en bas de carte. */
+  note?: string;
+}
+
+interface Props {
+  items: Offer[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="pricing" style={`--offers: ${items.length}`}>
+  {items.map((item) => (
+    <li class:list={["offer", item.featured && "offer--featured"]}>
+      {item.featured && <span class="offer__badge">Recommandé</span>}
+      <h3 class="offer__name">{item.name}</h3>
+      <p class="offer__price">{item.price}</p>
+      <p class="offer__pitch muted">{item.pitch}</p>
+      <ul class="offer__features">
+        {item.features.map((feature) => <li>{feature}</li>)}
+      </ul>
+      {item.note && <p class="offer__note muted">{item.note}</p>}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .pricing {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  .offer {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .offer--featured {
+    border-color: var(--color-accent);
+  }
+
+  .offer__badge {
+    position: absolute;
+    top: 0;
+    right: var(--space-6);
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    translate: 0 -50%;
+  }
+
+  .offer__price {
+    color: var(--color-accent);
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .offer__features {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+
+  .offer__features li {
+    padding-left: 1.5em;
+    background: no-repeat left 0.45em / 0.9em
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  /* Poussée en bas : les notes d'une même rangée s'alignent. */
+  .offer__note {
+    margin-top: auto;
+    padding-top: var(--space-4);
+    font-size: var(--fs-small);
+  }
+
+  @media (min-width: 62em) {
+    .pricing {
+      grid-template-columns: repeat(var(--offers), 1fr);
+      gap: var(--space-6);
+    }
+  }
+</style>

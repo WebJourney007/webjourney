@@ -1,0 +1,80 @@
+---
+interface Props {
+  quote: string;
+  name: string;
+  role: string;
+}
+
+const { quote, name, role } = Astro.props;
+---
+
+<figure class="testimonial">
+  <span class="testimonial__stars" role="img" aria-label="5 étoiles sur 5">★★★★★</span>
+  <blockquote class="testimonial__quote">
+    <p>{quote}</p>
+  </blockquote>
+  <figcaption class="testimonial__author">
+    <span class="testimonial__avatar" aria-hidden="true">{name.charAt(0)}</span>
+    <span>
+      <span class="testimonial__name">{name}</span>
+      <span class="testimonial__role">{role}</span>
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    height: 100%;
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .testimonial__stars {
+    color: var(--color-accent);
+    letter-spacing: 0.15em;
+    line-height: 1;
+  }
+
+  /* Pousse l'auteur en bas : les cartes d'une même rangée s'alignent. */
+  .testimonial__quote {
+    flex-grow: 1;
+  }
+
+  .testimonial__author {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .testimonial__avatar {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .testimonial__name,
+  .testimonial__role {
+    display: block;
+    line-height: 1.35;
+  }
+
+  .testimonial__name {
+    font-weight: 700;
+  }
+
+  .testimonial__role {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+</style>

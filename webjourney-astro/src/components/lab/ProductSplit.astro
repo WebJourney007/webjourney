@@ -1,0 +1,128 @@
+---
+// Labo, direction A « Produit + écran » : le texte qui vend à gauche, le site
+// qui tourne à droite, les chiffres en bandeau dessous.
+import Accent from "../Accent.astro";
+import BrowserFrame from "../BrowserFrame.astro";
+import Button from "../Button.astro";
+import type { Product } from "../../data/products";
+import { PROJECT_CTA } from "../../lib/site";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<div class="pa">
+  <div class="pa__grid">
+    <div class="pa__text">
+      <h2>{product.title} <Accent text={product.accent} /></h2>
+      <p class="lead">{product.pitch}</p>
+      <ul class="pa__checks">
+        {product.deliverables.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="pa__price">
+        <span class="pa__amount">{product.price}</span>
+        <span class="muted">{product.priceNote}</span>
+      </p>
+      <div class="pa__actions">
+        <Button href={product.href} variant="accent" icon="arrow">Voir les formules</Button>
+        <Button href={PROJECT_CTA.href}>{PROJECT_CTA.label}</Button>
+      </div>
+    </div>
+    <BrowserFrame {...product.media} />
+  </div>
+  <dl class="pa__stats">
+    {(product.stats ?? []).map((stat) => (
+      <div>
+        <dt class="muted">{stat.label}</dt>
+        <dd>{stat.value}</dd>
+      </div>
+    ))}
+  </dl>
+</div>
+
+<style>
+  .pa {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .pa__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .pa__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .pa__checks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .pa__checks li {
+    padding-left: 1.75em;
+    background: no-repeat left 0.3em / 1em
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .pa__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .pa__amount {
+    color: var(--color-accent);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .pa__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .pa__stats {
+    display: grid;
+    gap: var(--space-5);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .pa__stats div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-1);
+  }
+
+  .pa__stats dd {
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  @media (min-width: 37.5em) {
+    .pa__stats {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  @media (min-width: 62em) {
+    .pa__grid {
+      grid-template-columns: 5fr 7fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

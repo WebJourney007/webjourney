@@ -1,0 +1,144 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+// Ressources gratuites. Textes repris de l'ancienne page ; l'audit et le blog,
+// absents de l'ancienne page, y sont ajoutés.
+const resources = [
+  {
+    title: "Guide : les 7 erreurs qui font fuir vos clients",
+    text: "Ce qui bloque vos demandes de contact, et comment y remédier sans développeur : vitesse, message, navigation, mobile. Avec une checklist pour auditer votre site en 5 minutes.",
+    href: "/guide-gratuit",
+    action: "Recevoir le guide",
+    image: "/assets/images/ressource--guide-7-erreurs.webp",
+  },
+  {
+    title: "Compresseur d'images",
+    text: "Réduisez le poids de vos images JPG, PNG et WebP en quelques secondes, directement dans votre navigateur. Vos fichiers ne quittent jamais votre appareil.",
+    href: "/compresseur-images",
+    action: "Compresser mes images",
+    image: "/assets/images/ressource--compresseur-images.webp",
+  },
+  {
+    title: "Audit de votre site",
+    text: "Performances, SEO, accessibilité et bonnes pratiques : le rapport Lighthouse de votre site en moins d'une minute, sans inscription.",
+    href: "/audit",
+    action: "Auditer mon site",
+  },
+  {
+    title: "Le blog",
+    text: "Prix d'un site internet en Suisse, erreurs qui font fuir vos clients : des guides pratiques, sans jargon.",
+    href: "/blog",
+    action: "Lire le blog",
+  },
+];
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "CollectionPage",
+      "@id": `${SITE.url}/ressources#page`,
+      name: "Ressources gratuites Web journey",
+      url: `${SITE.url}/ressources`,
+      publisher: { "@id": `${SITE.url}/#business` },
+      hasPart: resources.map((item) => ({ "@type": "WebPage", name: item.title, url: `${SITE.url}${item.href}` })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE.url}/` },
+        { "@type": "ListItem", position: 2, name: "Ressources", item: `${SITE.url}/ressources` },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Ressources gratuites — Guides et outils | Web journey"
+  description="Guides et outils gratuits pour améliorer votre site : audit Lighthouse, compresseur d'images, guide des 7 erreurs. Par Web journey, agence web à Sion."
+  path="/ressources"
+  structuredData={[structuredData]}
+>
+  <HeroText>
+    <h1>Des ressources gratuites <Accent text="pour votre site" /></h1>
+    <p class="lead">Guides, outils en ligne et articles pratiques pour améliorer votre présence web, sans jargon et sans engagement.</p>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+    <Section>
+      <ul class="resources">
+        {resources.map((item) => (
+          <li class="resource">
+            {item.image && (
+              <a href={item.href} class="resource__media" tabindex="-1" aria-hidden="true">
+                <img src={item.image} alt="" width="1440" height="1024" loading="lazy" decoding="async" />
+              </a>
+            )}
+            <h2 class="resource__title">{item.title}</h2>
+            <p class="muted">{item.text}</p>
+            <Button href={item.href} icon="arrow">{item.action}</Button>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <Section>
+      <Cta>
+        <Fragment slot="title">Besoin d'un <Accent text="regard humain ?" /></Fragment>
+        <p>Parlez-nous de votre site, même si vous ne savez pas encore quoi changer : c'est gratuit et sans engagement.</p>
+        <ReplyNote />
+        <Fragment slot="actions">
+          <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+          <Button href="/contact">Nous écrire</Button>
+        </Fragment>
+      </Cta>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .resources {
+    display: grid;
+    gap: var(--space-8) var(--space-6);
+  }
+
+  .resource {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
+    max-width: none;
+  }
+
+  .resource__media {
+    display: block;
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius-md);
+  }
+
+  .resource__media img {
+    width: 100%;
+    aspect-ratio: 1440 / 1024;
+    object-fit: cover;
+  }
+
+  .resource__title {
+    font-size: var(--fs-h3);
+  }
+
+  @media (min-width: 48em) {
+    .resources {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

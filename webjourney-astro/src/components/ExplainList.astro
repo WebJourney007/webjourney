@@ -1,0 +1,52 @@
+---
+// Explications empilées : une question ou un titre court, une réponse en un
+// paragraphe. Faite pour la colonne de droite d'un `.two-col`, et pour être
+// citée telle quelle par Google et les IA (un passage = une idée).
+export interface Explain {
+  title: string;
+  text: string;
+  /** Page qui détaille le point : le titre devient un lien. */
+  href?: string;
+}
+
+interface Props {
+  items: Explain[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="explain">
+  {items.map((item) => (
+    <div class="explain__item">
+      <h3>{item.href ? <a href={item.href} class="explain__link">{item.title}</a> : item.title}</h3>
+      <p class="muted">{item.text}</p>
+    </div>
+  ))}
+</div>
+
+<style>
+  .explain {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .explain__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .explain__link::after {
+    content: " →";
+    color: var(--color-accent);
+  }
+
+  .explain__item:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+</style>

@@ -1,0 +1,111 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import CaseGrid from "../components/CaseGrid.astro";
+import Cta from "../components/Cta.astro";
+import ExplainList from "../components/ExplainList.astro";
+import Faq from "../components/Faq.astro";
+import HeroText from "../components/HeroText.astro";
+import PriceBlock from "../components/PriceBlock.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { faqStructuredData } from "../data/faq";
+import { cases } from "../data/projects";
+import {
+  vitrineBasics,
+  vitrineExamples,
+  vitrineExcluded,
+  vitrineFaq,
+  vitrineIncluded,
+  vitrinePrice,
+  vitrineStructuredData,
+} from "../data/vitrine";
+import { PROJECT_CTA } from "../lib/site";
+
+const examples = cases.filter((item) => vitrineExamples.includes(item.href));
+---
+
+<BaseLayout
+  title="Création de site vitrine en Valais | Web journey"
+  description={`Site vitrine professionnel sur mesure en Valais et à Sion, qui présente votre activité et vous amène des demandes. ${vitrinePrice}, en ligne en 3 à 6 semaines.`}
+  path="/creation-site-vitrine"
+  structuredData={[vitrineStructuredData, faqStructuredData(vitrineFaq)]}
+>
+  <HeroText>
+    <h1>Création de site vitrine en Valais, <Accent text="à votre image" /></h1>
+    <p class="lead">
+      Un site qui reflète la qualité de votre travail et vous amène des demandes. Un prix fixe, une date de livraison
+      tenue, et un site qui vous appartient.
+    </p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#prix">Voir le prix</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── LE SITE VITRINE EN QUATRE QUESTIONS ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Le site vitrine, <Accent text="en clair" /></Fragment>
+      </SectionHead>
+      <ExplainList items={vitrineBasics} />
+    </div>
+  </Section>
+
+  <!-- ─── PRIX ET PÉRIMÈTRE ─── -->
+  <Section id="prix">
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Un prix fixe, <Accent text="sans surprise" /></Fragment>
+        <p>Jusqu'à 5 pages, en ligne en 3 à 6 semaines. Le devis est confirmé après un premier échange gratuit.</p>
+      </SectionHead>
+      <PriceBlock price={vitrinePrice} note="Site vitrine complet, livré clé en main" included={vitrineIncluded} excluded={vitrineExcluded} />
+      <p class="muted">
+        Une seule page suffit ? Voir la <a href="/creation-site-internet#formules" class="text-link">landing page</a>.
+        Vous vendez en ligne ? Voir la <a href="/creation-boutique-en-ligne" class="text-link">boutique en ligne</a>.
+      </p>
+    </div>
+  </Section>
+
+  <!-- ─── EXEMPLES ─── -->
+  <Section>
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">Des sites vitrines <Accent text="déjà en ligne" /></Fragment>
+        </SectionHead>
+        <Button href="/nos-sites-internet" icon="arrow">Voir tous nos sites</Button>
+      </div>
+      <CaseGrid items={examples} />
+    </div>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre site vitrine" /></Fragment>
+      </SectionHead>
+      <Faq items={vitrineFaq} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Parlons de <Accent text="votre site vitrine" /></Fragment>
+      <p>Décrivez votre activité en quelques lignes : on cadre votre site avec vous et on confirme son prix, gratuitement et sans engagement.</p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href="/demander-un-devis">Demander un devis</Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>
+

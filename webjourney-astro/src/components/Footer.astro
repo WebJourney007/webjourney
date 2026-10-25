@@ -1,0 +1,147 @@
+---
+// Pied de page en trois colonnes : la marque, les liens du site, les coordonnées.
+// Dessous, la ligne légale.
+import Accent from "./Accent.astro";
+import { FOOTER_LINKS, LEGAL_LINKS, SITE } from "../lib/site";
+
+const year = new Date().getFullYear();
+const socials = [
+  { label: "Instagram", href: SITE.social.instagram },
+  { label: "LinkedIn", href: SITE.social.linkedin },
+];
+---
+
+<footer class="footer tone-ink">
+  <div class="container footer__grid">
+    <div class="footer__brand">
+      <a href="/" class="footer__logo" aria-label={`${SITE.name}, retour à l'accueil`}>
+        <Accent text="web journey" tone="inherit" />
+      </a>
+      <p class="muted footer__tagline">{SITE.tagline}</p>
+    </div>
+
+    <nav aria-label="Pied de page">
+      <ul class="footer__list">
+        {FOOTER_LINKS.map((link) => (
+          <li><a href={link.href} class="footer__link">{link.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <address class="footer__contact">
+      <a href={SITE.phoneHref} class="footer__link">{SITE.phoneDisplay}</a>
+      <a href={`mailto:${SITE.email}`} class="footer__link">{SITE.email}</a>
+      <span class="footer__address">
+        {SITE.address.street}, {SITE.address.postalCode} {SITE.address.locality}
+      </span>
+      <ul class="footer__inline footer__socials">
+        {socials.map((social) => (
+          <li>
+            <a href={social.href} target="_blank" rel="noopener noreferrer" class="footer__link">{social.label}</a>
+          </li>
+        ))}
+      </ul>
+    </address>
+  </div>
+
+  <div class="container">
+    <div class="footer__legal">
+      <span>© {year} {SITE.name}</span>
+      <ul class="footer__inline">
+        {LEGAL_LINKS.map((link) => (
+          <li><a href={link.href} class="footer__link">{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    /* La couleur de fin du fond continu : le dégradé se termine dans le pied de page. */
+    background-color: var(--color-coal-deep);
+    padding-block: var(--space-8) var(--space-6);
+  }
+
+  .footer__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .footer__logo {
+    display: inline-block;
+    margin-bottom: var(--space-2);
+    font-size: 2.75rem;
+    line-height: 1;
+  }
+
+  .footer__tagline {
+    font-style: italic;
+  }
+
+  .footer__list {
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .footer__contact {
+    display: grid;
+    justify-items: start;
+    align-content: start;
+    gap: var(--space-1);
+    font-style: normal;
+  }
+
+  .footer__link,
+  .footer__address {
+    display: inline-block;
+    /* Zone de clic confortable sans changer l'interligne visible. */
+    padding-block: var(--space-1);
+  }
+
+  /* Le soulignement est un fond dont la largeur passe de 0 à 100 % : il se trace
+     de gauche à droite. Calé sur la boîte de contenu pour rester sous le texte
+     et non sous la zone de clic. */
+  .footer__link {
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    background-position: 0 calc(100% - 0.1em);
+    background-size: 0 1px;
+    transition: background-size 0.4s var(--ease);
+  }
+
+  .footer__link:hover,
+  .footer__link:focus-visible {
+    background-size: 100% 1px;
+  }
+
+  .footer__inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1) var(--space-5);
+  }
+
+  .footer__socials {
+    margin-top: var(--space-3);
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-6);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+    color: var(--fg-muted);
+    font-size: 0.9375rem;
+  }
+
+  @media (min-width: 48em) {
+    .footer__grid {
+      grid-template-columns: 2fr 1fr 1.5fr;
+    }
+  }
+</style>

@@ -1,0 +1,6 @@
+{
+  "extends": "astro/tsconfigs/strict",
+  "include": [".astro/types.d.ts", "**/*"],
+  // public/ contient l'ancien JS du site, servi tel quel : il n'est pas vérifié.
+  "exclude": ["dist", "public"]
+}

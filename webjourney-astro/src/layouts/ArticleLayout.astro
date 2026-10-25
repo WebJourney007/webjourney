@@ -1,0 +1,104 @@
+---
+// Gabarit d'un article du blog : héro, corps de l'article sur fond clair (slot),
+// puis FAQ éventuelle, autre article et appel à l'action (slot "cta") sur fond sombre.
+import BaseLayout from "./BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Faq from "../components/Faq.astro";
+import HeroText from "../components/HeroText.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import { faqStructuredData } from "../data/faq";
+import { formatDate, postStructuredData, posts, type Post } from "../data/blog";
+import "../styles/prose.css";
+
+interface Props {
+  post: Post;
+}
+
+const { post } = Astro.props;
+const [before, accent, after] = post.h1;
+const others = posts.filter((item) => item.slug !== post.slug);
+const structuredData = [postStructuredData(post), ...(post.faq ? [faqStructuredData(post.faq)] : [])];
+---
+
+<BaseLayout title={`${post.title} | Web journey`} description={post.description} path={`/blog/${post.slug}`} ogType="article" structuredData={structuredData}>
+  <HeroText>
+    <h1>{before}<Accent text={accent} />{after}</h1>
+    <p class="lead">{post.lead}</p>
+    <p class="meta muted">
+      {post.category} · <time datetime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min de lecture
+    </p>
+  </HeroText>
+
+  <article class="section section--white">
+    <div class="container">
+      <div class="prose">
+        <slot />
+      </div>
+    </div>
+  </article>
+
+  <div class="page-deep tone-ink">
+    {post.faq && (
+      <Section id="faq">
+        <div class="two-col">
+          <SectionHead>
+            <Fragment slot="title">Questions <Accent text="fréquentes" /></Fragment>
+          </SectionHead>
+          <Faq items={post.faq} />
+        </div>
+      </Section>
+    )}
+
+    {others.length > 0 && (
+      <Section>
+        <div class="flow">
+          <SectionHead>
+            <Fragment slot="title">À lire <Accent text="aussi" /></Fragment>
+          </SectionHead>
+          <ul class="others">
+            {others.map((item) => (
+              <li>
+                <a href={`/blog/${item.slug}`} class="others__link">{item.title}</a>
+                <p class="muted">{item.lead}</p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+    )}
+
+    <Section>
+      <slot name="cta" />
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .meta {
+    font-size: var(--fs-small);
+  }
+
+  .others {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .others li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .others__link {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .others__link::after {
+    content: " →";
+    color: var(--color-accent);
+  }
+</style>

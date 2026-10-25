@@ -1,0 +1,117 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import Section from "../components/Section.astro";
+import { formatDate, posts } from "../data/blog";
+import { SITE } from "../lib/site";
+
+// Le plus récent d'abord.
+const sorted = [...posts].sort((a, b) => b.date.localeCompare(a.date));
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Blog",
+      "@id": `${SITE.url}/blog#blog`,
+      name: "Le blog Web journey",
+      url: `${SITE.url}/blog`,
+      publisher: { "@id": `${SITE.url}/#business` },
+      blogPost: sorted.map((post) => ({
+        "@type": "BlogPosting",
+        headline: post.title,
+        url: `${SITE.url}/blog/${post.slug}`,
+        datePublished: post.date,
+      })),
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Accueil", item: `${SITE.url}/` },
+        { "@type": "ListItem", position: 2, name: "Blog", item: `${SITE.url}/blog` },
+      ],
+    },
+  ],
+};
+---
+
+<BaseLayout
+  title="Blog : conseils web et SEO pour PME suisses | Web journey"
+  description="Guides pratiques et conseils SEO pour les entreprises suisses qui veulent améliorer leur présence en ligne. Par Web journey, agence web à Sion."
+  path="/blog"
+  structuredData={[structuredData]}
+>
+  <HeroText>
+    <h1>Le blog <Accent text="Web journey" /></h1>
+    <p class="lead">
+      Guides pratiques et conseils SEO pour les entreprises suisses qui veulent plus de clients grâce à leur site.
+    </p>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+    <Section>
+      <ul class="posts">
+        {sorted.map((post) => (
+          <li class="post">
+            <p class="post__meta muted">
+              {post.category} · <time datetime={post.date}>{formatDate(post.date)}</time> · {post.readingMinutes} min de lecture
+            </p>
+            <h2 class="post__title"><a href={`/blog/${post.slug}`}>{post.title}</a></h2>
+            <p class="muted">{post.lead}</p>
+          </li>
+        ))}
+      </ul>
+    </Section>
+
+    <Section>
+      <Cta>
+        <Fragment slot="title">Des outils <Accent text="gratuits" /></Fragment>
+        <p>Un audit de votre site en une minute, un guide des erreurs à éviter, un compresseur d'images.</p>
+        <Fragment slot="actions">
+          <Button href="/ressources" variant="accent" icon="arrow">Voir les ressources</Button>
+          <Button href="/audit">Auditer mon site</Button>
+        </Fragment>
+      </Cta>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .posts {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .post {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: none;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .post__meta {
+    font-size: var(--fs-small);
+  }
+
+  .post__title {
+    max-width: 24em;
+    font-size: var(--fs-h3);
+  }
+
+  .post__title a::after {
+    content: " →";
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 62em) {
+    .posts {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-7) var(--space-8);
+    }
+  }
+</style>

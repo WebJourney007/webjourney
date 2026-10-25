@@ -1,0 +1,55 @@
+---
+// Appel à l'action de fin de page : panneau sombre, contenu centré.
+// Slot "title" pour le titre, slot par défaut pour le texte, slot "actions" pour les boutons.
+// Une mention « Réponse sous 24 h » (ReplyNote) posée dans le texte s'affiche sous les boutons.
+---
+
+<div class="cta tone-ink">
+  <h2 class="cta__title"><slot name="title" /></h2>
+  <div class="cta__text lead">
+    <slot />
+  </div>
+  <div class="cta__actions">
+    <slot name="actions" />
+  </div>
+</div>
+
+<style>
+  .cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    padding: clamp(3rem, 8vw, 6rem) var(--gutter);
+    border-radius: 1rem;
+    text-align: center;
+  }
+
+  .cta__title {
+    max-width: 18em;
+  }
+
+  .cta__text,
+  .cta__text :global(p) {
+    max-width: 30em;
+  }
+
+  /* Le bloc texte s'efface de la mise en page : ses enfants deviennent des éléments
+     du panneau. La mention de délai peut ainsi passer sous les boutons, centrée,
+     sans que chaque page ait à la placer elle-même. */
+  .cta__text {
+    display: contents;
+  }
+
+  .cta__text :global(.reply-note) {
+    order: 1;
+  }
+
+  .cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-5) var(--space-6);
+    margin-top: var(--space-4);
+  }
+</style>

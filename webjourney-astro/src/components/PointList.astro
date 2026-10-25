@@ -1,0 +1,46 @@
+---
+// Points côte à côte sur desktop : un titre court, une phrase dessous.
+// Sert aux douleurs du client comme à ce qui est inclus dans une offre.
+export interface Point {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: Point[];
+  /** Colonnes à partir de 992px. Par défaut, tous les points sur une rangée. */
+  cols?: number;
+}
+
+const { items, cols = items.length } = Astro.props;
+---
+
+<ul class="points" style={`--cols: ${cols}`}>
+  {items.map((item) => (
+    <li class="points__item">
+      <h3>{item.title}</h3>
+      <p class="muted">{item.text}</p>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .points {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .points__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-5);
+    border-top: 2px solid var(--color-accent);
+  }
+
+  @media (min-width: 62em) {
+    .points {
+      grid-template-columns: repeat(var(--cols), 1fr);
+    }
+  }
+</style>

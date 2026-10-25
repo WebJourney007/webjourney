@@ -1,0 +1,15 @@
+---
+// Découpe un texte en mots masqués : la timeline fait monter chaque `.word`
+// depuis sous sa ligne. Pas de lettre accentuée en `serif` : Da Vinci n'en a pas.
+interface Props {
+  text: string;
+  serif?: boolean;
+}
+
+const { text, serif = false } = Astro.props;
+const words = text.split(" ");
+---
+
+{words.map((word, i) => (
+  <>{i > 0 && " "}<span class="mask"><span class:list={["word", serif && "serif"]}>{word}</span></span></>
+))}

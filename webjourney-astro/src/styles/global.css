@@ -1,0 +1,249 @@
+/* ============================================================
+   TOKENS
+   ============================================================ */
+
+:root {
+  /* Couleurs de marque */
+  --color-ink: #1e1e1e;
+  --color-paper: #f5f5f5;
+  --color-white: #ffffff;
+  /* Anthracite chaud : le fond de toutes les surfaces sombres. Le noir `ink`
+     reste la couleur du texte. */
+  --color-coal: #2b2825;
+  --color-coal-deep: #171513;
+  --color-accent: rgb(223 160 42);
+  /* Variante foncée : le doré seul est trop peu contrasté pour du texte sur fond clair. */
+  --color-accent-strong: #a8700a;
+
+  /* Rôles : ce sont eux que les composants utilisent. .tone-ink les inverse,
+     ce qui évite une variante « sur fond sombre » par composant. */
+  --bg: var(--color-paper);
+  --fg: var(--color-ink);
+  --fg-muted: #5c5c5c;
+  --accent-text: var(--color-accent-strong);
+  --line: rgb(30 30 30 / 0.14);
+  --surface: var(--color-white);
+
+  /* Typographie */
+  --font-sans: "Satoshi", Arial, sans-serif;
+  --font-accent: "Da Vinci", "Times New Roman", serif;
+
+  /* Tailles fixes en rem ; seuls les titres s'étirent, entre deux bornes. */
+  --fs-small: 0.875rem;
+  --fs-body: 1rem;
+  --fs-lead: clamp(1.25rem, 2.2vw, 1.625rem);
+  --fs-h3: clamp(1.25rem, 2vw, 1.5rem);
+  /* Plafond sous le H1 du héro (3,625rem) : un titre de section ne doit jamais l'égaler. */
+  --fs-h2: clamp(1.875rem, 3.4vw, 2.75rem);
+  --fs-h1: clamp(2.25rem, 5vw, 3.75rem);
+
+  --lh-body: 1.6;
+  --lh-lead: 1.4;
+  --lh-title: 1.1;
+
+  /* Largeur de lecture : 65 à 70 caractères par ligne en Satoshi. */
+  --measure: 34em;
+
+  /* Espacements */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* Rythme vertical : 72px sur mobile, 160px sur desktop. */
+  --section-y: clamp(4.5rem, 11vw, 10rem);
+
+  /* Mise en page */
+  --container-max: 82.5rem;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+  --nav-height: 4.5rem;
+  /* Bandeau de contact : 44px sur mobile, la hauteur d'une cible tactile. */
+  --topbar-height: 2.75rem;
+  /* Hauteur du premier écran : celle de la fenêtre moins le bandeau, plafonnée.
+     Sans plafond, sur un écran très haut (moniteur en portrait) le contenu flotte
+     au milieu d'un grand vide. svh et non vh : sur mobile, 100vh compte la barre
+     d'adresse repliée. */
+  --hero-height: min(calc(100svh - var(--topbar-height)), 60rem);
+
+  /* Fond de toute la page : un seul dégradé de gris chauds, presque blanc en
+     haut, gris en bas. Une section sur deux le laisse voir tel quel, l'autre le
+     fonce d'un voile : les bords des sections restent lisibles sans contraste fort. */
+  --page-gradient: linear-gradient(180deg, #fbfaf8, #edebe6);
+  --section-veil: rgb(30 30 30 / 0.035);
+
+  --radius-sm: 5px;
+  --radius-md: 16px;
+
+  --ease: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+@media (min-width: 48em) {
+  :root {
+    --fs-body: 1.125rem;
+  }
+}
+
+@media (min-width: 62em) {
+  :root {
+    --topbar-height: 2rem;
+  }
+}
+
+.tone-ink {
+  --bg: var(--color-coal);
+  --fg: var(--color-paper);
+  --fg-muted: rgb(245 245 245 / 0.72);
+  --accent-text: var(--color-accent);
+  --line: rgb(245 245 245 / 0.18);
+  --surface: #36322e;
+  background-color: var(--bg);
+  color: var(--fg);
+}
+
+/* ============================================================
+   POLICES
+   ============================================================ */
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Vraie italique de Satoshi : sans elle le navigateur penche la romaine. */
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-VariableItalic.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Da Vinci";
+  src: url("/fonts/TRJNDaVinciItalic-Display.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ============================================================
+   BASE
+   ============================================================ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: var(--lh-body);
+  background-color: var(--bg);
+  background-image: var(--page-gradient);
+  color: var(--fg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 700;
+  line-height: var(--lh-title);
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--fs-h1);
+}
+
+h2 {
+  font-size: var(--fs-h2);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.25;
+}
+
+/* Plafond de lecture posé par défaut : un composant qui veut plus large le dit. */
+:where(p, li, blockquote) {
+  max-width: var(--measure);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img,
+picture,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img,
+video {
+  height: auto;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+::selection {
+  background-color: var(--color-accent);
+  color: var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

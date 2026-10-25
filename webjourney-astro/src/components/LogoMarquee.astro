@@ -1,0 +1,167 @@
+---
+// Bandeau de logos clients qui défile en continu. Quand la souris passe dans la
+// zone d'un logo qui a une capture, celle-ci s'affiche dans une carte qui suit
+// le pointeur.
+export interface Logo {
+  src: string;
+  name: string;
+  width: number;
+  height: number;
+  /** Filtre CSS d'un logo qui n'est pas fourni en blanc. Par défaut : inversion. */
+  filter?: string;
+  /** Capture du site livré, montrée quand la souris passe dans la zone du logo. */
+  preview?: string;
+}
+
+interface Props {
+  logos: Logo[];
+  label: string;
+}
+
+const { logos, label } = Astro.props;
+
+// La rangée est rendue deux fois pour boucler le défilement sans raccord visible.
+// La copie est masquée aux lecteurs d'écran.
+const COPIES = [0, 1];
+
+const hasPreviews = logos.some((logo) => logo.preview);
+---
+
+<div class="marquee" role="group" aria-label={label} data-marquee>
+  <div class="marquee__viewport">
+    <div class="marquee__track">
+      {COPIES.map((copy) => (
+        <ul class="marquee__row" aria-hidden={copy === 1 ? "true" : undefined}>
+          {logos.map((logo) => (
+            <li data-preview={logo.preview}>
+              <img
+                src={encodeURI(logo.src)}
+                alt={copy === 0 ? logo.name : ""}
+                width={logo.width}
+                height={logo.height}
+                loading="lazy"
+                class="marquee__img"
+                style={{ height: `${logo.height}px`, filter: logo.filter }}
+              />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+  {/* Carte unique, hors de la zone rognée : le script y pose la capture et la déplace. */}
+  {hasPreviews && <div class="marquee__preview" aria-hidden="true" data-marquee-preview />}
+</div>
+
+<script>
+  import "../scripts/logo-preview";
+</script>
+
+<style>
+  .marquee {
+    position: relative;
+    background-color: var(--section-veil);
+  }
+
+  .marquee__viewport {
+    overflow: hidden;
+    padding-block: var(--space-7);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 100s linear infinite;
+  }
+
+  .marquee__row {
+    display: flex;
+    flex-shrink: 0;
+    gap: clamp(3rem, 8vw, 7rem);
+    padding-inline: clamp(1.5rem, 4vw, 3.5rem);
+  }
+
+  /* Chaque logo occupe toute la hauteur de sa ligne : sa zone de survol ne dépend
+     pas de la hauteur de son image. */
+  .marquee__row li {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Chaque logo s'affiche à la hauteur déclarée dans ses données (posée en ligne :
+     un SVG n'a pas de taille propre fiable), plafonnée ici. Les logos sont fournis
+     en blanc : inversés pour le fond clair, sauf filtre propre au logo. */
+  .marquee__img {
+    width: auto;
+    max-height: 3.5rem;
+    filter: invert(1);
+  }
+
+  /* Même cadre que les captures du premier écran. Le script la déplace avec
+     `translate` ; `scale` reste libre pour son apparition. */
+  .marquee__preview {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: min(20rem, 100vw - 2rem);
+    aspect-ratio: 850 / 438;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--color-ink);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.22);
+    pointer-events: none;
+    opacity: 0;
+    scale: 0.9;
+    transition:
+      opacity 0.2s ease,
+      scale 0.2s ease;
+  }
+
+  .marquee__preview.is-visible {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* Les images sont posées par le script : elles n'ont pas l'attribut de portée
+     d'Astro. Empilées, la dernière arrivée se fond sur la précédente. */
+  .marquee__preview :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    animation: marquee-shot-in 0.25s ease;
+  }
+
+  @keyframes marquee-shot-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marquee__track {
+      width: auto;
+      animation: none;
+    }
+
+    /* Sans flex-shrink, la rangée garde sa largeur de défilé et ne passe pas à la ligne. */
+    .marquee__row {
+      flex-shrink: 1;
+      flex-wrap: wrap;
+      row-gap: var(--space-6);
+    }
+
+    .marquee__row[aria-hidden="true"] {
+      display: none;
+    }
+  }
+</style>

@@ -1,0 +1,127 @@
+---
+// Labo, direction B « Scène » : titre centré, le site en très grand au milieu,
+// puis les trois résultats promis et le prix. Le produit est mis en scène.
+import Accent from "../Accent.astro";
+import BrowserFrame from "../BrowserFrame.astro";
+import Button from "../Button.astro";
+import type { Product } from "../../data/products";
+import { PROJECT_CTA } from "../../lib/site";
+
+interface Props {
+  product: Product;
+}
+
+const { product } = Astro.props;
+---
+
+<div class="pb">
+  <header class="pb__head">
+    <h2>{product.title} <Accent text={product.accent} /></h2>
+    <p class="lead">{product.pitch}</p>
+  </header>
+  <div class="pb__stage">
+    <BrowserFrame {...product.media} />
+  </div>
+  <ol class="pb__outcomes">
+    {(product.outcomes ?? []).map((outcome, index) => (
+      <li>
+        <span class="pb__index" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+        <h3>{outcome.title}</h3>
+        <p class="muted">{outcome.text}</p>
+      </li>
+    ))}
+  </ol>
+  <div class="pb__close">
+    <p class="pb__price">
+      <span class="pb__amount">{product.price}</span>
+      <span class="muted">{product.priceNote}</span>
+    </p>
+    <div class="pb__actions">
+      <Button href={product.href} variant="accent" icon="arrow">Voir les formules</Button>
+      <Button href={PROJECT_CTA.href}>{PROJECT_CTA.label}</Button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .pb {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .pb__head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+    text-align: center;
+  }
+
+  .pb__head h2 {
+    max-width: 16em;
+  }
+
+  .pb__head .lead {
+    max-width: 34em;
+  }
+
+  .pb__stage {
+    width: min(100%, 68rem);
+    margin-inline: auto;
+  }
+
+  .pb__outcomes {
+    display: grid;
+    gap: var(--space-6);
+  }
+
+  .pb__outcomes li {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  .pb__index {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  .pb__close {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .pb__price {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .pb__amount {
+    color: var(--color-accent);
+    font-size: clamp(1.75rem, 3vw, 2.5rem);
+    font-weight: 700;
+    line-height: 1.1;
+  }
+
+  .pb__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  @media (min-width: 62em) {
+    .pb__outcomes {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,237 @@
+---
+// Scènes 7 à 9 : bento des preuves, logos clients, fin. Uniquement des chiffres
+// déjà publiés sur le site.
+import Words from "./Words.astro";
+
+// Logos recadrés au plus juste dans `showreel/logos/`. Largeurs calculées pour une
+// même surface visuelle (environ 8 500 px²), plafonnées à 250 px. Les deux badges
+// pleins (Victor Rossi, La Meltingpote) passent en gris : en silhouette blanche,
+// ils deviendraient des disques.
+const DIR = "/assets/showreel/logos";
+const LOGOS = [
+  { src: `${DIR}/astral.webp`, width: 250 },
+  { src: `${DIR}/varela.webp`, width: 126 },
+  { src: `${DIR}/cirque.webp`, width: 180 },
+  { src: `${DIR}/dinoworld.webp`, width: 200 },
+  { src: `${DIR}/insectopia.webp`, width: 176 },
+  { src: `${DIR}/pirates.webp`, width: 155 },
+  { src: `${DIR}/cyclo.webp`, width: 180 },
+  { src: `${DIR}/charlys.webp`, width: 136 },
+  { src: `${DIR}/victor.webp`, width: 92, badge: true },
+  { src: `${DIR}/melting.webp`, width: 92, badge: true },
+  { src: `${DIR}/fanny.webp`, width: 206 },
+  { src: "/assets/images/creatiz--webjourney--logo.svg", width: 122 },
+];
+---
+
+<section class="scene tone-light s7">
+  <div class="s7-grid">
+    <div class="tile tile--coal s7-sites">
+      <p class="s7-big gold"><span data-count>0</span>+</p>
+      <p class="s7-label">sites livrés</p>
+    </div>
+    <div class="tile s7-video"><video src="/assets/showreel/clip--audition.mp4" muted playsinline preload="auto"></video></div>
+    <div class="tile tile--white">
+      <svg class="s7-icon" width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" /></svg>
+      <p class="s7-mid">Réponse<br />sous 24 h</p>
+    </div>
+    <div class="tile tile--gold">
+      <svg class="s7-icon" width="64" height="64" viewBox="0 0 32 32"><rect width="32" height="32" rx="6" fill="#d52b1e" /><path d="M13 6h6v7h7v6h-7v7h-6v-7H6v-6h7z" fill="#fff" /></svg>
+      <p class="s7-mid">Hébergé<br />en Suisse</p>
+    </div>
+    <div class="tile tile--white">
+      <p class="s7-mid s7-push">Prix clairs,<br /><span class="s7-accent"><Words text="délais tenus." serif /></span></p>
+    </div>
+    <div class="tile tile--coal">
+      <p class="s7-mid s7-push">Votre site<br />vous appartient.</p>
+    </div>
+  </div>
+</section>
+
+<section class="scene tone-dark s8">
+  <div class="s8-inner">
+    <h2 class="title s8-title"><Words text="Ils nous font confiance" /></h2>
+    <ul class="s8-grid">
+      {LOGOS.map(({ src, width, badge }) => (
+        <li class="s8-logo"><img class:list={[badge && "is-badge"]} src={src} alt="" style={`width: ${width}px`} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<section class="scene tone-deep s9">
+  <div class="s9-inner">
+    <h2 class="title s9-title">
+      <span class="line"><Words text="Votre projet," /></span>
+      <span class="line gold s9-accent"><Words text="le prochain." serif /></span>
+    </h2>
+    <span class="s9-line"></span>
+    <div class="s9-sign">
+      <p class="s9-mark"><Words text="web journey" serif /></p>
+      <p class="s9-meta">webjourney.ch · Sion, Valais</p>
+      <p class="s9-cta">Réservez un appel</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .s7-grid {
+    position: absolute;
+    inset: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  .tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .tile--coal {
+    background-color: var(--coal);
+    color: var(--paper);
+  }
+
+  .tile--white {
+    background-color: var(--white);
+  }
+
+  .tile--gold {
+    background-color: var(--accent);
+  }
+
+  .s7-sites {
+    grid-column: 1 / 3;
+    justify-content: flex-end;
+  }
+
+  .s7-big {
+    font-size: 300px;
+    font-weight: 700;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+  }
+
+  .s7-label {
+    margin-top: 24px;
+    font-size: 40px;
+    font-weight: 500;
+  }
+
+  .s7-video {
+    grid-column: 3 / 5;
+    padding: 0;
+  }
+
+  .s7-video video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .s7-mid {
+    font-size: 50px;
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+
+  .s7-push {
+    margin-top: auto;
+  }
+
+  .s7-accent {
+    color: var(--accent-strong);
+    font-size: 64px;
+  }
+
+  .s8-inner,
+  .s9-inner {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .s8-title {
+    font-size: 96px;
+  }
+
+  .s8-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 260px);
+    margin-top: 90px;
+    border-top: 1px solid rgb(245 245 245 / 0.14);
+    border-left: 1px solid rgb(245 245 245 / 0.14);
+  }
+
+  .s8-logo {
+    display: grid;
+    place-items: center;
+    height: 170px;
+    border-right: 1px solid rgb(245 245 245 / 0.14);
+    border-bottom: 1px solid rgb(245 245 245 / 0.14);
+  }
+
+  .s8-logo img {
+    filter: brightness(0) invert(1);
+  }
+
+  .s8-logo img.is-badge {
+    filter: grayscale(1);
+  }
+
+  .s9-title {
+    font-size: 150px;
+    text-align: center;
+  }
+
+  .s9-accent {
+    font-size: 200px;
+    line-height: 1;
+  }
+
+  .s9-line {
+    width: 420px;
+    height: 2px;
+    margin-block: 70px 50px;
+    background-color: var(--accent);
+  }
+
+  .s9-sign {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+  }
+
+  .s9-mark {
+    font-size: 64px;
+    line-height: 1;
+  }
+
+  .s9-meta {
+    color: var(--muted-on-dark);
+    font-size: 28px;
+    font-weight: 500;
+  }
+
+  .s9-cta {
+    padding: 18px 34px;
+    border-radius: 999px;
+    background-color: var(--accent);
+    color: var(--ink);
+    font-size: 26px;
+    font-weight: 700;
+  }
+</style>

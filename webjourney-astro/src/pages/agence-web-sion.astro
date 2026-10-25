@@ -1,0 +1,113 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import Cta from "../components/Cta.astro";
+import ExplainList from "../components/ExplainList.astro";
+import Faq from "../components/Faq.astro";
+import HeroText from "../components/HeroText.astro";
+import PointList from "../components/PointList.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ShotGrid from "../components/ShotGrid.astro";
+import { faqStructuredData } from "../data/faq";
+import { areas, localFaq, localReasons, localServices, localShots, localStructuredData } from "../data/sion";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+---
+
+<BaseLayout
+  title="Agence web à Sion, sites sur mesure en Valais | Web journey"
+  description="Agence web à Sion : sites vitrines, boutiques en ligne et applications sur mesure pour les PME et indépendants du Valais. Rencontrons-nous à Sion."
+  path="/agence-web-sion"
+  structuredData={[localStructuredData, faqStructuredData(localFaq)]}
+>
+  <HeroText>
+    <h1>Agence web à Sion, <Accent text="pour tout le Valais" /></h1>
+    <p class="lead">
+      Des sites qui vous apportent des clients, conçus par une équipe basée à Sion qui connaît les entreprises
+      valaisannes.
+    </p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="/nos-sites-internet">Voir nos réalisations</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── POURQUOI LOCAL ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Une agence web <Accent text="à deux pas" /></Fragment>
+        <p>Un partenaire qui peut vous rencontrer en personne, et qui s'investit dans la durée.</p>
+      </SectionHead>
+      <PointList items={localReasons} />
+    </div>
+  </Section>
+
+  <!-- ─── SERVICES ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Ce que nous faisons <Accent text="pour vous" /></Fragment>
+        <p>Du premier site à la refonte complète, un seul interlocuteur pour tout votre web.</p>
+      </SectionHead>
+      <ExplainList items={localServices} />
+    </div>
+  </Section>
+
+  <!-- ─── CLIENTS EN VALAIS ─── -->
+  <Section>
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">Ils sont <Accent text="en Valais" /></Fragment>
+        </SectionHead>
+        <Button href="/nos-sites-internet" icon="arrow">Voir tous nos sites</Button>
+      </div>
+      <ShotGrid items={localShots} />
+    </div>
+  </Section>
+
+  <!-- ─── ZONE D'INTERVENTION ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Partout <Accent text="dans le canton" /></Fragment>
+        <p>
+          Basés à {SITE.address.street}, à {SITE.address.locality}. En personne dans tout le Valais, à distance pour le
+          reste de la Suisse romande.
+        </p>
+      </SectionHead>
+      <PointList items={areas} />
+    </div>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions <Accent text="fréquentes" /></Fragment>
+      </SectionHead>
+      <Faq items={localFaq} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Un café <Accent text="à Sion ?" /></Fragment>
+      <p>Parlez-nous de votre projet, même s'il n'est pas encore très clair : c'est gratuit et sans engagement.</p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" icon="whatsapp">
+          {SITE.phoneDisplay}
+        </Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>

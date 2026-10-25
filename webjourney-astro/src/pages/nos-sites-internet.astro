@@ -1,0 +1,150 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import CaseCard from "../components/CaseCard.astro";
+import Cta from "../components/Cta.astro";
+import HeroText from "../components/HeroText.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Reviews from "../components/Reviews.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import ShotGrid from "../components/ShotGrid.astro";
+import { testimonials, videoReview } from "../data/home";
+import { caseFilters, cases, moreSites, portfolioStructuredData } from "../data/projects";
+import { PROJECT_CTA } from "../lib/site";
+
+---
+
+<BaseLayout
+  title="Nos réalisations — Sites internet créés en Valais | Web journey"
+  description="Plus de 30 sites internet livrés en Valais et en Suisse romande : sites vitrines, boutiques en ligne, réservation en ligne et identités visuelles."
+  path="/nos-sites-internet"
+  structuredData={[portfolioStructuredData]}
+>
+  <HeroText>
+    <h1>Nos réalisations, <Accent text="en Valais et en Suisse" /></h1>
+    <p class="lead">
+      Plus de 30 sites livrés pour des PME, des indépendants et des lieux de loisirs. Site vitrine, boutique en ligne,
+      réservation, identité visuelle : chaque projet est une collaboration.
+    </p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="/creation-site-internet">Voir nos formules</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── ÉTUDES DE CAS, FILTRABLES ─── -->
+  <Section>
+    <div class="flow">
+      <div class="filters" role="group" aria-label="Filtrer les réalisations" data-case-filters>
+        {caseFilters.map((filter, index) => (
+          <button type="button" class="filters__btn" data-filter={filter.value} aria-pressed={index === 0 ? "true" : "false"}>
+            {filter.label}
+          </button>
+        ))}
+      </div>
+      <div class="cases">
+        {cases.map((item) => <CaseCard item={item} />)}
+      </div>
+    </div>
+  </Section>
+
+  <!-- ─── AUTRES SITES LIVRÉS ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Et aussi, <Accent text="déjà en ligne" /></Fragment>
+        <p>Des sites vitrines livrés pour des indépendants et des PME de Suisse romande.</p>
+      </SectionHead>
+      <ShotGrid items={moreSites} lg={4} />
+    </div>
+  </Section>
+
+  <!-- ─── AVIS ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Ce que disent <Accent text="nos clients" /></Fragment>
+      </SectionHead>
+      <Reviews video={videoReview} items={testimonials} />
+    </div>
+  </Section>
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Le prochain projet, <Accent text="c'est le vôtre ?" /></Fragment>
+      <p>Décrivez votre projet en quelques lignes : on vous dit ce qu'on peut faire pour vous, gratuitement et sans engagement.</p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href="/demander-un-devis">Demander un devis</Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>
+
+<script>
+  // Filtre des études de cas : masque les cartes qui n'ont pas la famille choisie.
+  const group = document.querySelector<HTMLElement>("[data-case-filters]");
+  const buttons = [...(group?.querySelectorAll<HTMLButtonElement>("[data-filter]") ?? [])];
+  const cards = [...document.querySelectorAll<HTMLElement>("[data-types]")];
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter ?? "all";
+      buttons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+      cards.forEach((card) => {
+        card.hidden = filter !== "all" && !(card.dataset.types ?? "").split(" ").includes(filter);
+      });
+    });
+  });
+</script>
+
+<style>
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .filters__btn {
+    padding: var(--space-2) var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--fg-muted);
+    font: inherit;
+    font-size: var(--fs-small);
+    cursor: pointer;
+    transition:
+      color 0.2s ease,
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .filters__btn:hover {
+    color: var(--fg);
+    border-color: var(--fg-muted);
+  }
+
+  .filters__btn[aria-pressed="true"] {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .cases {
+    display: grid;
+    gap: var(--space-8) var(--space-6);
+  }
+
+  @media (min-width: 48em) {
+    .cases {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+</style>

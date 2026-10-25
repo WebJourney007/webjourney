@@ -1,0 +1,231 @@
+/* ============================================================
+   SHOWREEL — scène fixe de 1920 × 1080, mise à l'échelle de la fenêtre.
+   Tout est en px : on compose une vidéo, pas une page responsive.
+   ============================================================ */
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("/fonts/Satoshi-Variable.woff2") format("woff2");
+  font-weight: 300 900;
+  font-style: normal;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Da Vinci";
+  src: url("/fonts/TRJNDaVinciItalic-Display.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: block;
+}
+
+:root {
+  --ink: #1e1e1e;
+  --paper: #f4f2ee;
+  --white: #ffffff;
+  --coal: #2b2825;
+  --coal-deep: #171513;
+  --accent: rgb(223 160 42);
+  --accent-strong: #a8700a;
+  --muted-on-dark: rgb(245 245 245 / 0.66);
+  --muted-on-light: #5c5c5c;
+
+  /* Charte Varela Brothers */
+  --vb-red: #590c05;
+  --vb-dark: #400701;
+  --vb-ivory: #fffbdc;
+  --vb-lin: #e9e5d7;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+  overflow: hidden;
+  background-color: #000;
+}
+
+body {
+  font-family: "Satoshi", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul {
+  list-style: none;
+}
+
+img,
+video {
+  display: block;
+}
+
+.stage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1920px;
+  height: 1080px;
+  overflow: hidden;
+  background-color: var(--coal-deep);
+  transform: translate(-50%, -50%) scale(var(--k, 1));
+}
+
+.scene {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+.tone-deep {
+  background-color: var(--coal-deep);
+  color: var(--paper);
+}
+
+.tone-dark {
+  background-color: var(--coal);
+  color: var(--paper);
+}
+
+.tone-light {
+  background-color: var(--paper);
+  color: var(--ink);
+}
+
+/* Mots masqués : chaque mot monte depuis sous sa ligne. Le masque déborde en bas
+   pour les jambages (g, p, q) et sur les côtés pour l'italique de Da Vinci, dont
+   les lettres sortent de leur boîte. Les marges négatives gardent l'espacement. */
+.mask {
+  display: inline-block;
+  overflow: hidden;
+  padding: 0 0.2em 0.12em;
+  margin: 0 -0.2em -0.12em;
+  vertical-align: top;
+}
+
+.word {
+  display: inline-block;
+}
+
+.line {
+  display: block;
+}
+
+.serif {
+  font-family: "Da Vinci", "Times New Roman", serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.gold {
+  color: var(--accent);
+}
+
+.title {
+  font-weight: 700;
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+}
+
+.kicker {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  font-size: 26px;
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+.kicker b {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.tone-light .kicker b {
+  color: var(--accent-strong);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  height: 54px;
+  padding: 0 24px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 22px;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
+/* Carte d'interface flottante (notification, confirmation…). */
+.ui-card {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 22px 30px 22px 22px;
+  border-radius: 16px;
+  background-color: var(--white);
+  color: var(--ink);
+  box-shadow: 0 30px 70px rgb(0 0 0 / 0.22);
+}
+
+.ui-card__icon {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+.ui-card__title {
+  font-size: 23px;
+  font-weight: 700;
+}
+
+.ui-card__text {
+  font-size: 18px;
+  color: var(--muted-on-light);
+}
+
+/* Commandes de lecture, hors scène : jamais visibles dans la vidéo exportée. */
+.hud {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background-color: rgb(255 255 255 / 0.1);
+  color: rgb(255 255 255 / 0.75);
+  font-size: 13px;
+  white-space: nowrap;
+  transform: translateX(-50%);
+}
+
+body.is-playing {
+  cursor: none;
+}
+
+body.is-playing .hud,
+body.is-export .hud {
+  display: none;
+}
+
+/* Barre d'outils d'Astro en mode dev : elle se poserait sur la vidéo. */
+astro-dev-toolbar {
+  display: none !important;
+}

@@ -1,0 +1,61 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import CheckList from "../components/CheckList.astro";
+import FormField from "../components/FormField.astro";
+import FormHero from "../components/FormHero.astro";
+import SendForm from "../components/SendForm.astro";
+import { guidePoints, guideStructuredData } from "../data/magnets";
+---
+
+<BaseLayout
+  title="Guide gratuit : 7 erreurs qui font fuir vos clients | Web journey"
+  description="Téléchargez gratuitement notre guide : les 7 erreurs les plus fréquentes sur les sites web de PME, et comment les corriger. Par Web journey, agence web à Sion."
+  ogDescription="Téléchargez gratuitement notre guide sur les 7 erreurs web les plus fréquentes."
+  ogImage="/assets/images/ressource--guide-7-erreurs.webp"
+  path="/guide-gratuit"
+  structuredData={[guideStructuredData]}
+>
+  <FormHero>
+    <Fragment slot="intro">
+      <h1>Les 7 erreurs qui font fuir vos clients <Accent text="sur votre site" /></h1>
+      <p class="lead">Ce qui freine vos demandes de contact, et comment y remédier. Un guide pratique, offert.</p>
+      <CheckList items={guidePoints} />
+    </Fragment>
+
+    <div class="guide">
+      <img
+        class="guide__cover"
+        src="/assets/images/ressource--guide-7-erreurs.webp"
+        alt="Couverture du guide Les 7 erreurs qui font fuir vos clients sur votre site web"
+        width="1440"
+        height="1024"
+      />
+      <SendForm
+        id="guide-form"
+        action="/send-guide.php"
+        submitLabel="Recevoir le guide"
+        label="Recevoir le guide gratuit"
+        reply={false}
+        success="Le guide est en route ! Il vous a été envoyé par hello@webjourney.ch : pensez à regarder vos spams s'il n'arrive pas d'ici quelques minutes."
+        note="Aucun spam."
+      >
+        <FormField id="guide-firstname" name="firstname" label="Prénom" required placeholder="Votre prénom" autocomplete="given-name" />
+        <FormField id="guide-email" name="email" type="email" label="E-mail" required placeholder="email@mail.ch" autocomplete="email" />
+      </SendForm>
+    </div>
+  </FormHero>
+</BaseLayout>
+
+<style>
+  .guide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .guide__cover {
+    width: 100%;
+    border-radius: var(--radius-sm);
+  }
+</style>

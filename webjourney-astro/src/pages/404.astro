@@ -1,0 +1,24 @@
+---
+// Page d'erreur, servie par le `.htaccess` pour toute adresse inconnue (`404.html`).
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import HeroText from "../components/HeroText.astro";
+---
+
+<BaseLayout
+  title="Page introuvable — Web journey"
+  description="Cette page n'existe pas ou a été déplacée."
+  path="/404"
+  noindex
+>
+  <HeroText>
+    <h1>Cette page <Accent text="n'existe pas" /></h1>
+    <p class="lead">Elle a peut-être été déplacée ou supprimée. Voici de quoi reprendre votre chemin.</p>
+    <div class="actions">
+      <Button href="/" variant="accent" icon="arrow">Retour à l'accueil</Button>
+      <Button href="/nos-sites-internet">Nos réalisations</Button>
+      <Button href="/contact">Nous contacter</Button>
+    </div>
+  </HeroText>
+</BaseLayout>

@@ -1,0 +1,26 @@
+---
+// Liste à coches dorées : ce qui est inclus, ce qui a été livré.
+interface Props {
+  items: string[];
+}
+
+const { items } = Astro.props;
+---
+
+<ul class="checks">
+  {items.map((item) => <li>{item}</li>)}
+</ul>
+
+<style>
+  .checks {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .checks li {
+    padding-left: 1.75em;
+    background: no-repeat left 0.3em / 1em
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+// « Pour vous si… / pas pour vous si… » : le visiteur se reconnaît, ou comprend
+// tout de suite que l'offre n'est pas pour lui. Dire non à certains rassure les autres.
+interface Props {
+  yes: string[];
+  no: string[];
+  yesLabel?: string;
+  noLabel?: string;
+}
+
+const { yes, no, yesLabel = "C'est pour vous si…", noLabel = "Ce n'est pas pour vous si…" } = Astro.props;
+const columns = [
+  { label: yesLabel, items: yes, modifier: "yes" },
+  { label: noLabel, items: no, modifier: "no" },
+];
+---
+
+<div class="fit">
+  {columns.map((column) => (
+    <div class={`fit__col fit__col--${column.modifier}`}>
+      <h3 class="fit__label">{column.label}</h3>
+      <ul class="fit__list">
+        {column.items.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  ))}
+</div>
+
+<style>
+  .fit {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .fit__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .fit__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .fit__list li {
+    padding-left: 1.75em;
+    background: no-repeat left 0.3em / 1em;
+  }
+
+  .fit__col--yes li {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M2 8.5l4 4 8-9' fill='none' stroke='%23dfa02a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  }
+
+  .fit__col--no li {
+    color: var(--fg-muted);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4 4l8 8M12 4l-8 8' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+
+  @media (min-width: 62em) {
+    .fit {
+      grid-template-columns: 3fr 2fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

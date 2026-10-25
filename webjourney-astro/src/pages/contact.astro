@@ -1,0 +1,103 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import FormField from "../components/FormField.astro";
+import FormHero from "../components/FormHero.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import SendForm from "../components/SendForm.astro";
+import Steps from "../components/Steps.astro";
+import { contactStructuredData, nextSteps, swissPhone } from "../data/contact";
+import { SITE } from "../lib/site";
+---
+
+<BaseLayout
+  title="Contact Web journey — Parlez-nous de votre projet web"
+  description="Contactez Web journey, agence web à Sion, pour votre projet de site internet : formulaire, WhatsApp ou e-mail. Réponse sous 24 h."
+  ogDescription="Contactez Web journey pour votre projet web. Formulaire de contact, téléphone et email."
+  path="/contact"
+  structuredData={[contactStructuredData]}
+>
+  <FormHero>
+    <Fragment slot="intro">
+      <h1>Contactez notre agence web <Accent text="à Sion" /></h1>
+      <p class="lead">Un site à créer ou à refaire, un outil à imaginer : parlez-nous de votre projet.</p>
+      <div class="direct">
+        <p class="direct__title">Vous préférez nous écrire directement ?</p>
+        <ul class="direct__list">
+          <li>
+            <a href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" class="text-link">WhatsApp</a> ou{" "}
+            <a href={SITE.phoneHref} class="text-link">{SITE.phoneDisplay}</a>
+          </li>
+          <li><a href={`mailto:${SITE.email}`} class="text-link">{SITE.email}</a></li>
+          <li class="muted">{SITE.address.street}, {SITE.address.postalCode} {SITE.address.locality}</li>
+        </ul>
+      </div>
+    </Fragment>
+
+    <SendForm id="contact-page-form" submitLabel="Envoyer" label="Formulaire de contact" track>
+      <FormField id="contact-name" name="name" label="Nom complet" required placeholder="Jean Dupont" autocomplete="name" />
+      <FormField
+        id="contact-phone"
+        name="phone"
+        type="tel"
+        label="Téléphone"
+        required
+        autocomplete="tel"
+        {...swissPhone}
+      />
+      <FormField id="contact-email" name="email" type="email" label="E-mail" required placeholder="email@mail.ch" autocomplete="email" />
+      <FormField
+        id="contact-company"
+        name="company"
+        label="Entreprise"
+        required
+        placeholder="Nom de l'entreprise"
+        autocomplete="organization"
+        data-append-to="message"
+      />
+      <FormField
+        id="contact-message"
+        name="message"
+        label="Comment pouvons-nous vous aider ?"
+        rows={5}
+        required
+        placeholder="Décrivez votre demande"
+        full
+      />
+    </SendForm>
+  </FormHero>
+
+  <div class="page-deep tone-ink">
+    <Section>
+      <div class="flow">
+        <SectionHead>
+          <Fragment slot="title">Et ensuite, <Accent text="comment ça se passe ?" /></Fragment>
+        </SectionHead>
+        <Steps items={nextSteps} />
+      </div>
+    </Section>
+  </div>
+</BaseLayout>
+
+<style>
+  .direct {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+    margin-top: var(--space-4);
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .direct__title {
+    font-weight: 700;
+  }
+
+  .direct__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+</style>

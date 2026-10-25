@@ -1,0 +1,208 @@
+---
+// Premier écran de la home : fond clair, texte à gauche, deux cadres à droite qui
+// montrent des sites livrés. Un cadre qui reçoit plusieurs captures les fait se
+// succéder en fondu ; le grand cadre peut jouer une boucle vidéo.
+// Le texte (titre, accroche, boutons) arrive par le slot.
+export interface Shot {
+  src: string;
+  /** Nom du site, repris dans le texte alternatif de la capture. */
+  name: string;
+  width: number;
+  height: number;
+}
+
+interface Props {
+  /** Captures du grand cadre. La première est celle du chargement. */
+  main: Shot[];
+  /** Captures du petit cadre, qui chevauche le grand en bas à gauche. */
+  second: Shot[];
+  /** Boucle vidéo muette (MP4) jouée dans le grand cadre, sur écran large seulement. */
+  video?: string;
+}
+
+const { main, second, video } = Astro.props;
+
+// La première capture du grand cadre est le visuel du premier écran : elle est
+// chargée en priorité, les suivantes de chaque rotation passent après. La vidéo
+// est en preload="none" : rien n'est téléchargé tant que le script ne la lance pas.
+const frames = [
+  { shots: main, modifier: "main", video },
+  { shots: second, modifier: "second", video: undefined },
+];
+---
+
+<section class="hero-cap">
+  <div class="container hero-cap__grid">
+    <div class="hero-cap__text">
+      <slot />
+    </div>
+    <div class="hero-cap__shots" data-hero-shots>
+      {
+        frames.map((frame, frameIndex) => (
+          <figure class={`frame frame--${frame.modifier}`}>
+            <div
+              class="frame__screen"
+              style={`aspect-ratio: ${frame.shots[0]?.width} / ${frame.shots[0]?.height}`}
+              data-rotate={frame.shots.length > 1 ? "" : undefined}
+            >
+              {frame.shots.map((shot, shotIndex) => (
+                <img
+                  class:list={["frame__shot", { "is-active": shotIndex === 0 }]}
+                  src={shot.src}
+                  alt={`Capture du site ${shot.name}`}
+                  width={shot.width}
+                  height={shot.height}
+                  fetchpriority={shotIndex > 0 ? "low" : frameIndex === 0 ? "high" : undefined}
+                  loading={shotIndex > 0 ? "lazy" : undefined}
+                  decoding="async"
+                />
+              ))}
+              {frame.video && (
+                <video
+                  class="frame__video"
+                  src={frame.video}
+                  muted
+                  loop
+                  playsinline
+                  preload="none"
+                  aria-hidden="true"
+                  tabindex="-1"
+                  data-hero-video
+                />
+              )}
+            </div>
+          </figure>
+        ))
+      }
+    </div>
+  </div>
+</section>
+
+<script>
+  // Anime les cadres du premier écran : rotation des captures et boucle vidéo.
+  // Sans JavaScript, ou si le visiteur a demandé moins d'animations, chaque cadre
+  // garde sa première capture.
+  import { wantsVideo } from "../scripts/wants-video";
+
+  const INTERVAL = 2500;
+
+  const root = document.querySelector<HTMLElement>("[data-hero-shots]");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** Fait passer la capture suivante au premier plan à intervalle régulier. */
+  function rotate(screen: HTMLElement, delay: number) {
+    const shots = [...screen.querySelectorAll<HTMLElement>(".frame__shot")];
+    let index = 0;
+
+    const next = () => {
+      shots[index]?.classList.remove("is-active");
+      index = (index + 1) % shots.length;
+      shots[index]?.classList.add("is-active");
+      window.setTimeout(next, INTERVAL);
+    };
+    window.setTimeout(next, INTERVAL + delay);
+  }
+
+  if (root && !reducedMotion) {
+    const video = wantsVideo() ? root.querySelector<HTMLVideoElement>("[data-hero-video]") : null;
+    video?.addEventListener("playing", () => video.classList.add("is-playing"), { once: true });
+
+    // Tout démarre après le chargement de la page, pour ne rien lui disputer.
+    const start = () => {
+      // Les cadres sont décalés entre eux : ils ne changent jamais en même temps.
+      root
+        .querySelectorAll<HTMLElement>("[data-rotate]")
+        .forEach((screen, i, all) => rotate(screen, (INTERVAL / all.length) * i));
+      // Lecture automatique refusée par le navigateur : la capture reste affichée.
+      video?.play().catch(() => {});
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+  }
+</script>
+
+<style>
+  .hero-cap {
+    display: flex;
+    align-items: center;
+    min-height: var(--hero-height);
+    padding-block: calc(var(--nav-height) + var(--space-7)) var(--space-8);
+  }
+
+  .hero-cap__grid {
+    display: grid;
+    gap: var(--space-8);
+    align-items: center;
+  }
+
+  .hero-cap__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  /* Le titre partage la largeur avec les captures : un cran sous la taille d'un h1.
+     Son plafond est atteint à 1320 px, quand le conteneur cesse de s'élargir :
+     au-delà, il grossirait dans une colonne fixe et casserait ses lignes. */
+  .hero-cap__text :global(h1) {
+    font-size: clamp(2.25rem, 4.4vw, 3.625rem);
+  }
+
+  .hero-cap__text :global(p) {
+    max-width: 31em;
+  }
+
+  /* La seconde capture déborde en bas à gauche de la première. */
+  .hero-cap__shots {
+    position: relative;
+    padding-bottom: 14%;
+  }
+
+  .frame {
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    background-color: var(--color-ink);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.22);
+  }
+
+  /* Captures et vidéo sont empilées dans l'écran du cadre : seule celle du
+     premier plan est opaque. */
+  .frame__screen {
+    position: relative;
+  }
+
+  .frame__shot,
+  .frame__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .frame__shot.is-active,
+  .frame__video.is-playing {
+    opacity: 1;
+  }
+
+  .frame--main {
+    margin-left: 12%;
+  }
+
+  .frame--second {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 56%;
+  }
+
+  @media (min-width: 62em) {
+    .hero-cap__grid {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+</style>

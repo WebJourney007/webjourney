@@ -1,0 +1,265 @@
+---
+// Premier écran de la home : texte centré, preuve sociale, puis un grand cadre
+// vidéo, sans barre de navigateur. Sur écran large, le cadre joue une boucle
+// vidéo ; ailleurs, ses captures se succèdent en fondu.
+// Le titre, l'accroche et les boutons arrivent par le slot.
+export interface Shot {
+  src: string;
+  /** Nom du site, repris dans le texte alternatif de la capture. */
+  name: string;
+  width: number;
+  height: number;
+  /** Texte alternatif, quand l'image n'est pas une capture de site. */
+  alt?: string;
+}
+
+export interface ProofLogo {
+  src: string;
+  name: string;
+}
+
+interface Props {
+  /** Captures de la fenêtre. La première est celle du chargement. */
+  shots: Shot[];
+  /** Boucle vidéo muette (MP4), jouée sur écran large seulement. */
+  video?: string;
+  /** Logos clients montrés en pastilles devant la phrase de preuve. */
+  proofLogos: ProofLogo[];
+}
+
+const { shots, video, proofLogos } = Astro.props;
+const first = shots[0];
+---
+
+<section class="hero-center">
+  <img src="/assets/images/trace-ventoux.svg" alt="" class="hero-center__trace" aria-hidden="true" />
+  <div class="container hero-center__inner">
+    <div class="hero-center__text">
+      <slot />
+    </div>
+
+    <p class="proof">
+      <span class="proof__logos" aria-hidden="true">
+        {proofLogos.map((logo) => <img src={encodeURI(logo.src)} alt="" width="40" height="40" loading="lazy" />)}
+      </span>
+      <span><slot name="proof" /></span>
+    </p>
+
+    <figure class="window" data-hero-window>
+      <div class="window__screen" style={`aspect-ratio: ${first?.width} / ${first?.height}`}>
+        {
+          shots.map((shot, index) => (
+            <img
+              class:list={["window__shot", { "is-active": index === 0 }]}
+              src={shot.src}
+              alt={shot.alt ?? `Capture du site ${shot.name}, réalisé par Web journey`}
+              width={shot.width}
+              height={shot.height}
+              fetchpriority={index === 0 ? "high" : "low"}
+              loading={index === 0 ? undefined : "lazy"}
+              decoding="async"
+            />
+          ))
+        }
+        {
+          video && (
+            <video
+              class="window__video"
+              src={video}
+              muted
+              loop
+              playsinline
+              preload="none"
+              aria-hidden="true"
+              tabindex="-1"
+              data-hero-video
+            />
+          )
+        }
+      </div>
+    </figure>
+  </div>
+</section>
+
+<script>
+  // Anime la fenêtre : boucle vidéo sur écran large, sinon rotation des captures.
+  // Sans JavaScript, ou si le visiteur a demandé moins d'animations, la première
+  // capture reste affichée.
+  import { wantsVideo } from "../scripts/wants-video";
+
+  const INTERVAL = 2500;
+
+  const root = document.querySelector<HTMLElement>("[data-hero-window]");
+  const reducedMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  /** Fait passer la capture suivante au premier plan à intervalle régulier. */
+  function rotate(shots: HTMLElement[]) {
+    let index = 0;
+    window.setInterval(() => {
+      shots[index]?.classList.remove("is-active");
+      index = (index + 1) % shots.length;
+      shots[index]?.classList.add("is-active");
+    }, INTERVAL);
+  }
+
+  if (root && !reducedMotion) {
+    const video = wantsVideo() ? root.querySelector<HTMLVideoElement>("[data-hero-video]") : null;
+    const shots = [...root.querySelectorAll<HTMLElement>(".window__shot")];
+
+    // Tout démarre après le chargement de la page, pour ne rien lui disputer.
+    const start = () => {
+      if (video) {
+        video.addEventListener("playing", () => video.classList.add("is-playing"), { once: true });
+        // Lecture automatique refusée par le navigateur : les captures prennent le relais.
+        video.play().catch(() => rotate(shots));
+      } else if (shots.length > 1) {
+        rotate(shots);
+      }
+    };
+    if (document.readyState === "complete") start();
+    else window.addEventListener("load", start, { once: true });
+  }
+</script>
+
+<style>
+  /* Une lueur dorée derrière la fenêtre, qui s'efface vers le haut, et le tracé
+     de la marque en fond : le premier écran se détache du reste de la page. */
+  .hero-center {
+    position: relative;
+    isolation: isolate;
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--space-8);
+    overflow: hidden;
+  }
+
+  .hero-center::before {
+    content: "";
+    position: absolute;
+    inset: 40% 0 0;
+    z-index: -1;
+    background: radial-gradient(ellipse 60% 55% at 50% 70%, rgb(223 160 42 / 0.22), transparent 70%);
+    mask-image: linear-gradient(to bottom, transparent, black 45%);
+  }
+
+  /* Le tracé de route de la marque, comme sur l'ancien site : centré, sur toute
+     la hauteur, très pâle. */
+  .hero-center__trace {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    z-index: -1;
+    width: auto;
+    max-width: none;
+    height: 100%;
+    opacity: 0.1;
+    pointer-events: none;
+    user-select: none;
+    transform: translateX(-50%);
+  }
+
+  .hero-center__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* Écart entre le bloc texte, la preuve et la fenêtre : 48 px sur mobile, 64 px sur desktop. */
+    gap: clamp(var(--space-7), 5vw, var(--space-8));
+    text-align: center;
+  }
+
+  .hero-center__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-5);
+  }
+
+  .hero-center__text :global(h1) {
+    max-width: 16em;
+    font-size: clamp(2.25rem, 5.6vw, 4.25rem);
+    text-wrap: balance;
+  }
+
+  .hero-center__text :global(.lead) {
+    max-width: 36em;
+    color: var(--fg-muted);
+    text-wrap: balance;
+  }
+
+  .hero-center__text :global(.actions) {
+    justify-content: center;
+    margin-top: var(--space-5);
+  }
+
+  /* Preuve sociale : pastilles qui se chevauchent, puis une phrase. */
+  .proof {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3) var(--space-4);
+    margin: 0;
+    font-size: var(--fs-lead);
+  }
+
+  .proof :global(strong) {
+    font-weight: 700;
+  }
+
+  .proof__logos {
+    display: flex;
+  }
+
+  .proof__logos img {
+    width: 2.75rem;
+    height: 2.75rem;
+    padding: 0.55rem;
+    border: 2px solid var(--color-white);
+    border-radius: 50%;
+    background-color: var(--color-coal);
+    object-fit: contain;
+  }
+
+  .proof__logos img + img {
+    margin-left: -0.75rem;
+  }
+
+  .window {
+    width: min(100%, 62rem);
+    margin: clamp(var(--space-4), 3vw, var(--space-6)) 0 0;
+    overflow: hidden;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background-color: var(--color-coal-deep);
+    box-shadow: 0 2rem 5rem rgb(0 0 0 / 0.25);
+  }
+
+  /* Captures et vidéo sont empilées : seule celle du premier plan est opaque. */
+  .window__screen {
+    position: relative;
+  }
+
+  .window__shot,
+  .window__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+
+  .window__shot.is-active,
+  .window__video.is-playing {
+    opacity: 1;
+  }
+
+  @media (max-width: 47.99em) {
+    .hero-center {
+      padding-top: calc(var(--nav-height) + var(--space-7));
+    }
+
+    .proof {
+      font-size: var(--fs-body);
+    }
+  }</style>

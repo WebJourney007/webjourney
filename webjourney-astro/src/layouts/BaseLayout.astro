@@ -1,0 +1,87 @@
+---
+import "../styles/global.css";
+import "../styles/layout.css";
+import AnalyticsHead from "../components/AnalyticsHead.astro";
+import AnalyticsBody from "../components/AnalyticsBody.astro";
+import Nav from "../components/Nav.astro";
+import TopBar from "../components/TopBar.astro";
+import Footer from "../components/Footer.astro";
+import { SITE, absoluteUrl } from "../lib/site";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Chemin de la page sans extension, ex. "/contact". Sert au canonical et à og:url. */
+  path: string;
+  ogTitle?: string;
+  ogDescription?: string;
+  /** Chemin d'image dans public/. À défaut, l'image de partage du site. */
+  ogImage?: string;
+  ogType?: "website" | "article";
+  structuredData?: object[];
+  noindex?: boolean;
+  /** Barre de navigation sans fond en haut de page, posée sur un hero clair ou sombre. */
+  navOverlay?: "light" | "dark";
+}
+
+const {
+  title,
+  description,
+  path,
+  ogTitle = title,
+  ogDescription = description,
+  ogImage = SITE.ogImage,
+  ogType = "website",
+  structuredData = [],
+  noindex = false,
+  navOverlay,
+} = Astro.props;
+
+const canonical = absoluteUrl(path);
+const ogImageUrl = absoluteUrl(ogImage);
+const isProd = import.meta.env.PROD;
+---
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {isProd && <AnalyticsHead />}
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:title" content={ogTitle} />
+    <meta property="og:description" content={ogDescription} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImageUrl} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={ogTitle} />
+    <meta name="twitter:description" content={ogDescription} />
+    <meta name="twitter:image" content={ogImageUrl} />
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/assets/images/webclip.png" />
+
+    <!-- Les deux polices servent dès le premier écran (titre et mots d'accent). -->
+    <link rel="preload" href="/fonts/Satoshi-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/TRJNDaVinciItalic-Display.woff2" as="font" type="font/woff2" crossorigin />
+
+    {structuredData.map((data) => (
+      <script is:inline type="application/ld+json" set:html={JSON.stringify(data)} />
+    ))}
+  </head>
+  <body>
+    {isProd && <AnalyticsBody />}
+    <TopBar />
+    <Nav currentPath={path} overlay={navOverlay} />
+    <main>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

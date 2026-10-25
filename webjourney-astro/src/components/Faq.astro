@@ -1,0 +1,88 @@
+---
+// Questions fréquentes en accordéon natif (<details>) : ouvrable au clavier,
+// sans JavaScript, et le contenu replié reste lisible par les moteurs.
+export interface FaqItem {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: FaqItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="faq">
+  {items.map((item) => (
+    <details class="faq__item">
+      <summary class="faq__question">
+        <h3 class="faq__title">{item.question}</h3>
+        <span class="faq__sign" aria-hidden="true"></span>
+      </summary>
+      <p class="faq__answer">{item.answer}</p>
+    </details>
+  ))}
+</div>
+
+<style>
+  .faq__item {
+    border-top: 1px solid var(--line);
+  }
+
+  .faq__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq__question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-5);
+    padding-block: var(--space-5);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .faq__question::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__title {
+    font-size: var(--fs-h3);
+    line-height: 1.25;
+  }
+
+  /* Le signe + devient − à l'ouverture : la barre verticale s'efface. */
+  .faq__sign {
+    position: relative;
+    flex-shrink: 0;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .faq__sign::before,
+  .faq__sign::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: currentColor;
+    translate: 0 -50%;
+    transition: rotate 0.3s var(--ease);
+  }
+
+  .faq__sign::after {
+    rotate: 90deg;
+  }
+
+  .faq__item[open] .faq__sign::after {
+    rotate: 0deg;
+  }
+
+  .faq__answer {
+    padding-bottom: var(--space-6);
+  }
+</style>

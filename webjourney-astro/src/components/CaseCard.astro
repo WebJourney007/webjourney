@@ -1,0 +1,80 @@
+---
+// Carte d'une réalisation avec étude de cas : capture, nom, prestations, ce
+// qui a été fait en une ou deux phrases, et le résultat quand il est mesuré.
+export interface CaseItem {
+  href: string;
+  name: string;
+  tags: string[];
+  text: string;
+  /** Résultat chiffré, affiché seulement s'il existe. */
+  result?: string;
+  image: string;
+  width: number;
+  height: number;
+  /** Familles du filtre : site, ecommerce, app, identite. */
+  types: string[];
+}
+
+interface Props {
+  item: CaseItem;
+}
+
+const { item } = Astro.props;
+---
+
+<article class="case" data-types={item.types.join(" ")}>
+  <a href={item.href} class="case__media" tabindex="-1" aria-hidden="true">
+    <img src={item.image} alt="" width={item.width} height={item.height} loading="lazy" decoding="async" />
+  </a>
+  <p class="case__tags muted">{item.tags.join(" · ")}</p>
+  <h3><a href={item.href} class="case__link">{item.name}</a></h3>
+  <p class="muted">{item.text}</p>
+  {item.result && <p class="case__result">{item.result}</p>}
+</article>
+
+<style>
+  .case {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .case[hidden] {
+    display: none;
+  }
+
+  .case__media {
+    display: block;
+    overflow: hidden;
+    margin-bottom: var(--space-2);
+    border-radius: var(--radius-md);
+  }
+
+  .case__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 850 / 520;
+    object-fit: cover;
+    object-position: top;
+    transition: scale 0.5s var(--ease);
+  }
+
+  .case:hover .case__media img {
+    scale: 1.03;
+  }
+
+  .case__tags {
+    font-size: var(--fs-small);
+  }
+
+  /* Le titre porte le lien : toute la carte reste lisible au clavier, un seul arrêt. */
+  .case__link::after {
+    content: " →";
+    color: var(--color-accent);
+  }
+
+  .case__result {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+</style>

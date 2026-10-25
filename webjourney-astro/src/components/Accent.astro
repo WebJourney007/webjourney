@@ -1,0 +1,116 @@
+---
+// Mots d'accent en TRJN Da Vinci italique, la signature des titres Web journey.
+//
+// La police n'a pas de lettres accentuées. L'ancien site les réécrivait en JS au
+// chargement (lettre nue + accent dessiné en CSS). Ici la découpe est faite au
+// build : pas de script, pas de saut à l'affichage, et le vrai caractère reste
+// dans le HTML pour les moteurs et les lecteurs d'écran.
+interface Props {
+  text: string;
+  /** "accent" colore en orange, "inherit" garde la couleur du texte autour. */
+  tone?: "accent" | "inherit";
+}
+
+const { text, tone = "accent" } = Astro.props;
+
+const FIXES: Record<string, { base: string; mark: string }> = {
+  é: { base: "e", mark: "acute" },
+  è: { base: "e", mark: "grave" },
+  ê: { base: "e", mark: "circumflex" },
+  î: { base: "i", mark: "circumflex" },
+  ô: { base: "o", mark: "circumflex" },
+  û: { base: "u", mark: "circumflex" },
+  â: { base: "a", mark: "circumflex" },
+  ç: { base: "c", mark: "cedilla" },
+  à: { base: "a", mark: "grave" },
+  ù: { base: "u", mark: "grave" },
+};
+
+const words = text.split(" ").map((word) => [...word]);
+---
+
+<em class:list={["accent", tone === "accent" && "accent--color"]}>{words.map((chars, i) => (
+  <>{i > 0 && " "}<span class="accent__word">{chars.map((char) => {
+    const fix = FIXES[char];
+    return fix
+      ? <span class="accent__fix" data-base={fix.base} data-mark={fix.mark}><span class="accent__real">{char}</span></span>
+      : char;
+  })}</span></>
+))}</em>
+
+<style>
+  /* La police d'accent est portée par les mots, pas par le conteneur : l'espace
+     entre deux mots garde ainsi la largeur de la police du texte autour. */
+  .accent {
+    font-style: normal;
+    font-weight: 400;
+  }
+
+  .accent--color {
+    color: var(--color-accent);
+  }
+
+  /* Un mot d'accent ne se coupe jamais en fin de ligne. */
+  .accent__word {
+    font-family: var(--font-accent);
+    font-style: italic;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .accent__fix {
+    position: relative;
+    display: inline-block;
+  }
+
+  /* Le « / "" » vide le texte alternatif : un lecteur d'écran ne lit que le vrai caractère. */
+  .accent__fix::before {
+    content: attr(data-base);
+    content: attr(data-base) / "";
+  }
+
+  .accent__fix::after {
+    position: absolute;
+    left: 20%;
+    top: 0;
+    font-size: 0.8em;
+    line-height: 1;
+    rotate: 28deg;
+  }
+
+  .accent__fix[data-mark="acute"]::after {
+    content: "´";
+    content: "´" / "";
+  }
+
+  .accent__fix[data-mark="grave"]::after {
+    content: "`";
+    content: "`" / "";
+  }
+
+  .accent__fix[data-mark="circumflex"]::after {
+    content: "^";
+    content: "^" / "";
+    left: 15%;
+    top: -0.1em;
+    font-size: 0.7em;
+    rotate: 0deg;
+  }
+
+  .accent__fix[data-mark="cedilla"]::after {
+    content: "¸";
+    content: "¸" / "";
+    left: 10%;
+    top: 0.4em;
+    font-size: 0.7em;
+    rotate: 0deg;
+  }
+
+  .accent__real {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+</style>

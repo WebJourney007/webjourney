@@ -1,0 +1,159 @@
+---
+// Scènes 4 et 5 : sites internet (Astral Motorclub), réservations en ligne
+// (Charly's Bike Store). Textes repris de la home (`data/home.ts`).
+import Browser from "./Browser.astro";
+import Words from "./Words.astro";
+---
+
+<section class="scene tone-dark s4">
+  <div class="s4-text">
+    <p class="kicker"><b>01</b> Sites internet</p>
+    <h2 class="title s4-title">
+      <span class="line"><Words text="Un site qui" /></span>
+      <span class="line"><Words text="vous amène" /></span>
+      <span class="line"><Words text="des demandes." /></span>
+    </h2>
+    <ul class="chips s4-chips">
+      <li class="chip">Design sur mesure</li>
+      <li class="chip">Pensé pour le mobile</li>
+      <li class="chip">Trouvé sur Google et par les IA</li>
+    </ul>
+  </div>
+  <div class="s4-browser">
+    <Browser label="Astral Motorclub" ratio={1600 / 766} video="/assets/showreel/clip--astral.mp4" />
+  </div>
+  <div class="s4-stat">
+    <p class="s4-stat__num"><span data-count>+0</span> %</p>
+    <p class="s4-stat__text">de clics Google pour Astral Motorclub</p>
+  </div>
+</section>
+
+<section class="scene tone-light s5">
+  <div class="s5-browser">
+    <Browser label="Charly's Bike Store" ratio={900 / 464} video="/assets/showreel/clip--reservation.mp4" />
+  </div>
+  <div class="ui-card s5-notif">
+    <span class="ui-card__icon s5-notif__icon">
+      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9" /><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0" /></svg>
+    </span>
+    <span>
+      <p class="ui-card__title">Nouvelle réservation</p>
+      <p class="ui-card__text">Révision complète · ven. 23 oct., 14 h 30</p>
+    </span>
+  </div>
+  <div class="ui-card s5-confirm">
+    <span class="ui-card__icon s5-confirm__icon">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+    </span>
+    <span>
+      <p class="ui-card__title">Rendez-vous confirmé</p>
+      <p class="ui-card__text">Confirmation envoyée au client</p>
+    </span>
+  </div>
+  <div class="s5-text">
+    <p class="kicker"><b>02</b> Réservations en ligne</p>
+    <h2 class="title s5-title">
+      <span class="line"><Words text="Un site qui prend" /></span>
+      <span class="line"><Words text="les réservations" /></span>
+      <span class="line"><Words text="à votre place." /></span>
+    </h2>
+    <ul class="chips s5-chips">
+      <li class="chip">Réservation en ligne</li>
+      <li class="chip">Planning</li>
+      <li class="chip">Relié à votre logiciel de gestion</li>
+    </ul>
+  </div>
+</section>
+
+<style>
+  .s4-text {
+    position: absolute;
+    top: 50%;
+    left: 120px;
+    width: 600px;
+    transform: translateY(-50%);
+  }
+
+  .s4-title,
+  .s5-title {
+    margin-block: 28px 44px;
+    font-size: 84px;
+  }
+
+  .s4-browser {
+    position: absolute;
+    top: 50%;
+    left: 760px;
+    width: 1060px;
+    margin-top: -290px;
+  }
+
+  .s4-stat {
+    position: absolute;
+    left: 720px;
+    bottom: 90px;
+    width: 430px;
+    padding: 30px 36px;
+    border-radius: 16px;
+    background-color: var(--paper);
+    color: var(--ink);
+    box-shadow: 0 30px 80px rgb(0 0 0 / 0.4);
+  }
+
+  .s4-stat__num {
+    color: var(--accent-strong);
+    font-size: 96px;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+
+  .s4-stat__text {
+    margin-top: 10px;
+    font-size: 22px;
+    font-weight: 500;
+  }
+
+  .s5-browser {
+    position: absolute;
+    top: 50%;
+    left: 120px;
+    width: 960px;
+    margin-top: -270px;
+  }
+
+  .s5-notif {
+    top: 150px;
+    left: 760px;
+  }
+
+  .s5-notif__icon {
+    background-color: var(--accent);
+    color: var(--ink);
+  }
+
+  /* À droite de la notification, sur la même ligne : l'œil passe de l'une à
+     l'autre sans descendre chercher la confirmation. */
+  .s5-confirm {
+    top: 150px;
+    left: 1236px;
+  }
+
+  .s5-confirm__icon {
+    background-color: #2f9e5b;
+    color: var(--white);
+  }
+
+  .s5-text {
+    position: absolute;
+    top: 50%;
+    left: 1200px;
+    width: 640px;
+    transform: translateY(-50%);
+  }
+
+  .s5-title {
+    font-size: 72px;
+  }
+</style>

@@ -1,0 +1,80 @@
+---
+// Question à choix unique : une légende, puis des options en pastilles.
+// Les `value` sont celles que reçoit `send-email.php` : ne pas les changer.
+interface Props {
+  name: string;
+  legend: string;
+  options: { value: string; label: string }[];
+  required?: boolean;
+}
+
+const { name, legend, options, required = false } = Astro.props;
+---
+
+<fieldset class="choices">
+  <legend class="choices__legend">{legend}{required && <span aria-hidden="true"> *</span>}</legend>
+  <div class="choices__options">
+    {options.map((option) => (
+      <label class="choices__option">
+        <input type="radio" name={name} value={option.value} required={required} />
+        <span>{option.label}</span>
+      </label>
+    ))}
+  </div>
+</fieldset>
+
+<style>
+  .choices {
+    grid-column: 1 / -1;
+    border: 0;
+  }
+
+  .choices__legend {
+    margin-bottom: var(--space-3);
+    font-size: var(--fs-small);
+    font-weight: 700;
+  }
+
+  .choices__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  /* La pastille entière est cliquable ; le bouton radio natif reste là pour le clavier. */
+  .choices__option {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background-color: var(--surface);
+    font-size: var(--fs-small);
+    cursor: pointer;
+    transition:
+      border-color 0.2s ease,
+      background-color 0.2s ease;
+  }
+
+  .choices__option:hover {
+    border-color: var(--fg-muted);
+  }
+
+  .choices__option input {
+    accent-color: var(--color-accent);
+  }
+
+  .choices__option:has(input:checked) {
+    border-color: var(--color-accent);
+  }
+
+  .choices__option:has(input:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .choices__option input:focus-visible {
+    outline: none;
+  }
+</style>

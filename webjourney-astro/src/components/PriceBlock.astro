@@ -1,0 +1,47 @@
+---
+// Prix d'une offre et son périmètre : le prix en grand, ses conditions, puis
+// ce qui est inclus et ce qui ne l'est pas, côte à côte.
+import FitList from "./FitList.astro";
+
+interface Props {
+  price: string;
+  /** Conditions sous le prix : pages, délai. */
+  note: string;
+  included: string[];
+  excluded: string[];
+}
+
+const { price, note, included, excluded } = Astro.props;
+---
+
+<div class="price-block">
+  <p class="price-block__figure">
+    <span class="price-block__amount">{price}</span>
+    <span class="price-block__note muted">{note}</span>
+  </p>
+  <FitList yes={included} no={excluded} yesLabel="Inclus" noLabel="Pas inclus (en option ou sur devis)" />
+</div>
+
+<style>
+  .price-block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-7);
+  }
+
+  .price-block__figure {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: none;
+  }
+
+  .price-block__amount {
+    color: var(--color-accent);
+    /* Même taille que les prix du bloc « d'un coup d'œil » de la page services. */
+    font-size: clamp(2.25rem, 3.2vw, 2.75rem);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+  }
+</style>

@@ -1,0 +1,304 @@
+---
+// Rapport de l'outil d'audit, rempli par `scripts/audit.ts` : scores en anneaux,
+// Core Web Vitals, points à améliorer, points forts, puis la demande de rappel.
+// Caché tant qu'aucune analyse n'a abouti.
+import Accent from "./Accent.astro";
+import Button from "./Button.astro";
+
+const scores = [
+  { key: "global", name: "Global" },
+  { key: "performance", name: "Performance" },
+  { key: "accessibility", name: "Accessibilité" },
+  { key: "bestPractices", name: "Bonnes pratiques" },
+  { key: "seo", name: "SEO" },
+];
+
+const vitals = [
+  { key: "fcp", label: "FCP", name: "Premier affichage" },
+  { key: "lcp", label: "LCP", name: "Affichage principal" },
+  { key: "tbt", label: "TBT", name: "Temps de blocage" },
+  { key: "cls", label: "CLS", name: "Stabilité visuelle" },
+  { key: "si", label: "SI", name: "Indice de vitesse" },
+  { key: "tti", label: "TTI", name: "Interactivité" },
+];
+---
+
+<div class="report" data-audit-report hidden>
+  <div class="report__head">
+    <div>
+      <p class="muted">Résultats pour <strong data-audit-analyzed-url></strong></p>
+      <h2>Votre rapport <Accent text="Lighthouse" /></h2>
+    </div>
+    <div class="report__tabs" role="group" aria-label="Appareil analysé">
+      <button type="button" class="report__tab" data-strategy="mobile" aria-pressed="true">Mobile</button>
+      <button type="button" class="report__tab" data-strategy="desktop" aria-pressed="false" disabled>Desktop</button>
+    </div>
+  </div>
+
+  <ul class="report__scores">
+    {scores.map((score) => (
+      <li class="score" data-score={score.key}>
+        <div class="ring" data-ring></div>
+        <p class="score__name">{score.name}</p>
+        <p class="score__status" data-status></p>
+      </li>
+    ))}
+  </ul>
+
+  <dl class="report__vitals">
+    {vitals.map((vital) => (
+      <div class="vital">
+        <dt><abbr title={vital.name}>{vital.label}</abbr> <span class="muted">{vital.name}</span></dt>
+        <dd data-vital={vital.key}>—</dd>
+      </div>
+    ))}
+  </dl>
+
+  <div class="report__lists">
+    <div>
+      <h3>Points à améliorer</h3>
+      <ul class="issues" data-audit-issues></ul>
+    </div>
+    <div data-audit-positives-block>
+      <h3>Ce qui fonctionne bien</h3>
+      <ul class="issues" data-audit-positives></ul>
+    </div>
+  </div>
+
+  <div class="report__lead">
+    <h3>Vous voulez corriger ces points ?</h3>
+    <p class="muted">Laissez votre e-mail : on vous rappelle pour un échange gratuit de 20 minutes sur votre rapport.</p>
+    <form class="report__lead-form" data-audit-lead>
+      <label for="audit-lead-email" class="visually-hidden">Votre adresse e-mail</label>
+      <input id="audit-lead-email" type="email" required placeholder="votre@email.ch" autocomplete="email" />
+      <Button type="submit" variant="accent" icon="arrow">Être recontacté</Button>
+    </form>
+    <p class="report__lead-status" role="status" data-audit-lead-status hidden></p>
+  </div>
+
+  <Button type="button" data-audit-restart>Analyser un autre site</Button>
+</div>
+
+<style>
+  .report {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-7);
+  }
+
+  .report[hidden] {
+    display: none;
+  }
+
+  .report__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-5);
+    width: 100%;
+  }
+
+  .report__tabs {
+    display: flex;
+    gap: var(--space-2);
+  }
+
+  .report__tab {
+    padding: var(--space-2) var(--space-5);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+
+  .report__tab[aria-pressed="true"] {
+    border-color: var(--color-accent);
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-weight: 700;
+  }
+
+  .report__tab:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+
+  /* Couleurs de Lighthouse : vert, orange, rouge. */
+  .score {
+    --tone: var(--fg-muted);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  .score[data-tone="good"] { --tone: #0cce6b; }
+  .score[data-tone="average"] { --tone: #ffa400; }
+  .score[data-tone="poor"] { --tone: #ff4e42; }
+
+  .report__scores {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: var(--space-6);
+    width: 100%;
+  }
+
+  .ring {
+    position: relative;
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .ring :global(svg) {
+    width: 100%;
+    height: 100%;
+    rotate: -90deg;
+  }
+
+  .ring :global(.ring__bg),
+  .ring :global(.ring__fill) {
+    fill: none;
+    stroke-width: 5;
+  }
+
+  .ring :global(.ring__bg) {
+    stroke: var(--line);
+  }
+
+  .ring :global(.ring__fill) {
+    stroke: var(--tone);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 1s var(--ease);
+  }
+
+  .ring :global(.ring__value) {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    color: var(--tone);
+    font-size: 1.5rem;
+    font-weight: 700;
+  }
+
+  .score__name {
+    font-weight: 700;
+  }
+
+  .score__status {
+    color: var(--tone);
+    font-size: var(--fs-small);
+  }
+
+  .report__vitals {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    gap: var(--space-4) var(--space-6);
+    width: 100%;
+  }
+
+  .vital {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--line);
+  }
+
+  .vital dt {
+    font-size: var(--fs-small);
+  }
+
+  .vital abbr {
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .vital dd {
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .report__lists {
+    display: grid;
+    gap: var(--space-7);
+    width: 100%;
+  }
+
+  .report__lists h3 {
+    margin-bottom: var(--space-4);
+  }
+
+  .issues {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .issues :global(.issue) {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    max-width: none;
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--fg-muted);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface);
+  }
+
+  .issues :global(.issue span) {
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+  }
+
+  .issues :global(.issue--poor) { border-left-color: #ff4e42; }
+  .issues :global(.issue--average) { border-left-color: #ffa400; }
+  .issues :global(.issue--good) { border-left-color: #0cce6b; }
+
+  .report__lead {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    width: 100%;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: var(--radius-md);
+    background-color: var(--surface);
+  }
+
+  .report__lead-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .report__lead-form[hidden] {
+    display: none;
+  }
+
+  .report__lead-form input {
+    flex: 1 1 16rem;
+    padding: var(--space-3) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    background-color: var(--bg);
+    color: var(--fg);
+    font: inherit;
+  }
+
+  .report__lead-status[data-state="success"] {
+    color: #0cce6b;
+  }
+
+  .report__lead-status[data-state="error"] {
+    color: #ff4e42;
+  }
+
+  @media (min-width: 62em) {
+    .report__lists {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>

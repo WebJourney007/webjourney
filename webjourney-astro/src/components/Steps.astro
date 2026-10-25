@@ -1,0 +1,62 @@
+---
+// Étapes numérotées d'un déroulé, côte à côte sur desktop.
+export interface Step {
+  title: string;
+  text: string;
+}
+
+interface Props {
+  items: Step[];
+}
+
+const { items } = Astro.props;
+const number = (index: number) => String(index + 1).padStart(2, "0");
+---
+
+<ol class="steps" style={`--steps: ${items.length}`}>
+  {items.map((item, index) => (
+    <li class="steps__item">
+      <span class="steps__number" aria-hidden="true">{number(index)}</span>
+      <h3>{item.title}</h3>
+      <p>{item.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .steps {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .steps__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    max-width: none;
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
+  /* La pastille orange numérotée de l'ancien site. */
+  .steps__number {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    margin-bottom: var(--space-2);
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  @media (min-width: 62em) {
+    .steps {
+      grid-template-columns: repeat(var(--steps), 1fr);
+      gap: var(--space-6);
+    }
+  }
+</style>

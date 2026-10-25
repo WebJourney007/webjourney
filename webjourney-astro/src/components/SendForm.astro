@@ -1,0 +1,122 @@
+---
+// Formulaire envoyé à un script PHP du site (`send-email.php` par défaut) : champ
+// pot de miel, grille de champs (slot), bouton d'envoi, promesse de réponse et
+// message de retour du serveur.
+import Button from "./Button.astro";
+import ReplyNote from "./ReplyNote.astro";
+
+interface Props {
+  /** "contact-page-form" ou "devis-form" : les déclencheurs GTM de l'ancien site. */
+  id: string;
+  submitLabel: string;
+  /** Nom accessible du formulaire. */
+  label: string;
+  action?: string;
+  /** Envoi réussi remonté à GTM (`form_submit`) et à Meta (`Lead`) : contact et devis
+      seulement, comme sur l'ancien site, pour ne pas fausser les conversions. */
+  track?: boolean;
+  /** « Réponse sous 24 h » sous le bouton. */
+  reply?: boolean;
+  /** Message affiché après un envoi réussi, à la place de celui du serveur. */
+  success?: string;
+  /** Petite mention sous le formulaire. */
+  note?: string;
+}
+
+const {
+  id,
+  submitLabel,
+  label,
+  action = "/send-email.php",
+  track = false,
+  reply = true,
+  success,
+  note = "* Champs obligatoires.",
+} = Astro.props;
+---
+
+<form
+  id={id}
+  class="send-form"
+  action={action}
+  method="POST"
+  aria-label={label}
+  data-send-form
+  data-track={track ? "" : undefined}
+  data-success={success}
+>
+  <!-- Pot de miel : invisible pour un humain, rempli par les robots. Le PHP ignore alors l'envoi. -->
+  <div class="send-form__hp" aria-hidden="true">
+    <label for={`${id}-hp`}>Ne pas remplir</label>
+    <input type="text" id={`${id}-hp`} name="hp_url" value="" tabindex="-1" autocomplete="off" />
+  </div>
+
+  <div class="send-form__grid">
+    <slot />
+  </div>
+
+  <div class="send-form__submit">
+    <Button type="submit" variant="accent" icon="arrow">{submitLabel}</Button>
+    {reply && <ReplyNote />}
+  </div>
+  <p class="send-form__status" role="status" aria-live="polite" data-form-status hidden></p>
+  <p class="send-form__legal muted">{note}</p>
+</form>
+
+<script>
+  import "../scripts/form-submit";
+</script>
+
+<style>
+  .send-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .send-form__hp {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .send-form__grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+
+  @media (min-width: 37.5em) {
+    .send-form__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .send-form__submit {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-4) var(--space-6);
+  }
+
+  .send-form__submit :global(button:disabled) {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  .send-form__status {
+    padding: var(--space-4) var(--space-5);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    background-color: var(--surface);
+  }
+
+  .send-form__status[data-state="error"] {
+    border-left-color: #c0392b;
+  }
+
+  .send-form__legal {
+    font-size: var(--fs-small);
+  }
+</style>

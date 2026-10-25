@@ -1,0 +1,9 @@
+# node_modules à plat : tant que ce dossier vit dans celui d'Astral, Node remonte
+# au node_modules parent dès qu'un paquet manque ici et y trouve les versions
+# d'Astro 4 (build cassé sur `cookie`). À plat, tout est résolu localement.
+# Peut être retiré une fois le projet dans son propre repo.
+nodeLinker: hoisted
+
+allowBuilds:
+  esbuild: true
+  sharp: true
