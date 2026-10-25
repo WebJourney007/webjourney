@@ -5,8 +5,8 @@
 
 ## Progression
 
-- [x] Phase 0 — Correctif site en ligne : boutons de contact de la home vers `/contact` (2026-10-07 10:00, non déployé)
-- [x] Phase 1 — Socle Astro (B-001) (2026-10-07 10:10, check et build verts, non commité)
+- [x] Phase 0 — Correctif site en ligne : boutons de contact de la home vers `/contact` (2026-10-07 10:00, commité 2026-10-25 18:55 sur `feat/astro-v2`, non déployé)
+- [x] Phase 1 — Socle Astro (B-001) (2026-10-07 10:10, check et build verts)
 - [ ] Phase 2 — Home (B-002)
 - [ ] Phase 3 — Pages services, contact, légales (B-003)
 - [ ] Phase 4 — Réalisations (B-004)
@@ -18,6 +18,7 @@
 ## Cadre
 
 - Nouveau site dans `webjourney-astro/`, ancien site intact dans `public/` jusqu'à la bascule.
+- 2026-10-25 18:55 : la v2 développée hors repo (`test/webjourney`, 32 pages) remplace l'ébauche de `webjourney-astro/`. Check 0 erreur, build vert. Les phases 2 à 5 sont à recocher après relecture. Les vidéos restent hors git (déploiement FTP).
 - Décision et arbitrages : D_001 dans `docs/07-decisions-log.md`.
 - Les 29 URLs actuelles sont conservées (liste dans `docs/05-technical-architecture.md`).
 - Layout et textes sont refaits. Les textes des réalisations sont rédigés par Max.
