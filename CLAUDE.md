@@ -110,12 +110,11 @@ Pour appliquer une méthode, on invoque le skill — sa `description` suffit à 
 
 ## Contexte projet
 
-<!-- À REMPLIR — décris ton produit en 3-5 lignes :
-- Produit : <quoi, pour qui>
-- App : <stack — ex. Astro 5, TypeScript strict, Tailwind, déploiement>
-- Repo : <url>
-- Goal directeur : <l'objectif unique qui prime>
--->
+- Produit : site de Web journey, agence web à Sion — création de sites pour les TPE et PME de Suisse romande.
+- App : Astro 7 en sortie statique, TypeScript strict, CSS natif, formulaires PHP, hébergement Infomaniak (envoi par FTP).
+- Deux sites dans le repo : `webjourney-astro/` = nouveau site en construction · `public/` = ancien site (export Webflow), en ligne jusqu'à la bascule, à ne plus faire évoluer.
+- Repo : git@github.com:WebJourney007/webjourney.git
+- Goal directeur : obtenir des demandes de contact.
 
 ## Fichiers de travail & push
 
