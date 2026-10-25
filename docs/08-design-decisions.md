@@ -28,6 +28,7 @@ Conséquence : un visiteur qui voit l'invite `>` sait qu'il va pouvoir écrire o
 - **Bouton secondaire** (`Button`, variante par défaut) : crochets de la couleur du texte, qui s'élargissent au survol.
 - **Lien de contact en texte** (classe `contact-link`) : l'invite et le curseur n'apparaissent qu'au survol. Utilisé dans le bandeau du haut et le pied de page.
 - **Lien de navigation** : au survol, le mot roule vers son double doré. Pas de crochets. La page courante est en doré.
+- **Panneau de navigation** (« Services ») : bouton texte + chevron, sans crochets (ce n'est pas un contact). Panneau sur fond clair, ombre portée, coins arrondis comme le menu mobile. Chaque lien reprend le lien de navigation (le mot roule), avec une phrase de description en petit, couleur atténuée.
 
 ## Méthode
 

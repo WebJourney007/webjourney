@@ -13,7 +13,6 @@
 
 | id | titre | prio | temps | effort | deps | note |
 | -- | ----- | ---- | ----- | ------ | ---- | ---- |
-| B-009 | Pages services : applications sur mesure et identité visuelle, 3 liens services dans la navigation | 🟠 | j | élevé | B-003 | Option C choisie par Max (2026-10-25) : une page par service sur le modèle de `/creation-site-internet`, plus un bloc « Nos autres services » sur cette page. Menu déroulant au survol de « Services » (3 liens). URLs `/applications-sur-mesure` et `/identite-visuelle`, fixées sans export Keyword Planner (à revoir avant la bascule B-007 si l'export arrive). |
 | B-008 | Visibilité : pages locales, fiche Google Business, contenus | 🟠 | j | élevé | B-007 | Ce qui fait monter le trafic. À prioriser avec les chiffres Search Console. |
 | B-007 | Bascule vers le nouveau site | 🔴 | h | moyen | B-002 à B-006 | Parité des 29 URLs, envoi FTP de `dist/`, suivi Search Console 2 à 4 semaines. |
 | B-006 | Performance, SEO, sécurité | 🟠 | j | moyen | B-002 à B-005 | Images, sitemap généré, en-têtes de sécurité, secrets hors racine web, tracking et information nLPD. |
@@ -39,4 +38,5 @@
 
 > Items terminés, forme compacte : `B-NNN — titre — date`.
 
+- B-009 — Pages services : applications sur mesure, identité visuelle, panneau « Services » — 2026-10-25
 - B-001 — Socle Astro — 2026-10-07

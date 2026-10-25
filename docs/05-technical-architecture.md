@@ -17,7 +17,7 @@
 | Générateur | Astro 7, sortie statique |
 | Langage | TypeScript strict (TypeScript 6 : `astro check` ne supporte pas encore la version 7) |
 | Styles | CSS natif : jetons globaux + styles par composant. Pas de framework CSS. |
-| JavaScript côté visiteur | Aucun par défaut. Pas de jQuery, pas de CDN Webflow. |
+| JavaScript côté visiteur | Le strict nécessaire, en modules locaux (`src/scripts/`, ex. `nav.ts` pour la barre). Pas de jQuery, pas de CDN Webflow. |
 | Formulaires | Scripts PHP de l'ancien site, à reprendre avec B-003 |
 | Hébergement | Infomaniak (Apache), envoi de `webjourney-astro/dist/` par FTP |
 | Paquets | pnpm |
@@ -28,7 +28,7 @@
   - `src/pages/` : une page par URL.
   - `src/layouts/BaseLayout.astro` : structure HTML et balises SEO.
   - `src/components/` : bouton, en-tête, pied de page.
-  - `src/data/site.ts` : coordonnées et navigation, source unique.
+  - `src/lib/site.ts` : coordonnées, navigation et liens des 3 services, source unique.
   - `src/styles/global.css` : polices, jetons de design, styles de base.
   - `public/` : fichiers servis tels quels (polices, favicon).
 - `public/` (racine du repo) — ancien site, en ligne jusqu'à la bascule (D_001).
@@ -48,3 +48,7 @@ Racine : `/` · `a-propos` · `agence-web-sion` · `audit` · `blog` · `cgv` ·
 Réalisations : `astral-motorclub` · `charlys-bike-store` · `cirque-de-noel` · `cyclo-gordo` · `dinoworld` · `insectopia` · `la-meltingpote` · `pirates-aventure` · `varela-brothers` · `victor-rossi`
 
 Blog : `blog/7-erreurs-site-web-pme` · `blog/combien-coute-un-site-web-en-suisse-2026`
+
+## URLs ajoutées par le nouveau site
+
+`applications-sur-mesure` · `identite-visuelle` (B-009, 2026-10-25). Fixées sans export Keyword Planner : à revoir avant la bascule (B-007) si l'export arrive, sinon tout changement demandera une redirection 301.
