@@ -7,7 +7,7 @@
 // quand on descend et revient avec son fond quand on remonte (scripts/nav.ts).
 import Accent from "./Accent.astro";
 import Button from "./Button.astro";
-import { NAV_LINKS, PROJECT_CTA, SITE } from "../lib/site";
+import { NAV_LINKS, PROJECT_CTA, SERVICE_LINKS, SITE } from "../lib/site";
 
 interface Props {
   currentPath: string;
@@ -17,6 +17,8 @@ interface Props {
 
 const { currentPath, overlay } = Astro.props;
 const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
+// Sur une page service, « Services » passe en doré comme un lien courant.
+const inServices = SERVICE_LINKS.some((service) => service.href === currentPath);
 ---
 
 <header class:list={["nav", overlay && "nav--overlay", overlay === "dark" && "nav--overlay-dark"]} data-nav>
@@ -30,6 +32,32 @@ const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
 
       <nav class="nav__links" aria-label="Navigation principale">
         <ul>
+          <li class="nav__group" data-services>
+            <button
+              type="button"
+              class:list={["nav__link", "nav__services", inServices && "is-current"]}
+              aria-expanded="false"
+              aria-controls="services-panel"
+              data-services-trigger
+            >
+              <span data-label="Services">Services</span>
+              <svg class="nav__chevron" viewBox="0 0 12 12" aria-hidden="true">
+                <path d="M2.5 4.5 6 8l3.5-3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+            <div id="services-panel" class="services" data-services-panel inert>
+              <ul class="services__list">
+                {SERVICE_LINKS.map((service) => (
+                  <li>
+                    <a href={service.href} class="services__link" aria-current={isCurrent(service.href)}>
+                      <span class="nav__link"><span data-label={service.label}>{service.label}</span></span>
+                      <span class="services__text">{service.text}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </li>
           {NAV_LINKS.map((link) => (
             <li>
               <a href={link.href} class="nav__link" aria-current={isCurrent(link.href)}>
@@ -54,7 +82,15 @@ const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
 
   <div id="site-menu" class="menu" data-menu-panel inert>
     <nav aria-label="Menu">
+      <p class="menu__label">Services</p>
       <ul class="menu__list">
+        {SERVICE_LINKS.map((service) => (
+          <li>
+            <a href={service.href} class="menu__link" aria-current={isCurrent(service.href)}>{service.label}</a>
+          </li>
+        ))}
+      </ul>
+      <ul class="menu__list menu__list--more">
         {NAV_LINKS.map((link) => (
           <li>
             <a href={link.href} class="menu__link" aria-current={isCurrent(link.href)}>{link.label}</a>
@@ -197,6 +233,106 @@ const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
     }
   }
 
+  /* ─── Panneau « Services » (desktop) ─── */
+
+  .nav__group {
+    position: relative;
+  }
+
+  .nav__services {
+    display: flex;
+    align-items: center;
+    gap: 0.35em;
+  }
+
+  .nav__services.is-current span {
+    color: var(--accent-text);
+  }
+
+  .nav__chevron {
+    width: 0.75em;
+    height: 0.75em;
+    flex-shrink: 0;
+    transition: rotate 0.3s var(--ease);
+  }
+
+  .nav__services[aria-expanded="true"] .nav__chevron {
+    rotate: 180deg;
+  }
+
+  /* Le haut du panneau est transparent : il fait le pont avec le bouton, et le
+     curseur passe de l'un à l'autre sans quitter le groupe. */
+  .services {
+    --fg: var(--color-ink);
+    --bg: var(--color-paper);
+    --accent-text: var(--color-accent-strong);
+
+    position: absolute;
+    top: 100%;
+    left: calc(-1 * var(--space-5));
+    width: 22rem;
+    padding-top: var(--space-2);
+    color: var(--color-ink);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 -0.5rem;
+    transition:
+      opacity 0.25s var(--ease),
+      translate 0.25s var(--ease),
+      visibility 0s 0.25s;
+  }
+
+  .services[data-open] {
+    opacity: 1;
+    visibility: visible;
+    translate: 0;
+    transition:
+      opacity 0.25s var(--ease),
+      translate 0.25s var(--ease);
+  }
+
+  .nav__links .services__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background-color: var(--color-paper);
+    box-shadow: 0 1.5rem 4rem rgb(0 0 0 / 0.18);
+  }
+
+  .services__link {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+  }
+
+  /* Le libellé reprend le lien de navigation, avec moins d'air autour. */
+  .services__link .nav__link span {
+    padding-block: 0.2em;
+  }
+
+  .services__link[aria-current="page"] .nav__link span {
+    color: var(--accent-text);
+  }
+
+  .services__text {
+    display: block;
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    line-height: 1.4;
+  }
+
+  @media (hover: hover) {
+    .services__link .nav__link span::after {
+      padding-block: 0.2em;
+    }
+
+    .services__link:hover .nav__link span,
+    .services__link:focus-visible .nav__link span {
+      translate: 0 -100%;
+    }
+  }
+
   .nav :global(.nav__trigger) {
     min-width: 6.5rem;
   }
@@ -251,6 +387,21 @@ const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
     gap: var(--space-2);
   }
 
+  .menu__label {
+    margin-bottom: var(--space-3);
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .menu__list--more {
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--line);
+  }
+
   .menu__link {
     display: flex;
     align-items: center;
@@ -265,6 +416,7 @@ const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
   /* Le trait devant chaque lien, repris de l'ancien menu. */
   .menu__link::before {
     content: "";
+    flex-shrink: 0; /* garde le trait entier quand le libellé passe sur deux lignes */
     width: 2rem;
     height: 5px;
     background-color: currentColor;

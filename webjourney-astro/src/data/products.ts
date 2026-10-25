@@ -3,7 +3,9 @@
 import type { Shot } from "../components/HeroCenter.astro";
 import type { Stat } from "../components/Stats.astro";
 import { PROJECT_CTA } from "../lib/site";
+import { appIncluded } from "./applications";
 import { siteShot } from "./home";
+import { designIncluded } from "./identite";
 import { offers } from "./offers";
 
 export interface ProductProject {
@@ -38,8 +40,11 @@ export interface Product {
 
 const [landing, vitrine] = offers;
 // Produits sur devis : un seul formulaire, celui de contact (pas de devis en
-// concurrence sur la home).
-const CONTACT: ProductAction[] = [{ label: PROJECT_CTA.label, href: PROJECT_CTA.href }];
+// concurrence sur la home), puis la page du service.
+const contactAndDetail = (href: string): ProductAction[] => [
+  { label: PROJECT_CTA.label, href: PROJECT_CTA.href },
+  { label: "Voir le détail", href },
+];
 
 export const siteProduct: Product = {
   title: "Création de site internet,",
@@ -101,23 +106,18 @@ export const siteProduct: Product = {
   ],
 };
 
-// Pas de page dédiée tant que l'export Keyword Planner n'a pas tranché : l'action
-// principale est l'appel. Les médias sont ceux des anciens rangs de services.
+// Page dédiée depuis B-009, URL fixée sans export Keyword Planner. Les médias
+// sont ceux des anciens rangs de services.
 export const appProduct: Product = {
   title: "Applications sur-mesure,",
   accent: "qui vous font gagner du temps",
   pitch:
     "Réservation en ligne, planning, application de location, connexion à votre logiciel de gestion : nous créons les outils qui vous font gagner des heures chaque semaine.",
-  deliverables: [
-    "Réservation et rendez-vous en ligne",
-    "Planning, location, suivi de stock",
-    "Connexion à vos outils",
-    "L'IA, là où elle fait gagner du temps",
-  ],
+  deliverables: appIncluded.map(({ title }) => title),
   price: "Sur devis",
   priceNote: "Un prix fixe, annoncé après un premier échange",
-  href: PROJECT_CTA.href,
-  actions: CONTACT,
+  href: "/applications-sur-mesure",
+  actions: contactAndDetail("/applications-sur-mesure"),
   media: {
     video: "/assets/videos/service--applications.mp4",
     poster: "/assets/images/service--applications.webp",
@@ -132,16 +132,11 @@ export const designProduct: Product = {
   accent: "à la hauteur de votre travail",
   pitch:
     "Logo, charte graphique, cartes de visite, flyers, brochures : une image cohérente qui rassure dès le premier contact, du site jusqu'au papier.",
-  deliverables: [
-    "Logo et ses déclinaisons",
-    "Charte graphique",
-    "Cartes de visite, flyers, brochures",
-    "Du web au papier",
-  ],
+  deliverables: designIncluded.map(({ title }) => title),
   price: "Sur devis",
   priceNote: "Un prix fixe, annoncé après un premier échange",
-  href: PROJECT_CTA.href,
-  actions: CONTACT,
+  href: "/identite-visuelle",
+  actions: contactAndDetail("/identite-visuelle"),
   // 6 s du showreel (25,4 → 31,4 s) : couverture de la charte Varela Brothers,
   // puis sa grille logo, palette, gravures, papeterie.
   media: {

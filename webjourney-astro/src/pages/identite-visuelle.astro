@@ -1,0 +1,112 @@
+---
+// Page du service « identité visuelle » (B-009). Même squelette que
+// `/applications-sur-mesure` : sur devis, donc ni formules ni tableau. Pas de
+// témoignage : aucun avis client ne porte sur l'identité seule.
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Accent from "../components/Accent.astro";
+import Button from "../components/Button.astro";
+import CaseGrid from "../components/CaseGrid.astro";
+import Cta from "../components/Cta.astro";
+import Faq from "../components/Faq.astro";
+import HeroText from "../components/HeroText.astro";
+import OtherServices from "../components/OtherServices.astro";
+import PointList from "../components/PointList.astro";
+import ReplyNote from "../components/ReplyNote.astro";
+import Section from "../components/Section.astro";
+import SectionHead from "../components/SectionHead.astro";
+import Steps from "../components/Steps.astro";
+import { faqStructuredData } from "../data/faq";
+import { methodSteps } from "../data/home";
+import { designFaq, designIncluded, designStructuredData } from "../data/identite";
+import { designProduct } from "../data/products";
+import { cases } from "../data/projects";
+import { PROJECT_CTA, SITE } from "../lib/site";
+
+const path = "/identite-visuelle";
+// Les réalisations de la famille « identite » du filtre des réalisations.
+const examples = cases.filter((item) => item.types.includes("identite"));
+---
+
+<BaseLayout
+  title="Identité visuelle et logo en Valais | Web journey"
+  description="Identité visuelle en Valais : logo, charte graphique, cartes de visite, flyers et brochures. Une image cohérente du site au papier, à un prix fixe annoncé après un premier échange."
+  path={path}
+  structuredData={[designStructuredData, faqStructuredData(designFaq)]}
+>
+  <HeroText>
+    <h1>Identité visuelle en Valais, <Accent text="à la hauteur de votre travail" /></h1>
+    <p class="lead">{designProduct.pitch}</p>
+    <p class="muted">{designProduct.price} : {designProduct.priceNote.toLowerCase()}.</p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroText>
+
+  <div class="page-deep tone-ink">
+  <!-- ─── CE QUE COMPREND UNE IDENTITÉ ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Une identité, <Accent text="du web au papier" /></Fragment>
+      </SectionHead>
+      <PointList items={designIncluded} cols={2} />
+    </div>
+  </Section>
+
+  <!-- ─── PREUVES ─── -->
+  <Section id="realisations">
+    <div class="flow">
+      <div class="head-row">
+        <SectionHead>
+          <Fragment slot="title">Des marques <Accent text="déjà lancées" /></Fragment>
+        </SectionHead>
+        <Button href="/nos-sites-internet" icon="arrow">Voir toutes nos réalisations</Button>
+      </div>
+      <CaseGrid items={examples} />
+    </div>
+  </Section>
+
+  <!-- ─── MÉTHODE ─── -->
+  <Section>
+    <div class="flow">
+      <SectionHead>
+        <Fragment slot="title">Trois étapes, <Accent text="zéro surprise" /></Fragment>
+        <p>Un seul interlocuteur du début à la fin. Vous validez, nous nous occupons du reste.</p>
+      </SectionHead>
+      <Steps items={methodSteps} />
+    </div>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre identité" /></Fragment>
+      </SectionHead>
+      <Faq items={designFaq} />
+    </div>
+  </Section>
+
+  <!-- ─── AUTRES SERVICES ─── -->
+  <OtherServices path={path} />
+
+  <!-- ─── APPEL À L'ACTION ─── -->
+  <Section>
+    <Cta>
+      <Fragment slot="title">Parlons de <Accent text="votre image" /></Fragment>
+      <p>
+        Décrivez votre activité en quelques lignes : on vous dit ce dont votre marque a besoin, et combien ça coûte.
+        Gratuit et sans engagement.
+      </p>
+      <ReplyNote />
+      <Fragment slot="actions">
+        <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+        <Button href={SITE.whatsapp} target="_blank" rel="noopener noreferrer" icon="whatsapp">
+          {SITE.phoneDisplay}
+        </Button>
+      </Fragment>
+    </Cta>
+  </Section>
+  </div>
+</BaseLayout>

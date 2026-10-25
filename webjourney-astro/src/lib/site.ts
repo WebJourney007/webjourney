@@ -33,10 +33,30 @@ export const SITE = {
 // savoir précisément ce qu'il veut pour écrire.
 export const PROJECT_CTA = { label: "Démarrer votre projet", short: "Démarrer", href: "/contact" } as const;
 
-// Liens de la barre de navigation. Le logo ramène à l'accueil et le bouton
-// « Démarrer votre projet » mène au contact : ils n'y figurent donc pas.
+// Les trois services, un par besoin du client : panneau « Services » de la
+// barre, menu mobile, pied de page et bloc « Nos autres services » (B-009).
+export const SERVICE_LINKS = [
+  {
+    label: "Sites internet",
+    href: "/creation-site-internet",
+    text: "Site vitrine, landing page ou boutique en ligne, pensé pour Google et pour les IA.",
+  },
+  {
+    label: "Applications sur mesure",
+    href: "/applications-sur-mesure",
+    text: "Réservation en ligne, planning, connexion à vos outils : des heures gagnées chaque semaine.",
+  },
+  {
+    label: "Identité visuelle",
+    href: "/identite-visuelle",
+    text: "Logo, charte graphique, cartes de visite, flyers : une image cohérente, du site au papier.",
+  },
+] as const;
+
+// Liens de la barre de navigation, après le panneau « Services ». Le logo ramène
+// à l'accueil et le bouton « Démarrer votre projet » mène au contact : ils n'y
+// figurent donc pas.
 export const NAV_LINKS = [
-  { label: "Services", href: "/creation-site-internet" },
   { label: "Réalisations", href: "/nos-sites-internet" },
   { label: "À propos", href: "/a-propos" },
 ] as const;
@@ -45,6 +65,7 @@ export const NAV_LINKS = [
 // La page locale, le blog et le compresseur y sont aussi : sans ces liens, l'audit
 // SE Ranking du 2026-10-24 les trouvait orphelins ou liés une seule fois.
 export const FOOTER_LINKS = [
+  ...SERVICE_LINKS.map(({ label, href }) => ({ label, href })),
   ...NAV_LINKS,
   { label: "Agence web à Sion", href: "/agence-web-sion" },
   { label: "Ressources", href: "/ressources" },

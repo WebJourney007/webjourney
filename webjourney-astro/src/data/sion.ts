@@ -44,10 +44,12 @@ export const localServices: Explain[] = [
   {
     title: "Applications et réservation en ligne",
     text: "Réservation, planning, connexion à vos outils : des applications qui vous font gagner des heures chaque semaine.",
+    href: "/applications-sur-mesure",
   },
   {
     title: "Identité visuelle",
     text: "Logo, charte graphique, cartes de visite, flyers : une image cohérente, du site jusqu'au papier.",
+    href: "/identite-visuelle",
   },
 ];
 
