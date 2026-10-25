@@ -108,7 +108,7 @@ export const CLIENT_LOGOS: Logo[] = [
     height: 40,
     preview: shot("la-meltingpote"),
   },
-  { src: `${DIR}/aleiko--logo 1.png`, name: "Aleiko", width: 42, height: 64, preview: shot("aleiko") },
+  { src: `${DIR}/aleiko--logo.png`, name: "Aleiko", width: 42, height: 64, preview: shot("aleiko") },
   {
     src: `${DIR}/logo-geneva-velo.png`,
     name: "Geneva Velo",

@@ -71,8 +71,8 @@ export const caseStudies: CaseStudy[] = [
     review: {
       quote:
         "\"Le site et l'application développés ont clairement structuré notre activité. C'est un véritable outil business, pensé pour évoluer avec notre entreprise.\"",
-      name: "Alan",
-      role: "Astral-motorclub.ch",
+      name: "Alan Lepart",
+      role: "Astral Motorclub",
     },
     media: loop("astral-motorclub", 610),
   },

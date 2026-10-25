@@ -6,7 +6,6 @@ import Cta from "../components/Cta.astro";
 import Faq from "../components/Faq.astro";
 import HeroCenter from "../components/HeroCenter.astro";
 import LogoMarquee from "../components/LogoMarquee.astro";
-import PointList from "../components/PointList.astro";
 import ProductSection from "../components/ProductSection.astro";
 import Quote from "../components/Quote.astro";
 import Section from "../components/Section.astro";
@@ -25,19 +24,11 @@ import {
   caseStudyStats,
   hero,
   methodSteps,
-  pains,
   structuredData,
   testimonials,
   videoReview,
 } from "../data/home";
-import {
-  appCapabilities,
-  appProduct,
-  designIncluded,
-  designProduct,
-  siteIncluded,
-  siteProduct,
-} from "../data/products";
+import { appProduct, designProduct, siteProduct } from "../data/products";
 import { PROJECT_CTA, SITE } from "../lib/site";
 
 ---
@@ -67,52 +58,54 @@ import { PROJECT_CTA, SITE } from "../lib/site";
 
   <!-- Tout ce qui suit le premier écran repose sur un seul dégradé sombre. -->
   <div class="page-deep tone-ink">
-  <!-- ─── PRODUITS : ce qu'on vend, avant de parler de problème ─── -->
+  <!-- ─── PRODUITS : le produit phare, puis sa preuve ─── -->
   <Section id="sites">
-    <ProductSection product={siteProduct} reverse checks={false}>
+    <ProductSection product={siteProduct} reverse>
       <SiteResults slot="media" />
     </ProductSection>
   </Section>
 
-  <!-- ─── INCLUS : le détail de la création de site, pour aérer la suite ─── -->
-  <Section id="inclus">
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Inclus dans <Accent text="chaque site" /></Fragment>
-      </SectionHead>
-      <PointList items={siteIncluded} />
-    </div>
+  <!-- ─── ÉTUDE DE CAS ─── -->
+  <Section>
+    <Split
+      image="/assets/images/astral-motorclub--webjourney--use-2.webp"
+      alt="Site web sur-mesure Astral Motorclub — réalisation Web Journey Valais"
+      width={850}
+      height={1133}
+      ratio="4 / 5"
+      reverse
+    >
+      <h2>Comment nous avons transformé <Accent text="Astral Motorclub" /></h2>
+      <p>
+        <a href="https://www.astral-motorclub.ch" target="_blank" rel="noopener noreferrer" class="text-link"
+          >Astral Motorclub</a
+        > loue des voitures de luxe à Genève, Paris, Monaco et sur la Côte d'Azur. Nous avons créé leur site et une
+        application de réservation sur-mesure, et nous les accompagnons depuis pour faire croître leur activité.
+      </p>
+      <Stats items={caseStudyStats} />
+      <Button href="/astral-motorclub" icon="arrow">Voir l'étude de cas</Button>
+    </Split>
   </Section>
 
   <Section id="applications">
-    <ProductSection product={appProduct} reverse checks={false}>
+    <ProductSection product={appProduct} reverse>
       <AppResults slot="media" />
     </ProductSection>
   </Section>
 
-  <!-- ─── CE QUE LES APPLICATIONS FONT : même rôle que « Inclus » pour les sites ─── -->
-  <Section id="outils">
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Des outils qui <Accent text="travaillent pour vous" /></Fragment>
-      </SectionHead>
-      <PointList items={appCapabilities} />
-    </div>
-  </Section>
-
   <Section id="design">
-    <ProductSection product={designProduct} checks={false}>
+    <ProductSection product={designProduct}>
       <BrandBoard slot="media" />
     </ProductSection>
   </Section>
 
-  <!-- ─── CE QUE COMPREND UNE IDENTITÉ : illustré par Varela Brothers ─── -->
-  <Section id="identite">
+  <!-- ─── TÉMOIGNAGES ─── -->
+  <Section>
     <div class="flow">
       <SectionHead>
-        <Fragment slot="title">Une identité, <Accent text="du web au papier" /></Fragment>
+        <Fragment slot="title">Ce que disent <Accent text="nos clients" /></Fragment>
       </SectionHead>
-      <PointList items={designIncluded} />
+      <Reviews video={videoReview} items={testimonials} />
     </div>
   </Section>
 
@@ -127,54 +120,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         </p>
       </SectionHead>
       <Steps items={methodSteps} />
-    </div>
-  </Section>
-
-  <!-- ─── PROBLÈME ─── -->
-  <Section>
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Et votre site actuel, <Accent text="travaille-t-il pour vous ?" /></Fragment>
-        <p>
-          Un bon site travaille 24 h sur 24 : il rassure, il répond aux questions et prend les réservations pendant que
-          vous dormez.
-        </p>
-      </SectionHead>
-      <PointList items={pains} />
-      <p>
-        Pas sûr de l'état de votre site ? <a href="/audit" class="text-link">Faites-le auditer gratuitement</a>.
-      </p>
-    </div>
-  </Section>
-
-  <!-- ─── ÉTUDE DE CAS ─── -->
-  <Section>
-    <Split
-      image="/assets/images/astral-motorclub--webjourney--use-2.webp"
-      alt="Site web sur-mesure Astral Motorclub — réalisation Web Journey Valais"
-      width={850}
-      height={1133}
-      ratio="4 / 5"
-    >
-      <h2>Comment nous avons transformé <Accent text="Astral Motorclub" /></h2>
-      <p>
-        <a href="https://www.astral-motorclub.ch" target="_blank" rel="noopener noreferrer" class="text-link"
-          >Astral Motorclub</a
-        > loue des voitures de luxe à Genève, Paris, Monaco et sur la Côte d'Azur. Nous avons créé leur site et une
-        application de réservation sur-mesure, et nous les accompagnons depuis pour faire croître leur activité.
-      </p>
-      <Stats items={caseStudyStats} />
-      <Button href="/astral-motorclub" icon="arrow">Voir l'étude de cas</Button>
-    </Split>
-  </Section>
-
-  <!-- ─── TÉMOIGNAGES ─── -->
-  <Section>
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Ce que disent <Accent text="nos clients" /></Fragment>
-      </SectionHead>
-      <Reviews video={videoReview} items={testimonials} />
     </div>
   </Section>
 
@@ -222,10 +167,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         </Button>
       </Fragment>
     </Cta>
-    <p class="lead-magnet muted">
-      Pas encore prêt ? Recevez notre guide gratuit :{" "}
-      <a href="/guide-gratuit" class="text-link">les 7 erreurs qui font fuir vos clients</a>.
-    </p>
   </Section>
   </div>
 </BaseLayout>
@@ -235,10 +176,5 @@ import { PROJECT_CTA, SITE } from "../lib/site";
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-5) var(--space-6);
-  }
-
-  .lead-magnet {
-    margin: var(--space-6) auto 0;
-    text-align: center;
   }
 </style>

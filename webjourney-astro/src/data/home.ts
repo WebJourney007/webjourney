@@ -42,22 +42,6 @@ export const services: Feature[] = [
   },
 ];
 
-// Section problème : les douleurs du client, dites avec ses mots.
-export const pains = [
-  {
-    title: "Votre site date, et vous évitez de le montrer",
-    text: "Vos prospects comparent. Un site daté les envoie chez le concurrent avant même qu'ils vous appellent.",
-  },
-  {
-    title: "Personne ne vous trouve, ni sur Google ni dans ChatGPT",
-    text: "Vos clients cherchent votre métier sur Google, et de plus en plus en le demandant à une IA. S'ils tombent sur vos concurrents, ils ne sauront jamais que vous existez.",
-  },
-  {
-    title: "Vous gérez les réservations au téléphone",
-    text: "Rendez-vous, locations, inscriptions notés à la main : des heures perdues chaque semaine, et des erreurs. Votre site pourrait le faire à votre place, jour et nuit.",
-  },
-];
-
 export const caseStudyStats = [
   { value: "240%", label: "augmentation des clics Google" },
   { value: "3,8×", label: "nombre d'impressions" },
@@ -69,20 +53,20 @@ export const testimonials = [
   {
     quote:
       "\"Le site et l'application développés ont clairement structuré notre activité. C'est un véritable outil business, pensé pour évoluer avec notre entreprise.\"",
-    name: "Alan",
-    role: "Astral-motorclub.ch",
+    name: "Alan Lepart",
+    role: "Astral Motorclub",
   },
   {
     quote:
       "\"Faire confiance à Max pour son site c'est toujours la bonne idée. Accompagnement de A à Z et satisfaction à la clé.\"",
     name: "Stéphane Bachmann",
-    role: "Genevavelo.ch",
+    role: "Geneva Velo",
   },
   {
     quote:
       "\"Maxime m'a créé un site fonctionnel de qualité professionnelle rapidement. Très pro, je recommande vivement ses services !\"",
     name: "Alex Fogal",
-    role: "Homesecure.ch",
+    role: "Homesecure",
   },
 ];
 
@@ -154,7 +138,7 @@ export const hero = {
   proofLogos: [
     { src: "/images/logos/logo-meltingpote.png", name: "La Meltingpote" },
     { src: "/images/logos/logo-geneva-velo.png", name: "Geneva Velo" },
-    { src: "/images/logos/aleiko--logo 1.png", name: "Aleiko" },
+    { src: "/images/logos/aleiko--logo.png", name: "Aleiko" },
   ],
 };
 
@@ -259,7 +243,6 @@ export const structuredData = [
         priceRange: "$$",
         currenciesAccepted: "CHF",
         knowsLanguage: "fr",
-        numberOfEmployees: { "@type": "QuantitativeValue", value: 3 },
         email: SITE.email,
         contactPoint: {
           "@type": "ContactPoint",

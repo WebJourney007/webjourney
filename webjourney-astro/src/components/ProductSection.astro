@@ -2,7 +2,7 @@
 // Section produit de la home (direction A du labo, choisie par Max). En haut :
 // titre, promesse, prix et actions à côté du produit qui tourne dans un cadre de
 // navigateur, ou le visuel passé par le slot `media`. En dessous : les livrables
-// sur une rangée. Les chiffres clés ont leur propre section, après la méthode.
+// sur une rangée.
 import Accent from "./Accent.astro";
 import BrowserFrame from "./BrowserFrame.astro";
 import Button from "./Button.astro";
@@ -12,11 +12,9 @@ interface Props {
   product: Product;
   /** Visuel à gauche : à alterner d'une section produit à l'autre. */
   reverse?: boolean;
-  /** Rangée des livrables sous le produit. À masquer quand une section à part les détaille. */
-  checks?: boolean;
 }
 
-const { product, reverse = false, checks = true } = Astro.props;
+const { product, reverse = false } = Astro.props;
 ---
 
 <div class="product">
@@ -45,11 +43,9 @@ const { product, reverse = false, checks = true } = Astro.props;
     </div>
   </div>
 
-  {checks && (
-    <ul class="product__checks">
-      {product.deliverables.map((item) => <li>{item}</li>)}
-    </ul>
-  )}
+  <ul class="product__checks">
+    {product.deliverables.map((item) => <li>{item}</li>)}
+  </ul>
 
 </div>
 

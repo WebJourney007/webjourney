@@ -1,7 +1,6 @@
 // Sections produit de la home : un produit = une promesse, ce qui est livré, sa
 // preuve et son prix. Suivi : todo/20261021-strategie-vente-seo.md.
 import type { Shot } from "../components/HeroCenter.astro";
-import type { Point } from "../components/PointList.astro";
 import type { Stat } from "../components/Stats.astro";
 import { PROJECT_CTA } from "../lib/site";
 import { siteShot } from "./home";
@@ -38,40 +37,21 @@ export interface Product {
 }
 
 const [landing, vitrine] = offers;
-// Produits sur devis : l'action principale du site, puis le formulaire de devis.
-const CONTACT: ProductAction[] = [
-  { label: PROJECT_CTA.label, href: PROJECT_CTA.href },
-  { label: "Demander un devis", href: "/demander-un-devis" },
-];
-
-// Ce que comprend chaque site : section à part sur la home, juste après la
-// section produit (demande de Max du 2026-10-25, pour aérer). Textes repris des
-// offres et de la FAQ, rien de neuf promis.
-export const siteIncluded: Point[] = [
-  {
-    title: "Un design sur mesure",
-    text: "Pas de modèle recyclé : votre site est dessiné pour votre activité, et d'abord pour le téléphone, d'où arrivent la plupart de vos visiteurs.",
-  },
-  {
-    title: "Visible sur Google et par les IA",
-    text: "Structure, balises, données structurées et vitesse : Google et les IA comme ChatGPT comprennent qui vous êtes et ce que vous proposez.",
-  },
-  {
-    title: "Hébergé en Suisse, et à vous",
-    text: "Chez Infomaniak, avec une maintenance sans engagement. Code, design et contenus : tout est à vous une fois le site payé.",
-  },
-  {
-    title: "Prise en main incluse",
-    text: "On vous accompagne pour prendre en main votre site. Si vous changez souvent textes et images, on intègre un outil simple qui évite de toucher au code.",
-  },
-];
+// Produits sur devis : un seul formulaire, celui de contact (pas de devis en
+// concurrence sur la home).
+const CONTACT: ProductAction[] = [{ label: PROJECT_CTA.label, href: PROJECT_CTA.href }];
 
 export const siteProduct: Product = {
   title: "Création de site internet,",
   accent: "pensée pour vendre",
   pitch:
     "Site vitrine, landing page ou boutique en ligne : un design sur-mesure, rapide, pensé pour Google et pour les IA comme ChatGPT, et pour transformer vos visiteurs en demandes.",
-  deliverables: siteIncluded.map(({ title }) => title),
+  deliverables: [
+    "Un design sur mesure",
+    "Visible sur Google et par les IA",
+    "Hébergé en Suisse, et à vous",
+    "Prise en main incluse",
+  ],
   price: landing?.price ?? "",
   priceNote: `${vitrine?.name} complet : ${vitrine?.price}`,
   href: "/creation-site-internet",
@@ -123,34 +103,17 @@ export const siteProduct: Product = {
 
 // Pas de page dédiée tant que l'export Keyword Planner n'a pas tranché : l'action
 // principale est l'appel. Les médias sont ceux des anciens rangs de services.
-// Ce que les applications peuvent faire : section à part sur la home, après la
-// section produit (demande de Max du 2026-10-25). Textes tirés des études de cas
-// (Cyclo Gordo, Astral Motorclub, Charly's Bike Store), sauf l'IA, sans projet livré.
-export const appCapabilities: Point[] = [
-  {
-    title: "Réservation et rendez-vous en ligne",
-    text: "Vos clients choisissent un créneau et reçoivent une confirmation automatique, jour et nuit. Fini les rendez-vous notés au téléphone.",
-  },
-  {
-    title: "Planning, location, suivi de stock",
-    text: "Une interface simple pour gérer vos disponibilités, vos tarifs et vos réservations en autonomie, comme l'équipe d'Astral Motorclub.",
-  },
-  {
-    title: "Connexion à vos outils",
-    text: "On se branche sur votre logiciel de gestion sans le remplacer : disponibilités à jour en temps réel, sans double saisie.",
-  },
-  {
-    title: "L'IA, là où elle fait gagner du temps",
-    text: "Tri des demandes, réponses aux questions fréquentes, premiers brouillons : l'intelligence artificielle s'ajoute là où elle vous libère du temps.",
-  },
-];
-
 export const appProduct: Product = {
   title: "Applications sur-mesure,",
   accent: "qui vous font gagner du temps",
   pitch:
     "Réservation en ligne, planning, application de location, connexion à votre logiciel de gestion : nous créons les outils qui vous font gagner des heures chaque semaine.",
-  deliverables: appCapabilities.map(({ title }) => title),
+  deliverables: [
+    "Réservation et rendez-vous en ligne",
+    "Planning, location, suivi de stock",
+    "Connexion à vos outils",
+    "L'IA, là où elle fait gagner du temps",
+  ],
   price: "Sur devis",
   priceNote: "Un prix fixe, annoncé après un premier échange",
   href: PROJECT_CTA.href,
@@ -164,34 +127,17 @@ export const appProduct: Product = {
   },
 };
 
-// Ce que comprend une identité visuelle, illustré par Varela Brothers : section
-// à part sur la home (demande de Max du 2026-10-25). Faits tirés de leur charte
-// et de leur étude de cas.
-export const designIncluded: Point[] = [
-  {
-    title: "Logo et ses déclinaisons",
-    text: "Un logo pensé pour durer, avec ses versions horizontale, symbole seul, claire et foncée, comme les clés croisées de Varela Brothers.",
-  },
-  {
-    title: "Charte graphique",
-    text: "Couleurs, typographies, illustrations et règles d'usage. Celle de Varela Brothers marie rouge sang de bœuf, ivoire et gravures.",
-  },
-  {
-    title: "Cartes de visite, flyers, brochures",
-    text: "Vos supports imprimés, prêts pour l'imprimeur. Pour Varela Brothers : cartes de visite, papier à lettres, enveloppes et chemise.",
-  },
-  {
-    title: "Du web au papier",
-    text: "La même image partout : Varela Brothers a reçu son identité, puis un site en trois langues qui la prolonge.",
-  },
-];
-
 export const designProduct: Product = {
   title: "Identité visuelle et graphisme,",
   accent: "à la hauteur de votre travail",
   pitch:
     "Logo, charte graphique, cartes de visite, flyers, brochures : une image cohérente qui rassure dès le premier contact, du site jusqu'au papier.",
-  deliverables: designIncluded.map(({ title }) => title),
+  deliverables: [
+    "Logo et ses déclinaisons",
+    "Charte graphique",
+    "Cartes de visite, flyers, brochures",
+    "Du web au papier",
+  ],
   price: "Sur devis",
   priceNote: "Un prix fixe, annoncé après un premier échange",
   href: PROJECT_CTA.href,
