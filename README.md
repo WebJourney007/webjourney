@@ -1,10 +1,41 @@
-# Harness Starter Kit
+# webjourney.ch
 
-Un **harness de gouvernance pour agent de code** (Claude Code) : l'ossature documentaire,
-les conventions et les procédures qui font qu'un agent avance *proprement* sur un projet —
+Site de **Web journey**, agence web à Sion : création de sites pour les TPE et PME de Suisse romande.
+Objectif du site : obtenir des demandes de contact.
+
+---
+
+## Les deux sites du repo
+
+| Dossier | Rôle |
+| ------- | ---- |
+| [`webjourney-astro/`](webjourney-astro/) | **Nouveau site** en construction : Astro 7 en sortie statique, TypeScript strict, CSS natif. |
+| [`public/`](public/) | **Ancien site** (export Webflow), en ligne jusqu'à la bascule. On ne le fait plus évoluer. |
+
+Commandes, depuis `webjourney-astro/` (pnpm, Node ≥ 22.12) :
+
+```powershell
+pnpm install
+pnpm dev       # serveur local
+pnpm build     # génère dist/
+pnpm preview   # sert dist/ en local
+```
+
+Mise en ligne : envoi de `webjourney-astro/dist/` chez Infomaniak par FTP.
+
+> **Vidéos hors git** : les `.mp4` / `.webm` (showreel, use case) sont ignorés par `.gitignore`.
+> Il faut les envoyer à part par FTP.
+
+Stack et conventions détaillées : [`docs/05-technical-architecture.md`](docs/05-technical-architecture.md).
+Supports stables (checklists, références) : [`resources/`](resources/).
+
+---
+
+## Le harness de travail
+
+Le repo embarque un **harness de gouvernance pour agent de code** (Claude Code) : l'ossature documentaire,
+les conventions et les procédures qui font qu'un agent avance *proprement* —
 sans réinventer le contexte à chaque session, sans refaire des débats déjà tranchés.
-
-Stack-agnostic : rien ici ne dépend d'un framework. Marche pour un site web, une app, un CLI, etc.
 
 ---
 
