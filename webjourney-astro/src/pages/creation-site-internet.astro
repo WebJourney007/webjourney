@@ -34,8 +34,8 @@ import { PROJECT_CTA, SITE } from "../lib/site";
 
 <BaseLayout
   title="Création de site internet en Valais et à Sion | Web journey"
-  description="Création de site internet sur mesure en Valais : landing page dès CHF 990.–, site vitrine à CHF 2'990.–. Prix clairs, délais tenus, hébergement en Suisse."
-  ogDescription="Création de site internet sur mesure en Valais et à Sion. Prix annoncés d'avance, délais tenus, site hébergé en Suisse."
+  description="Création de site internet sur mesure en Valais : landing page dès CHF 990.–, site vitrine à CHF 2'990.–. Design sur-mesure, hébergement en Suisse."
+  ogDescription="Création de site internet sur mesure en Valais et à Sion. Design sur-mesure, site hébergé en Suisse."
   path="/creation-site-internet"
   structuredData={[serviceStructuredData, faqStructuredData(serviceFaq)]}
   navOverlay="dark"
@@ -44,7 +44,7 @@ import { PROJECT_CTA, SITE } from "../lib/site";
     <h1>Création de site internet en Valais, <Accent text="clé en main" /></h1>
     <p class="lead">
       Landing page, site vitrine ou projet sur-mesure : un seul partenaire en Valais pour
-      accompagner chaque étape de votre croissance, avec des prix clairs dès le départ.
+      accompagner chaque étape de votre croissance.
     </p>
     <div class="actions">
       <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
@@ -57,7 +57,7 @@ import { PROJECT_CTA, SITE } from "../lib/site";
   <Section id="formules">
     <div class="flow">
       <SectionHead>
-        <Fragment slot="title">Trois formules, <Accent text="un prix affiché" /></Fragment>
+        <Fragment slot="title">Trois <Accent text="formules" /></Fragment>
       </SectionHead>
       <OfferGlance items={glance} />
       <a href="#comparatif" class="text-link">Comparer les formules ligne à ligne</a>
@@ -93,7 +93,7 @@ import { PROJECT_CTA, SITE } from "../lib/site";
   <Section>
     <div class="flow">
       <SectionHead>
-        <Fragment slot="title">Quatre étapes, <Accent text="zéro surprise" /></Fragment>
+        <Fragment slot="title">Quatre <Accent text="étapes" /></Fragment>
         <p>Un site vitrine en ligne en 3 à 6 semaines. Vous validez chaque étape avant la suivante.</p>
       </SectionHead>
       <Steps items={serviceSteps} />

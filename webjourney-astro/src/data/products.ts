@@ -47,8 +47,8 @@ const contactAndDetail = (href: string): ProductAction[] => [
 ];
 
 export const siteProduct: Product = {
-  title: "Création de site internet,",
-  accent: "pensée pour vendre",
+  title: "Création de",
+  accent: "site internet",
   pitch:
     "Site vitrine, landing page ou boutique en ligne : un design sur-mesure, rapide, pensé pour Google et pour les IA comme ChatGPT, et pour transformer vos visiteurs en demandes.",
   deliverables: [
@@ -109,8 +109,8 @@ export const siteProduct: Product = {
 // Page dédiée depuis B-009, URL fixée sans export Keyword Planner. Les médias
 // sont ceux des anciens rangs de services.
 export const appProduct: Product = {
-  title: "Applications sur-mesure,",
-  accent: "qui vous font gagner du temps",
+  title: "Applications",
+  accent: "sur mesure",
   pitch:
     "Réservation en ligne, planning, application de location, connexion à votre logiciel de gestion : nous créons les outils qui vous font gagner des heures chaque semaine.",
   deliverables: appIncluded.map(({ title }) => title),
@@ -128,8 +128,8 @@ export const appProduct: Product = {
 };
 
 export const designProduct: Product = {
-  title: "Identité visuelle et graphisme,",
-  accent: "à la hauteur de votre travail",
+  title: "Identité visuelle et",
+  accent: "graphisme",
   pitch:
     "Logo, charte graphique, cartes de visite, flyers, brochures : une image cohérente qui rassure dès le premier contact, du site jusqu'au papier.",
   deliverables: designIncluded.map(({ title }) => title),
