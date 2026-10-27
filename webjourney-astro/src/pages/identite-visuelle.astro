@@ -32,8 +32,9 @@ const examples = cases.filter((item) => item.types.includes("identite"));
   description="Identité visuelle en Valais : logo, charte graphique, cartes de visite, flyers et brochures. Une image cohérente du site au papier, sur devis."
   path={path}
   structuredData={[designStructuredData, faqStructuredData(designFaq)]}
+  navOverlay="dark"
 >
-  <HeroText>
+  <HeroText tone="ink">
     <h1>Identité visuelle en Valais, <Accent text="à la hauteur de votre travail" /></h1>
     <p class="lead">{designProduct.pitch}</p>
     <p class="muted">{designProduct.price} : {designProduct.priceNote.toLowerCase()}.</p>

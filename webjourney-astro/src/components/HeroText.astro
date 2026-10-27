@@ -1,9 +1,16 @@
 ---
-// Héro des pages intérieures : texte seul, sur toute la largeur, fond clair.
-// Le titre, l'accroche et les boutons arrivent par le slot.
+// Héro des pages intérieures : texte seul, sur toute la largeur. Fond clair par
+// défaut ; « ink » le passe en sombre, pour les pages services entièrement
+// noires (à poser avec navOverlay="dark"). Le titre, l'accroche et les boutons
+// arrivent par le slot.
+interface Props {
+  tone?: "paper" | "ink";
+}
+
+const { tone = "paper" } = Astro.props;
 ---
 
-<section class="hero-text">
+<section class:list={["hero-text", tone === "ink" && "tone-ink hero-text--ink"]}>
   <div class="container hero-text__inner">
     <slot />
   </div>
@@ -13,6 +20,14 @@
   /* La barre de navigation chevauche le haut de page : le héro décale son contenu d'autant. */
   .hero-text {
     padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+  }
+
+  /* Finit sur l'anthracite où démarre le corps sombre (.page-deep) : pas de cassure.
+     Sans changement de fond, la première section suffit à marquer l'espace : le
+     bas du héro se resserre. */
+  .hero-text--ink {
+    padding-bottom: var(--space-6);
+    background-image: linear-gradient(180deg, var(--color-coal-deep), var(--color-coal));
   }
 
   .hero-text__inner {
