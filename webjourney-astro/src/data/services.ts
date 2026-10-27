@@ -4,12 +4,11 @@
 import type { CompareColumn, CompareRow } from "../components/CompareTable.astro";
 import type { FaqItem } from "../components/Faq.astro";
 import type { GlanceItem } from "../components/OfferGlance.astro";
-import type { Offer } from "../components/Pricing.astro";
 import type { Point } from "../components/PointList.astro";
 import type { Step } from "../components/Steps.astro";
 import { SITE } from "../lib/site";
 import { siteShot } from "./home";
-import { offers } from "./offers";
+import { offers, type Offer } from "./offers";
 
 const PAGE_URL = `${SITE.url}/creation-site-internet`;
 

@@ -1,7 +1,15 @@
 // Formules et garanties de la home. Prix et contenus repris de l'ancienne page
 // `/creation-site-internet` ; toutes les garanties y étaient déjà affirmées.
-import type { Offer } from "../components/Pricing.astro";
 import type { Guarantee } from "../components/Guarantees.astro";
+
+// La formule `featured` est mise en avant (effet d'ancrage sur celle du milieu).
+export interface Offer {
+  name: string;
+  price: string;
+  pitch: string;
+  features: string[];
+  featured?: boolean;
+}
 
 export const offers: Offer[] = [
   {
