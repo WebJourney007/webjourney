@@ -1,6 +1,6 @@
 ---
 // Illustration de la section « Identité visuelle » : la planche de marque de
-// Varela Brothers (logo, palette, typographies, gravures, papeterie), dans le
+// Varela Brothers (logo, palette, typographies, bureau, papeterie), dans le
 // même cadre que les tableaux de bord des sites et des applications. Images
 // recadrées de la charte fournie par Max (`public/assets/showreel/`). Les tuiles
 // apparaissent l'une après l'autre quand le bloc arrive à l'écran.
@@ -33,10 +33,8 @@ const SWATCHES = [
       <img src={`${DIR}/varela--typo.webp`} alt="Typographies : Playfair Display et Montserrat" width="916" height="145" loading="lazy" decoding="async" />
     </div>
 
-    <div class="brand__tile brand__gravures">
-      {[1, 2, 3].map((n) => (
-        <img src={`${DIR}/varela--gravure-${n}.webp`} alt="" loading="lazy" decoding="async" />
-      ))}
+    <div class="brand__tile brand__photo brand__office">
+      <img src={`${DIR}/varela--bureau.webp`} alt="Bureau de Varela Brothers, avec la brochure de la marque posée sur le sous-main" width="927" height="1228" loading="lazy" decoding="async" />
     </div>
 
     <div class="brand__tile brand__photo">
@@ -123,24 +121,16 @@ const SWATCHES = [
     height: auto;
   }
 
-  .brand__gravures {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2);
-    padding: var(--space-4);
-    background-color: #400701;
-  }
-
-  .brand__gravures img {
-    width: 30%;
-    height: auto;
-  }
-
   .brand__photo img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+
+  /* Photo en portrait dans une tuile plus large que haute : on garde le bas,
+     où sont posés l'ordinateur et la brochure. */
+  .brand__office img {
+    object-position: center 80%;
   }
 
   .brand__caption {
@@ -165,8 +155,8 @@ const SWATCHES = [
   .brand__logo { --i: 0; }
   .brand__palette { --i: 1; }
   .brand__type { --i: 2; }
-  .brand__gravures { --i: 3; }
-  .brand__photo { --i: 4; }
+  .brand__office { --i: 3; }
+  .brand__photo:not(.brand__office) { --i: 4; }
   .brand__swatch:nth-child(2) { --s: 1; }
   .brand__swatch:nth-child(3) { --s: 2; }
   .brand__swatch:nth-child(4) { --s: 3; }
@@ -179,7 +169,7 @@ const SWATCHES = [
     }
   }
 
-  /* Écran large : logo et palette côte à côte, gravures et photo en dessous. */
+  /* Écran large : logo et palette côte à côte, bureau et papeterie en dessous. */
   @media (min-width: 37.5em) {
     .brand__grid {
       grid-template-columns: repeat(3, 1fr);
@@ -201,7 +191,7 @@ const SWATCHES = [
       grid-column: span 3;
     }
 
-    .brand__photo {
+    .brand__photo:not(.brand__office) {
       grid-column: span 2;
     }
   }
