@@ -1,5 +1,5 @@
 // FAQ de la home : chaque question lève une objection avant le premier appel.
-// Réponses reprises des FAQ de `/creation-site-internet` et `/creation-site-vitrine`.
+// Réponses reprises des FAQ de `/creation-site-internet` et de l'ancienne page site vitrine.
 import type { FaqItem } from "../components/Faq.astro";
 
 export const homeFaq: FaqItem[] = [

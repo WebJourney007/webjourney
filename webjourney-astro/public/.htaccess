@@ -69,6 +69,10 @@ ErrorDocument 404 /404.html
     RewriteCond %{HTTP_HOST} ^webjourney\.ch$ [NC]
     RewriteRule ^ https://www.webjourney.ch%{REQUEST_URI} [R=301,L]
 
+    # Pages supprimées (D_002) : redirection 301 vers la page Création site internet
+    RewriteRule ^creation-site-vitrine(\.html)?$ /creation-site-internet [R=301,L]
+    RewriteRule ^creation-boutique-en-ligne(\.html)?$ /creation-site-internet [R=301,L]
+
     # Favicon à la racine (pour Google SERP et navigateurs)
     RewriteRule ^favicon\.ico$ assets/images/favicon.ico [L]
 

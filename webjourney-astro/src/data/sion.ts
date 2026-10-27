@@ -27,18 +27,8 @@ export const localReasons: Point[] = [
 
 export const localServices: Explain[] = [
   {
-    title: "Site vitrine",
-    text: "Un site professionnel qui présente votre activité, rassure vos prospects et vous amène des demandes.",
-    href: "/creation-site-vitrine",
-  },
-  {
-    title: "Boutique en ligne",
-    text: "Vendez vos produits jour et nuit, avec TWINT, sur une boutique simple à gérer.",
-    href: "/creation-boutique-en-ligne",
-  },
-  {
-    title: "Formules et prix",
-    text: "Landing page, site vitrine ou projet sur-mesure : toutes nos formules, prix compris.",
+    title: "Création de site internet",
+    text: "Landing page, site vitrine ou boutique en ligne : un site qui présente votre activité et vous amène des demandes. Toutes nos formules, prix compris.",
     href: "/creation-site-internet",
   },
   {
