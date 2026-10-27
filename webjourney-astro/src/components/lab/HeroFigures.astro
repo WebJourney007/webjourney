@@ -1,0 +1,91 @@
+---
+// Labo héros, variante D « Titre + chiffres » : le titre à gauche, l'accroche,
+// les boutons et trois chiffres clés à droite, sans image. Le titre arrive par
+// le slot « title », le reste par le slot par défaut.
+interface Props {
+  figures: { value: string; label: string }[];
+}
+
+const { figures } = Astro.props;
+---
+
+<section class="hero-figures">
+  <div class="container hero-figures__grid">
+    <div class="hero-figures__title">
+      <slot name="title" />
+    </div>
+    <div class="hero-figures__side">
+      <slot />
+      <dl class="hero-figures__list">
+        {figures.map((figure) => (
+          <div>
+            <dt class="muted">{figure.label}</dt>
+            <dd>{figure.value}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-figures {
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+  }
+
+  .hero-figures__grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .hero-figures__title :global(h1) {
+    font-size: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .hero-figures__side {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+  }
+
+  .hero-figures__side :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .hero-figures__list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-5);
+    width: 100%;
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
+  }
+
+  .hero-figures__list div {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: var(--space-2);
+  }
+
+  .hero-figures__list dt {
+    font-size: var(--fs-small);
+  }
+
+  .hero-figures__list dd {
+    color: var(--accent-text);
+    font-size: clamp(2rem, 4vw, 3rem);
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  @media (min-width: 62em) {
+    .hero-figures__grid {
+      grid-template-columns: 7fr 5fr;
+      gap: var(--space-8);
+      align-items: end;
+    }
+  }
+</style>

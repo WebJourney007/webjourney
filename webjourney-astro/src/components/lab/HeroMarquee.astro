@@ -1,0 +1,106 @@
+---
+// Labo héros, variante C « Titre + défilé » : le texte en haut, puis une bande
+// de captures de sites qui défile sur toute la largeur. Avec « réduire les
+// animations », la bande reste immobile. Le texte arrive par le slot.
+interface Props {
+  shots: { src: string; name: string; width: number; height: number }[];
+}
+
+const { shots } = Astro.props;
+---
+
+<section class="hero-marquee">
+  <div class="container hero-marquee__text">
+    <slot />
+  </div>
+  <div class="hero-marquee__band" role="group" aria-label="Sites réalisés par Web journey">
+    <div class="hero-marquee__track">
+      {[0, 1].map((copy) => (
+        <ul class="hero-marquee__row" aria-hidden={copy === 1 ? "true" : undefined}>
+          {shots.map((shot) => (
+            <li>
+              <img
+                src={shot.src}
+                alt={copy === 0 ? `Site ${shot.name}` : ""}
+                width={shot.width}
+                height={shot.height}
+                loading={copy === 0 ? "eager" : "lazy"}
+                decoding="async"
+              />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero-marquee {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+    overflow: hidden;
+  }
+
+  .hero-marquee__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .hero-marquee__text :global(h1) {
+    max-width: 14em;
+    font-size: clamp(2.5rem, 7vw, 5.5rem);
+  }
+
+  .hero-marquee__text :global(.lead) {
+    max-width: 36em;
+  }
+
+  .hero-marquee__text :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  .hero-marquee__track {
+    display: flex;
+    width: max-content;
+    animation: hero-marquee-scroll 60s linear infinite;
+  }
+
+  .hero-marquee__band:hover .hero-marquee__track {
+    animation-play-state: paused;
+  }
+
+  .hero-marquee__row {
+    display: flex;
+    gap: var(--space-5);
+    padding-right: var(--space-5);
+  }
+
+  .hero-marquee__row img {
+    width: clamp(14rem, 28vw, 24rem);
+    height: auto;
+    aspect-ratio: 850 / 531;
+    object-fit: cover;
+    object-position: top;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  @keyframes hero-marquee-scroll {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-marquee__track {
+      animation: none;
+    }
+  }
+</style>

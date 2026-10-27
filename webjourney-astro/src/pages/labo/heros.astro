@@ -1,0 +1,91 @@
+---
+// Labo : cinq héros pour varier les pages intérieures, qui utilisent toutes
+// `HeroText`. Même contenu (la page Applications), cinq mises en scène. Page non
+// indexée, hors sitemap, à supprimer une fois les variantes choisies.
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Accent from "../../components/Accent.astro";
+import Button from "../../components/Button.astro";
+import HeroCentered from "../../components/lab/HeroCentered.astro";
+import HeroDark from "../../components/lab/HeroDark.astro";
+import HeroFigures from "../../components/lab/HeroFigures.astro";
+import HeroMarquee from "../../components/lab/HeroMarquee.astro";
+import HeroSplit from "../../components/lab/HeroSplit.astro";
+import { keyFigures } from "../../data/home";
+import { appProduct } from "../../data/products";
+import { cases } from "../../data/projects";
+import { PROJECT_CTA } from "../../lib/site";
+
+const note = `${appProduct.price} : ${appProduct.priceNote.toLowerCase()}.`;
+const shots = cases.map(({ image, name, width, height }) => ({ src: image, name, width, height }));
+---
+
+<BaseLayout title="Labo — héros | Web journey" description="Labo interne." path="/labo/heros" noindex>
+  <p class="container lab-label lab-label--first">A — Texte + vidéo</p>
+  <HeroSplit media={appProduct.media}>
+    <h1>Applications sur mesure en Valais, <Accent text="qui vous font gagner du temps" /></h1>
+    <p class="lead">{appProduct.pitch}</p>
+    <p class="muted">{note}</p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroSplit>
+
+  <p class="container lab-label">B — Plein écran sombre</p>
+  <HeroDark video="/assets/videos/product--identite-varela.mp4" poster="/assets/images/product--identite-varela.webp">
+    <h1>Applications sur mesure en Valais, <Accent text="qui vous font gagner du temps" /></h1>
+    <p class="lead">{appProduct.pitch}</p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroDark>
+
+  <p class="container lab-label">C — Titre + défilé</p>
+  <HeroMarquee shots={shots}>
+    <h1>Applications sur mesure en Valais, <Accent text="qui vous font gagner du temps" /></h1>
+    <p class="lead">{appProduct.pitch}</p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroMarquee>
+
+  <p class="container lab-label">D — Titre + chiffres</p>
+  <HeroFigures figures={keyFigures}>
+    <h1 slot="title">Applications sur mesure en Valais, <Accent text="qui vous font gagner du temps" /></h1>
+    <p class="lead">{appProduct.pitch}</p>
+    <div class="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroFigures>
+
+  <p class="container lab-label">E — Centré + points clés</p>
+  <HeroCentered points={appProduct.deliverables}>
+    <h1>Des outils qui <Accent text="travaillent pour vous" /></h1>
+    <p class="lead">{appProduct.pitch}</p>
+    <div class="actions" slot="actions">
+      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+      <Button href="#realisations">Voir les réalisations</Button>
+    </div>
+  </HeroCentered>
+</BaseLayout>
+
+<style>
+  /* Libellé de chaque variante. Le premier passe sous la barre de navigation. */
+  .lab-label {
+    padding-block: var(--space-6) var(--space-3);
+    border-top: 2px dashed var(--line);
+    color: var(--fg-muted);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .lab-label--first {
+    margin-top: calc(var(--nav-height) + var(--space-4));
+    border-top: 0;
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+// Labo héros, variante A « Texte + vidéo » : le texte à gauche, la démo du
+// service à droite dans une fenêtre de navigateur. Le texte arrive par le slot.
+import BrowserFrame from "../BrowserFrame.astro";
+
+interface Props {
+  media: { video?: string; poster: string; width: number; height: number; label: string };
+}
+
+const { media } = Astro.props;
+---
+
+<section class="hero-split">
+  <div class="container hero-split__grid">
+    <div class="hero-split__text">
+      <slot />
+    </div>
+    <BrowserFrame {...media} />
+  </div>
+</section>
+
+<style>
+  .hero-split {
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+  }
+
+  .hero-split__grid {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .hero-split__text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .hero-split__text :global(h1) {
+    font-size: clamp(2.25rem, 4.6vw, 4rem);
+  }
+
+  .hero-split__text :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+
+  @media (min-width: 62em) {
+    .hero-split__grid {
+      grid-template-columns: 5fr 6fr;
+      gap: var(--space-8);
+    }
+  }
+</style>

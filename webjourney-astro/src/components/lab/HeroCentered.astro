@@ -1,0 +1,79 @@
+---
+// Labo héros, variante E « Centré + points clés » : le titre centré, les points
+// clés du service en pastilles, les boutons, et le tracé de col en décor.
+// Le texte arrive par le slot, les pastilles juste après.
+interface Props {
+  points: string[];
+}
+
+const { points } = Astro.props;
+---
+
+<section class="hero-centered">
+  <img src="/assets/images/trace-ventoux.svg" alt="" class="hero-centered__trace" aria-hidden="true" />
+  <div class="container hero-centered__inner">
+    <slot />
+    <ul class="hero-centered__points">
+      {points.map((point) => <li>{point}</li>)}
+    </ul>
+    <slot name="actions" />
+  </div>
+</section>
+
+<style>
+  .hero-centered {
+    position: relative;
+    overflow: hidden;
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--section-y);
+  }
+
+  .hero-centered__trace {
+    position: absolute;
+    inset: 10% -10% auto;
+    width: 120%;
+    max-width: none;
+    opacity: 0.35;
+    pointer-events: none;
+  }
+
+  .hero-centered__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    text-align: center;
+  }
+
+  .hero-centered__inner :global(h1) {
+    max-width: 12em;
+    font-size: clamp(2.5rem, 6.5vw, 5rem);
+  }
+
+  .hero-centered__inner :global(.lead) {
+    max-width: 32em;
+  }
+
+  .hero-centered__points {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    max-width: 48rem;
+  }
+
+  .hero-centered__points li {
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background-color: var(--surface);
+    font-size: var(--fs-small);
+  }
+
+  .hero-centered__inner :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-5) var(--space-6);
+  }
+</style>

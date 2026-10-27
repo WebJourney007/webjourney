@@ -1,0 +1,96 @@
+---
+// Labo héros, variante B « Plein écran sombre » : une vidéo en fond, assombrie,
+// le texte en blanc calé en bas à gauche. Sur mobile ou avec « réduire les
+// animations », l'image fixe reste en fond. Le texte arrive par le slot.
+interface Props {
+  video: string;
+  poster: string;
+}
+
+const { video, poster } = Astro.props;
+---
+
+<section class="hero-dark tone-ink">
+  <div class="hero-dark__media" aria-hidden="true">
+    <img src={poster} alt="" loading="lazy" decoding="async" />
+    <video src={video} muted loop playsinline preload="none" tabindex="-1" data-hero-dark-video></video>
+  </div>
+  <div class="container hero-dark__text">
+    <slot />
+  </div>
+</section>
+
+<script>
+  import { wantsVideo } from "../../scripts/wants-video";
+
+  const video = document.querySelector<HTMLVideoElement>("[data-hero-dark-video]");
+  if (video && wantsVideo()) {
+    video.addEventListener("playing", () => video.classList.add("is-playing"), { once: true });
+    video.play().catch(() => {});
+  }
+</script>
+
+<style>
+  .hero-dark {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: var(--hero-height);
+    overflow: hidden;
+    padding-block: calc(var(--nav-height) + var(--space-8)) var(--space-8);
+  }
+
+  .hero-dark__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .hero-dark__media img,
+  .hero-dark__media video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .hero-dark__media video {
+    opacity: 0;
+    transition: opacity 0.8s ease;
+  }
+
+  .hero-dark__media video.is-playing {
+    opacity: 1;
+  }
+
+  /* Voile : sombre en bas, là où se trouve le texte, plus léger en haut. */
+  .hero-dark__media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgb(23 21 19 / 0.55), rgb(23 21 19 / 0.92) 75%);
+  }
+
+  .hero-dark__text {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+  }
+
+  .hero-dark__text :global(h1) {
+    max-width: 13em;
+    font-size: clamp(2.5rem, 6.5vw, 5.5rem);
+  }
+
+  .hero-dark__text :global(.lead) {
+    max-width: 34em;
+  }
+
+  .hero-dark__text :global(.actions) {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5) var(--space-6);
+  }
+</style>
