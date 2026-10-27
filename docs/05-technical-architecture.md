@@ -41,13 +41,17 @@ Commandes, depuis `webjourney-astro/` : `pnpm dev` · `pnpm check` · `pnpm buil
 - **Poste Windows de Max** : le compilateur natif d'Astro est bloqué par le contrôle des applications de Windows. `pnpm-workspace.yaml` installe sa variante WebAssembly officielle, qu'Astro utilise en repli. Ne pas retirer ce réglage.
 - **Accent** : `--accent` (doré) sur fond sombre et en aplat ; `--accent-strong` pour le texte sur fond clair.
 
-## URLs à conserver (29)
+## URLs à conserver (27)
 
-Racine : `/` · `a-propos` · `agence-web-sion` · `audit` · `blog` · `cgv` · `compresseur-images` · `contact` · `creation-boutique-en-ligne` · `creation-site-internet` · `creation-site-vitrine` · `demander-un-devis` · `guide-gratuit` · `mentions-legales` · `nos-sites-internet` · `ressources` · `404`
+Racine : `/` · `a-propos` · `agence-web-sion` · `audit` · `blog` · `cgv` · `compresseur-images` · `contact` · `creation-site-internet` · `demander-un-devis` · `guide-gratuit` · `mentions-legales` · `nos-sites-internet` · `ressources` · `404`
 
 Réalisations : `astral-motorclub` · `charlys-bike-store` · `cirque-de-noel` · `cyclo-gordo` · `dinoworld` · `insectopia` · `la-meltingpote` · `pirates-aventure` · `varela-brothers` · `victor-rossi`
 
 Blog : `blog/7-erreurs-site-web-pme` · `blog/combien-coute-un-site-web-en-suisse-2026`
+
+## URLs redirigées (2)
+
+`creation-site-vitrine` · `creation-boutique-en-ligne` : 301 vers `creation-site-internet` dans le `.htaccess` (D_002, 2026-10-27).
 
 ## URLs ajoutées par le nouveau site
 

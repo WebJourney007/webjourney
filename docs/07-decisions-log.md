@@ -14,6 +14,7 @@
 
 | id | title | date | time |
 | -- | ----- | ---- | ---- |
+| D_002 | Pages vitrine et boutique supprimées, redirigées en 301 | 2026-10-27 | 22:10 |
 | D_001 | Reconstruction du site sur Astro, à côté de l'ancien | 2026-10-07 | 10:03 |
 
 > À chaque nouvelle décision : ajouter **aussi** une ligne en haut de cet Index.
@@ -48,6 +49,19 @@ Si un critère manque → pas d'entrée. (Une convention de style n'est pas une 
 ---
 
 <!-- Les entrées D_XXX s'ajoutent ici, de la plus récente (haut) à la plus ancienne (bas). -->
+
+### D_002
+**Pages vitrine et boutique supprimées, redirigées en 301**
+
+*27 octobre 2026 — 22:10*
+
+| **decision**      | `/creation-site-vitrine` et `/creation-boutique-en-ligne` sont supprimées du nouveau site. Leurs URLs redirigent en 301 vers `/creation-site-internet` (`.htaccess`). Exception à la règle « conserver les URLs » de D_001. |
+| --- | --- |
+| **justification** | Aucune impression dans Search Console (export du 2026-10-27), alors que `/creation-site-internet` en cumule 10 087 en position 13,4. Les deux pages répètent la page Création site internet : la formule site vitrine y est détaillée, la boutique en ligne est comprise dans la formule Sur-mesure. |
+| **alternatives**  | Les garder et les relier depuis les formules de `/creation-site-internet` : deux pages de plus à maintenir, pour un trafic nul. Les supprimer sans redirection : les liens existants tomberaient sur la 404. |
+| **consequences**  | 27 URLs conservées, 2 redirigées. Toute la création de site se concentre sur `/creation-site-internet`. Recréer une page vitrine ou boutique plus tard demandera de retirer sa redirection. |
+
+---
 
 ### D_001
 **Reconstruction du site sur Astro, à côté de l'ancien**

@@ -14,7 +14,7 @@
 | id | titre | prio | temps | effort | deps | note |
 | -- | ----- | ---- | ----- | ------ | ---- | ---- |
 | B-008 | Visibilité : pages locales, fiche Google Business, contenus | 🟠 | j | élevé | B-007 | Ce qui fait monter le trafic. À prioriser avec les chiffres Search Console. |
-| B-007 | Bascule vers le nouveau site | 🔴 | h | moyen | B-002 à B-006 | Parité des 29 URLs, envoi FTP de `dist/`, suivi Search Console 2 à 4 semaines. |
+| B-007 | Bascule vers le nouveau site | 🔴 | h | moyen | B-002 à B-006 | Parité des 27 URLs et 2 redirections (D_002), envoi FTP de `dist/`, suivi Search Console 2 à 4 semaines. |
 | B-006 | Performance, SEO, sécurité | 🟠 | j | moyen | B-002 à B-005 | Images, sitemap généré, en-têtes de sécurité, secrets hors racine web, tracking et information nLPD. |
 | B-005 | Blog et ressources | 🟡 | j | moyen | B-001 | blog, 2 articles, ressources, guide-gratuit, compresseur-images, audit. |
 | B-004 | Réalisations : gabarit et contenus | 🟠 | j | moyen | B-001 | 10 projets + page liste. Textes rédigés par Max. |
