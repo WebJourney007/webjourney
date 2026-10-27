@@ -5,7 +5,7 @@ import Button from "../components/Button.astro";
 import Cta from "../components/Cta.astro";
 import HeroText from "../components/HeroText.astro";
 import Section from "../components/Section.astro";
-import { SITE } from "../lib/site";
+import { PROJECT_CTA, SITE } from "../lib/site";
 
 const structuredData = {
   "@context": "https://schema.org",
@@ -90,9 +90,9 @@ const structuredData = {
     <Section>
       <Cta>
         <Fragment slot="title">Un site lent <Accent text="malgré tout ?" /></Fragment>
-        <p>Les images ne sont qu'une partie du problème. Mesurez la vitesse et le SEO de votre site en une minute.</p>
+        <p>Les images ne sont qu'une partie du problème. Parlez-nous de votre site : on vous dit ce qui le ralentit.</p>
         <Fragment slot="actions">
-          <Button href="/audit" variant="accent" icon="arrow">Auditer mon site</Button>
+          <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
           <Button href="/ressources">Toutes les ressources</Button>
         </Fragment>
       </Cta>

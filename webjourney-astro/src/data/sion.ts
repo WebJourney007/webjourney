@@ -90,7 +90,7 @@ export const localFaq: FaqItem[] = [
   {
     question: "Pouvez-vous reprendre un site existant ?",
     answer:
-      "Oui. Que votre site ait été fait sur WordPress, Webflow, Wix ou autre, nous analysons ce qui existe et proposons soit une refonte complète, soit des améliorations ciblées. Un audit gratuit permet de savoir ce qui mérite d'être gardé.",
+      "Oui. Que votre site ait été fait sur WordPress, Webflow, Wix ou autre, nous analysons ce qui existe et proposons soit une refonte complète, soit des améliorations ciblées. Un premier échange gratuit permet de savoir ce qui mérite d'être gardé.",
   },
 ];
 

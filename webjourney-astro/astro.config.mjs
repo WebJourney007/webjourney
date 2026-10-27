@@ -12,8 +12,10 @@ export default defineConfig({
   prefetch: { prefetchAll: true, defaultStrategy: 'hover' },
   integrations: [
     sitemap({
-      // Pages internes (design system, labo), hors index.
-      filter: (page) => !page.includes('/design-system') && !page.includes('/labo/'),
+      // Pages internes (design system, labo) et outil d'audit (retiré du site en
+      // attendant de le valider), hors index.
+      filter: (page) =>
+        !page.includes('/design-system') && !page.includes('/labo/') && !page.endsWith('/audit'),
     }),
   ],
 });

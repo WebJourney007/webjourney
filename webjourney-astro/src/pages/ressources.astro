@@ -8,8 +8,8 @@ import ReplyNote from "../components/ReplyNote.astro";
 import Section from "../components/Section.astro";
 import { PROJECT_CTA, SITE } from "../lib/site";
 
-// Ressources gratuites. Textes repris de l'ancienne page ; l'audit et le blog,
-// absents de l'ancienne page, y sont ajoutés.
+// Ressources gratuites. Textes repris de l'ancienne page ; le blog, absent de
+// l'ancienne page, y est ajouté.
 const resources = [
   {
     title: "Guide : les 7 erreurs qui font fuir vos clients",
@@ -24,12 +24,6 @@ const resources = [
     href: "/compresseur-images",
     action: "Compresser mes images",
     image: "/assets/images/ressource--compresseur-images.webp",
-  },
-  {
-    title: "Audit de votre site",
-    text: "Performances, SEO, accessibilité et bonnes pratiques : le rapport Lighthouse de votre site en moins d'une minute, sans inscription.",
-    href: "/audit",
-    action: "Auditer mon site",
   },
   {
     title: "Le blog",
@@ -63,7 +57,7 @@ const structuredData = {
 
 <BaseLayout
   title="Ressources gratuites — Guides et outils | Web journey"
-  description="Guides et outils gratuits pour améliorer votre site : audit Lighthouse, compresseur d'images, guide des 7 erreurs. Par Web journey, agence web à Sion."
+  description="Guides et outils gratuits pour améliorer votre site : guide des 7 erreurs, compresseur d'images, articles pratiques. Par Web journey, agence web à Sion."
   path="/ressources"
   structuredData={[structuredData]}
 >
