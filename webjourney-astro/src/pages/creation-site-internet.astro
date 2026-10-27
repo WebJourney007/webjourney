@@ -7,7 +7,6 @@ import Cta from "../components/Cta.astro";
 import Faq from "../components/Faq.astro";
 import FitList from "../components/FitList.astro";
 import HeroText from "../components/HeroText.astro";
-import OtherServices from "../components/OtherServices.astro";
 import OfferGlance from "../components/OfferGlance.astro";
 import PointList from "../components/PointList.astro";
 import ReplyNote from "../components/ReplyNote.astro";
@@ -46,10 +45,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
       Landing page, site vitrine ou projet sur-mesure : un seul partenaire en Valais pour
       accompagner chaque étape de votre croissance.
     </p>
-    <div class="actions">
-      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
-      <Button href="#formules">Voir les formules</Button>
-    </div>
   </HeroText>
 
   <div class="page-deep tone-ink">
@@ -60,7 +55,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         <Fragment slot="title">Trois <Accent text="formules" /></Fragment>
       </SectionHead>
       <OfferGlance items={glance} />
-      <a href="#comparatif" class="text-link">Comparer les formules ligne à ligne</a>
     </div>
   </Section>
 
@@ -72,10 +66,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         <p>Chaque formule correspond à un stade de votre entreprise. Le prix est fixé avant de commencer.</p>
       </SectionHead>
       <CompareTable columns={compareColumns} rows={compareRows} caption="Comparatif des formules de création de site internet" />
-      <p class="muted">
-        Le détail du <a href="/creation-site-vitrine" class="text-link">site vitrine</a>. Vous vendez en ligne ? Voir la{" "}
-        <a href="/creation-boutique-en-ligne" class="text-link">création de boutique en ligne</a>.
-      </p>
     </div>
   </Section>
 
@@ -122,9 +112,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
       <FitList yes={fitYes} no={fitNo} />
     </div>
   </Section>
-
-  <!-- ─── AUTRES SERVICES ─── -->
-  <OtherServices path="/creation-site-internet" />
 
   <!-- ─── FAQ ─── -->
   <Section>

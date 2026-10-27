@@ -39,12 +39,9 @@ export interface Product {
 }
 
 const [landing, vitrine] = offers;
-// Produits sur devis : un seul formulaire, celui de contact (pas de devis en
-// concurrence sur la home), puis la page du service.
-const contactAndDetail = (href: string): ProductAction[] => [
-  { label: PROJECT_CTA.label, href: PROJECT_CTA.href },
-  { label: "Voir le détail", href },
-];
+// Un seul bouton par section produit, pour que l'action soit claire. Produits sur
+// devis : le formulaire de contact (pas de devis en concurrence sur la home).
+const contactAction: ProductAction[] = [{ label: PROJECT_CTA.label, href: PROJECT_CTA.href }];
 
 export const siteProduct: Product = {
   title: "Création de",
@@ -62,7 +59,6 @@ export const siteProduct: Product = {
   href: "/creation-site-internet",
   actions: [
     { label: "Voir les formules", href: "/creation-site-internet" },
-    { label: "Voir nos réalisations", href: "/nos-sites-internet" },
   ],
   media: {
     // 8 s de `videos/astral-motorclub.mp4` (fournie par Max), à partir de 4 s :
@@ -117,7 +113,7 @@ export const appProduct: Product = {
   price: "Sur devis",
   priceNote: "Après étude de votre projet",
   href: "/applications-sur-mesure",
-  actions: contactAndDetail("/applications-sur-mesure"),
+  actions: contactAction,
   media: {
     video: "/assets/videos/service--applications.mp4",
     poster: "/assets/images/service--applications.webp",
@@ -136,7 +132,7 @@ export const designProduct: Product = {
   price: "Sur devis",
   priceNote: "Après étude de votre projet",
   href: "/identite-visuelle",
-  actions: contactAndDetail("/identite-visuelle"),
+  actions: contactAction,
   // 6 s du showreel (25,4 → 31,4 s) : couverture de la charte Varela Brothers,
   // puis sa grille logo, palette, gravures, papeterie.
   media: {
