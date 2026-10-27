@@ -9,8 +9,8 @@
   --color-white: #ffffff;
   /* Anthracite chaud : le fond de toutes les surfaces sombres. Le noir `ink`
      reste la couleur du texte. */
-  --color-coal: #2b2825;
-  --color-coal-deep: #171513;
+  --color-coal: #191715;
+  --color-coal-deep: #0a0908;
   --color-accent: rgb(223 160 42);
   /* Variante foncée : le doré seul est trop peu contrasté pour du texte sur fond clair. */
   --color-accent-strong: #a8700a;
@@ -99,7 +99,7 @@
   --fg-muted: rgb(245 245 245 / 0.72);
   --accent-text: var(--color-accent);
   --line: rgb(245 245 245 / 0.18);
-  --surface: #36322e;
+  --surface: #25221f;
   background-color: var(--bg);
   color: var(--fg);
 }
