@@ -35,7 +35,7 @@ export const appFaq: FaqItem[] = [
   {
     question: "Combien coûte une application sur mesure ?",
     answer:
-      "Chaque outil dépend de votre activité, c'est pourquoi il est sur devis. Vous recevez un prix fixe après un premier échange, gratuit et sans engagement.",
+      "Chaque outil dépend de votre activité. On étudie votre projet avec vous, puis on vous envoie un devis détaillé.",
   },
   {
     question: "Pouvez-vous vous connecter au logiciel que j'utilise déjà ?",

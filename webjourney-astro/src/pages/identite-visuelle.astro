@@ -29,7 +29,7 @@ const examples = cases.filter((item) => item.types.includes("identite"));
 
 <BaseLayout
   title="Identité visuelle et logo en Valais | Web journey"
-  description="Identité visuelle en Valais : logo, charte graphique, cartes de visite, flyers et brochures. Une image cohérente du site au papier, à un prix fixe annoncé après un premier échange."
+  description="Identité visuelle en Valais : logo, charte graphique, cartes de visite, flyers et brochures. Une image cohérente du site au papier, sur devis."
   path={path}
   structuredData={[designStructuredData, faqStructuredData(designFaq)]}
 >
@@ -71,7 +71,7 @@ const examples = cases.filter((item) => item.types.includes("identite"));
   <Section>
     <div class="flow">
       <SectionHead>
-        <Fragment slot="title">Trois étapes, <Accent text="zéro surprise" /></Fragment>
+        <Fragment slot="title">Trois <Accent text="étapes" /></Fragment>
         <p>Un seul interlocuteur du début à la fin. Vous validez, nous nous occupons du reste.</p>
       </SectionHead>
       <Steps items={methodSteps} />
@@ -96,8 +96,8 @@ const examples = cases.filter((item) => item.types.includes("identite"));
     <Cta>
       <Fragment slot="title">Parlons de <Accent text="votre image" /></Fragment>
       <p>
-        Décrivez votre activité en quelques lignes : on vous dit ce dont votre marque a besoin, et combien ça coûte.
-        Gratuit et sans engagement.
+        Décrivez votre activité en quelques lignes : on vous dit ce dont votre marque a besoin, puis
+        on vous envoie un devis.
       </p>
       <ReplyNote />
       <Fragment slot="actions">

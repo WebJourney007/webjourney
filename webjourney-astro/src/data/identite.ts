@@ -31,7 +31,7 @@ export const designFaq: FaqItem[] = [
   {
     question: "Combien coûte une identité visuelle ?",
     answer:
-      "Elle dépend de ce dont vous avez besoin : logo, charte graphique, supports imprimés. C'est pourquoi elle est sur devis. Vous recevez un prix fixe après un premier échange, gratuit et sans engagement.",
+      "Elle dépend de ce dont vous avez besoin : logo, charte graphique, supports imprimés. On étudie votre projet avec vous, puis on vous envoie un devis détaillé.",
   },
   {
     question: "Que comprend une identité visuelle ?",

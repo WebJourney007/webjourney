@@ -115,7 +115,7 @@ export const appProduct: Product = {
     "Réservation en ligne, planning, application de location, connexion à votre logiciel de gestion : nous créons les outils qui vous font gagner des heures chaque semaine.",
   deliverables: appIncluded.map(({ title }) => title),
   price: "Sur devis",
-  priceNote: "Un prix fixe, annoncé après un premier échange",
+  priceNote: "Après étude de votre projet",
   href: "/applications-sur-mesure",
   actions: contactAndDetail("/applications-sur-mesure"),
   media: {
@@ -134,7 +134,7 @@ export const designProduct: Product = {
     "Logo, charte graphique, cartes de visite, flyers, brochures : une image cohérente qui rassure dès le premier contact, du site jusqu'au papier.",
   deliverables: designIncluded.map(({ title }) => title),
   price: "Sur devis",
-  priceNote: "Un prix fixe, annoncé après un premier échange",
+  priceNote: "Après étude de votre projet",
   href: "/identite-visuelle",
   actions: contactAndDetail("/identite-visuelle"),
   // 6 s du showreel (25,4 → 31,4 s) : couverture de la charte Varela Brothers,

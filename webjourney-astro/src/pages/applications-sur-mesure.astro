@@ -29,7 +29,7 @@ const examples = cases.filter((item) => item.types.includes("app"));
 
 <BaseLayout
   title="Application web sur mesure en Valais | Web journey"
-  description="Applications web sur mesure en Valais : réservation en ligne, planning, location, connexion à votre logiciel de gestion. Un prix fixe, annoncé après un premier échange."
+  description="Applications web sur mesure en Valais : réservation en ligne, planning, location, connexion à votre logiciel de gestion. Sur devis, après étude de votre projet."
   path={path}
   structuredData={[appStructuredData, faqStructuredData(appFaq)]}
 >
@@ -59,7 +59,7 @@ const examples = cases.filter((item) => item.types.includes("app"));
     <div class="flow">
       <div class="head-row">
         <SectionHead>
-          <Fragment slot="title">Des outils <Accent text="déjà en service" /></Fragment>
+          <Fragment slot="title">Déjà <Accent text="en service" /></Fragment>
         </SectionHead>
         <Button href="/nos-sites-internet" icon="arrow">Voir toutes nos réalisations</Button>
       </div>
@@ -76,7 +76,7 @@ const examples = cases.filter((item) => item.types.includes("app"));
   <Section>
     <div class="flow">
       <SectionHead>
-        <Fragment slot="title">Trois étapes, <Accent text="zéro surprise" /></Fragment>
+        <Fragment slot="title">Trois <Accent text="étapes" /></Fragment>
         <p>Un seul interlocuteur du début à la fin. Vous validez, nous nous occupons du reste.</p>
       </SectionHead>
       <Steps items={methodSteps} />
@@ -101,8 +101,8 @@ const examples = cases.filter((item) => item.types.includes("app"));
     <Cta>
       <Fragment slot="title">Parlons de <Accent text="votre outil" /></Fragment>
       <p>
-        Décrivez ce qui vous prend du temps aujourd'hui, en quelques lignes : on vous dit ce qu'on peut automatiser, et
-        combien ça coûte. Gratuit et sans engagement.
+        Décrivez ce qui vous prend du temps aujourd'hui, en quelques lignes : on vous dit ce qu'on peut automatiser, puis
+        on vous envoie un devis.
       </p>
       <ReplyNote />
       <Fragment slot="actions">
