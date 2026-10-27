@@ -44,7 +44,7 @@ export const vitrineIncluded = [
 ];
 
 export const vitrineExcluded = [
-  "Modifications après la livraison (abonnement en option)",
+  "Modifications après la livraison (sur devis)",
   "Pages au-delà de celles prévues au départ",
   "Vente en ligne : voir la boutique en ligne",
   "SEO avancé et stratégie de contenu",
@@ -78,7 +78,7 @@ export const vitrineFaq: FaqItem[] = [
   {
     question: "Proposez-vous un suivi après la mise en ligne ?",
     answer:
-      "Oui. Après les 2 mois de support inclus, l'abonnement Maintenance et sécurité (CHF 99.– / mois, sans engagement) couvre les mises à jour, la surveillance, les sauvegardes et le support. Les évolutions du site se font sur devis.",
+      "Oui. Le site inclut 2 mois de support. Ensuite, les modifications et les évolutions du site se font sur devis, quand vous en avez besoin.",
   },
 ];
 

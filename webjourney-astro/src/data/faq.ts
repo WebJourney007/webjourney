@@ -26,7 +26,7 @@ export const homeFaq: FaqItem[] = [
   {
     question: "Que se passe-t-il après la mise en ligne ?",
     answer:
-      "Le site vitrine inclut 2 mois de support. Ensuite, l'abonnement maintenance et sécurité (CHF 99.– / mois, sans engagement) couvre les mises à jour, les sauvegardes et la surveillance.",
+      "Le site vitrine inclut 2 mois de support. Ensuite, on reste disponibles pour vos modifications et les évolutions du site, sur devis.",
   },
   {
     question: "Mon site apparaîtra-t-il dans ChatGPT et les autres IA ?",

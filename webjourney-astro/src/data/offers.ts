@@ -29,5 +29,5 @@ export const guarantees: Guarantee[] = [
   { title: "Votre site vous appartient", text: "Code, design et contenus : tout est à vous une fois le site payé." },
   { title: "Une date tenue", text: "On fixe la date de livraison ensemble au départ, et on la tient." },
   { title: "Vous validez chaque étape", text: "Rien n'avance sans votre accord." },
-  { title: "Hébergé en Suisse", text: "Chez Infomaniak, avec une maintenance sans engagement." },
+  { title: "Hébergé en Suisse", text: "Chez Infomaniak, vos données restent en Suisse." },
 ];

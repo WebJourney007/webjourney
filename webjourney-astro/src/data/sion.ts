@@ -38,7 +38,7 @@ export const localServices: Explain[] = [
   },
   {
     title: "Formules et prix",
-    text: "Landing page, site vitrine ou projet sur-mesure, et la maintenance : toutes nos formules, prix compris.",
+    text: "Landing page, site vitrine ou projet sur-mesure : toutes nos formules, prix compris.",
     href: "/creation-site-internet",
   },
   {

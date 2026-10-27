@@ -111,44 +111,13 @@ export const serviceSteps: Step[] = [
   },
 ];
 
-// Abonnements. Fréquence des sauvegardes, délais de réponse et quota de
-// modifications : en attente des chiffres de Max, rien n'est affiché sans eux.
-export const plans: Offer[] = [
-  {
-    name: "Maintenance",
-    price: "CHF 99.– / mois",
-    pitch: "Votre site protégé et à jour, sans y penser.",
-    features: ["Mises à jour de sécurité", "Sauvegardes régulières", "Surveillance et alertes", "Support technique"],
-    note: "Pour tous les sites : c'est ce qui garde le vôtre sûr, stable et disponible.",
-  },
-  {
-    name: "Accompagnement",
-    price: "CHF 249.– / mois",
-    pitch: "Votre site qui vit au rythme de votre activité.",
-    features: [
-      "Tout l'abonnement Maintenance",
-      "Modifications de dates, d'images et de textes",
-      "Conseils et optimisations",
-      "Support prioritaire",
-    ],
-    note: "Si vous mettez souvent votre site à jour : événements, nouveautés, saisons.",
-  },
-  {
-    name: "Sur-mesure",
-    price: "Sur devis",
-    pitch: "Pour faire évoluer votre site en profondeur.",
-    features: ["Évolutions importantes", "Nouvelles fonctionnalités", "Accompagnement stratégique dédié", "Support prioritaire"],
-    note: "Si votre site est un outil central de votre activité et doit grandir avec elle.",
-  },
-];
-
 // Questions propres à cette page : celles de la home (prix, délais, propriété,
 // modifications, après la mise en ligne, Wix) n'y sont pas répétées.
 export const serviceFaq: FaqItem[] = [
   {
     question: "Que comprend exactement l'offre site vitrine ?",
     answer:
-      "La conception, un design sur-mesure, une structure claire, le développement, la mise en ligne, un accompagnement pour prendre en main votre site et 2 mois de support. Le site est livré clé en main, sans abonnement obligatoire.",
+      "La conception, un design sur-mesure, une structure claire, le développement, la mise en ligne, un accompagnement pour prendre en main votre site et 2 mois de support. Le site est livré clé en main.",
   },
   {
     question: "Est-ce que je dois fournir les textes et les images ?",
@@ -168,11 +137,6 @@ export const serviceFaq: FaqItem[] = [
   {
     question: "Est-il possible de faire évoluer le site plus tard ?",
     answer: "Oui. Nouvelles pages, fonctionnalités, modules spécifiques : les évolutions sont possibles sur devis, au rythme de votre activité.",
-  },
-  {
-    question: "Que n'inclut pas l'abonnement Maintenance ?",
-    answer:
-      "Il couvre les mises à jour, la sécurité, la surveillance, les sauvegardes et le support technique. Les modifications de contenu et les évolutions du site n'en font pas partie : elles sont dans l'abonnement Accompagnement, ou sur devis.",
   },
   {
     question: "Travaillez-vous uniquement avec des entreprises valaisannes ?",
@@ -195,7 +159,7 @@ export const serviceStructuredData = {
       "@id": `${PAGE_URL}#service`,
       name: "Création de site internet sur-mesure",
       description:
-        "Création de sites internet sur-mesure en Valais : landing page, site vitrine et projets sur-mesure, avec maintenance et accompagnement en option.",
+        "Création de sites internet sur-mesure en Valais : landing page, site vitrine et projets sur-mesure.",
       url: PAGE_URL,
       provider: { "@id": `${SITE.url}/#business` },
       areaServed: [
