@@ -28,7 +28,7 @@ export const fitNo = [
 // Pour qui et en combien de temps, dans l'ordre de `offers.ts` : partagés par le
 // bloc d'un coup d'œil et par le comparatif.
 const AUDIENCES = ["Lancer une offre précise", "Présenter toute votre activité", "Réservation, e-commerce, application"];
-const DELAYS = ["1 à 2 semaines", "3 à 6 semaines", "Environ 2 mois"];
+const DELAYS = ["1 à 2 semaines", "3 à 6 semaines", "Selon le projet"];
 
 export const glance: GlanceItem[] = offers.map(({ name, price, featured }, index) => ({
   name,
