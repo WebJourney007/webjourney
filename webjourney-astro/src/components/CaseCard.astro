@@ -1,13 +1,11 @@
 ---
-// Carte d'une réalisation avec étude de cas : capture, nom, prestations, ce
-// qui a été fait en une ou deux phrases, et le résultat quand il est mesuré.
+// Carte d'une réalisation avec étude de cas : capture, nom, prestations et ce
+// qui a été fait en une ou deux phrases.
 export interface CaseItem {
   href: string;
   name: string;
   tags: string[];
   text: string;
-  /** Résultat chiffré, affiché seulement s'il existe. */
-  result?: string;
   image: string;
   width: number;
   height: number;
@@ -29,7 +27,6 @@ const { item } = Astro.props;
   <p class="case__tags muted">{item.tags.join(" · ")}</p>
   <h3><a href={item.href} class="case__link">{item.name}</a></h3>
   <p class="muted">{item.text}</p>
-  {item.result && <p class="case__result">{item.result}</p>}
 </article>
 
 <style>
@@ -71,10 +68,5 @@ const { item } = Astro.props;
   .case__link::after {
     content: " →";
     color: var(--color-accent);
-  }
-
-  .case__result {
-    color: var(--color-accent);
-    font-weight: 700;
   }
 </style>

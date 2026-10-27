@@ -21,7 +21,6 @@ export const cases: CaseItem[] = [
     name: "Astral Motorclub",
     tags: ["Site web", "Application", "SEO"],
     text: "Site et application web pour la location de voitures de luxe à Genève. Les équipes gèrent seules la tarification et les réservations.",
-    result: "+240 % de clics Google",
     image: `${IMG}/astral-motorclub--webjourney.webp`,
     width: 850,
     height: 531,
