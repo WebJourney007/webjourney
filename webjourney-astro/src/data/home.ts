@@ -241,7 +241,13 @@ export const structuredData = [
         image: `${SITE.url}${SITE.ogImage}`,
         // Google n'accepte pas le format .ico pour le logo : l'icône PNG 256 px.
         logo: { "@type": "ImageObject", url: `${SITE.url}/assets/images/webclip.png` },
-        sameAs: Object.values(SITE.social),
+        sameAs: [...Object.values(SITE.social), SITE.googleBusiness],
+        openingHoursSpecification: {
+          "@type": "OpeningHoursSpecification",
+          dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          opens: "09:00",
+          closes: "19:00",
+        },
         priceRange: "$$",
         currenciesAccepted: "CHF",
         knowsLanguage: "fr",

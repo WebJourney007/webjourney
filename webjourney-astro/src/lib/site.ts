@@ -24,6 +24,8 @@ export const SITE = {
     instagram: "https://www.instagram.com/webjourney.ch",
     linkedin: "https://www.linkedin.com/company/agence-web-journey/",
   },
+  // Fiche Google Business, par son identifiant Knowledge Graph (lien partagé par Max).
+  googleBusiness: "https://www.google.com/search?kgmid=/g/11ms18wr4h",
   // Image de partage par défaut : la seule des anciennes og:image qui répond en ligne.
   ogImage: "/assets/images/google-product.png",
 } as const;
