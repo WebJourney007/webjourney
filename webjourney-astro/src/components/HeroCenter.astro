@@ -21,13 +21,15 @@ export interface ProofLogo {
 interface Props {
   /** Captures de la fenêtre. La première est celle du chargement. */
   shots: Shot[];
-  /** Boucle vidéo muette (MP4), jouée sur écran large seulement. */
+  /** Boucle vidéo muette (MP4), jouée sur écran large. */
   video?: string;
+  /** Même boucle allégée pour les petits écrans. Sans elle, les captures défilent. */
+  mobileVideo?: string;
   /** Logos clients montrés en pastilles devant la phrase de preuve. */
   proofLogos: ProofLogo[];
 }
 
-const { shots, video, proofLogos } = Astro.props;
+const { shots, video, mobileVideo, proofLogos } = Astro.props;
 const first = shots[0];
 ---
 
@@ -73,6 +75,7 @@ const first = shots[0];
               aria-hidden="true"
               tabindex="-1"
               data-hero-video
+              data-mobile-src={mobileVideo}
             />
           )
         }
@@ -82,10 +85,11 @@ const first = shots[0];
 </section>
 
 <script>
-  // Anime la fenêtre : boucle vidéo sur écran large, sinon rotation des captures.
+  // Anime la fenêtre : boucle vidéo (version allégée sur petit écran), sinon
+  // rotation des captures.
   // Sans JavaScript, ou si le visiteur a demandé moins d'animations, la première
   // capture reste affichée.
-  import { wantsVideo } from "../scripts/wants-video";
+  import { canPlayVideo, wantsVideo } from "../scripts/wants-video";
 
   const INTERVAL = 2500;
 
@@ -102,8 +106,18 @@ const first = shots[0];
     }, INTERVAL);
   }
 
+  /** La vidéo à lire, ou null : écran large, sinon version mobile si elle existe. */
+  function pickVideo(video: HTMLVideoElement | null) {
+    if (!video) return null;
+    if (wantsVideo()) return video;
+    const mobileSrc = video.dataset.mobileSrc;
+    if (!mobileSrc || !canPlayVideo()) return null;
+    video.src = mobileSrc;
+    return video;
+  }
+
   if (root && !reducedMotion) {
-    const video = wantsVideo() ? root.querySelector<HTMLVideoElement>("[data-hero-video]") : null;
+    const video = pickVideo(root.querySelector<HTMLVideoElement>("[data-hero-video]"));
     const shots = [...root.querySelectorAll<HTMLElement>(".window__shot")];
 
     // Tout démarre après le chargement de la page, pour ne rien lui disputer.

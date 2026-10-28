@@ -135,6 +135,8 @@ export const hero = {
     siteShot("wapi", "Wapi", 428),
   ],
   video: "/assets/videos/hero-showreel.mp4",
+  // 960 × 540, 1,4 Mo : le même showreel pour les petits écrans.
+  mobileVideo: "/assets/videos/hero-showreel--mobile.mp4",
   proofLogos: [
     { src: "/images/logos/logo-meltingpote.png", name: "La Meltingpote" },
     { src: "/images/logos/logo-geneva-velo.png", name: "Geneva Velo" },
