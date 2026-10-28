@@ -4,15 +4,14 @@
 
 Web journey a livré plus de 30 sites, dont 4 outils de réservation en ligne et 3 identités visuelles complètes. Les sites sont hébergés en Suisse chez Infomaniak et appartiennent au client une fois livrés et payés.
 
-## Offres et prix
+## Services et prix
 
-- [Création de site internet](https://www.webjourney.ch/creation-site-internet): formules, comparatif et abonnements.
+- [Création de site internet](https://www.webjourney.ch/creation-site-internet): les trois formules et leur comparatif.
 - Landing page : dès CHF 990.–, livrée en 1 à 2 semaines.
 - Site vitrine : CHF 2'990.–, jusqu'à 5 pages, livré en 3 à 6 semaines, 2 mois de support inclus.
-- Projet sur-mesure (réservation en ligne, e-commerce, application métier) : sur devis, environ 2 mois.
-- Maintenance et sécurité : CHF 99.– / mois, sans engagement. Accompagnement : CHF 249.– / mois.
-- [Site vitrine](https://www.webjourney.ch/creation-site-vitrine)
-- [Boutique en ligne](https://www.webjourney.ch/creation-boutique-en-ligne)
+- Projet sur-mesure (réservation en ligne, e-commerce, application métier) : sur devis, délai selon le projet.
+- [Applications sur mesure](https://www.webjourney.ch/applications-sur-mesure): réservation en ligne, planning, location, connexion au logiciel de gestion. Sur devis.
+- [Identité visuelle](https://www.webjourney.ch/identite-visuelle): logo, charte graphique, cartes de visite, flyers, brochures. Sur devis.
 
 ## Réalisations
 
@@ -31,5 +30,5 @@ Web journey a livré plus de 30 sites, dont 4 outils de réservation en ligne et
 ## Ressources
 
 - [Blog](https://www.webjourney.ch/blog)
-- [Audit gratuit de votre site](https://www.webjourney.ch/audit)
 - [Guide gratuit : les 7 erreurs qui font fuir vos clients](https://www.webjourney.ch/guide-gratuit)
+- [Compresseur d'images gratuit](https://www.webjourney.ch/compresseur-images)
