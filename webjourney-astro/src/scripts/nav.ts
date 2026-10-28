@@ -34,8 +34,17 @@ if (nav && trigger && panel && services && servicesTrigger && servicesPanel) {
 
   let closeTimer: number | undefined;
 
+  // Bornes de l'interruption de la ligne du bas de la barre sous le panneau.
+  const markServicesGap = () => {
+    const bar = nav.getBoundingClientRect();
+    const box = servicesPanel.getBoundingClientRect();
+    nav.style.setProperty("--gap-start", `${box.left - bar.left}px`);
+    nav.style.setProperty("--gap-end", `${box.right - bar.left}px`);
+  };
+
   const setServices = (open: boolean) => {
     window.clearTimeout(closeTimer);
+    if (open) markServicesGap();
     servicesTrigger.setAttribute("aria-expanded", String(open));
     servicesPanel.toggleAttribute("data-open", open);
     servicesPanel.inert = !open;
