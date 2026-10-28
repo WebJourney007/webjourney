@@ -94,6 +94,8 @@ export function postStructuredData(post: Post) {
         url,
         datePublished: post.date,
         dateModified: post.date,
+        // Pas de couverture propre aux articles : l'image de partage de la page.
+        image: `${SITE.url}${SITE.ogImage}`,
         inLanguage: "fr-CH",
         author: { "@id": `${SITE.url}/#business` },
         publisher: { "@id": `${SITE.url}/#business` },

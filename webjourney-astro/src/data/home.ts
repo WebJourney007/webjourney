@@ -239,7 +239,9 @@ export const structuredData = [
           ].map((name) => ({ "@type": "Offer", itemOffered: { "@type": "Service", name } })),
         },
         image: `${SITE.url}${SITE.ogImage}`,
-        logo: { "@type": "ImageObject", url: `${SITE.url}/favicon.ico` },
+        // Google n'accepte pas le format .ico pour le logo : l'icône PNG 256 px.
+        logo: { "@type": "ImageObject", url: `${SITE.url}/assets/images/webclip.png` },
+        sameAs: Object.values(SITE.social),
         priceRange: "$$",
         currenciesAccepted: "CHF",
         knowsLanguage: "fr",

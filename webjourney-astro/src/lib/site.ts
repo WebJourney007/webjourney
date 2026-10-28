@@ -18,7 +18,8 @@ export const SITE = {
     postalCode: "1950",
     country: "CH",
   },
-  geo: { latitude: 46.2298, longitude: 7.3603 },
+  // Rue du Stade 13 selon OpenStreetMap (2026-10-28). À caler sur l'épingle de la fiche Google.
+  geo: { latitude: 46.2336, longitude: 7.3737 },
   social: {
     instagram: "https://www.instagram.com/webjourney.ch",
     linkedin: "https://www.linkedin.com/company/agence-web-journey/",
