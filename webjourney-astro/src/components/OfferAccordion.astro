@@ -1,10 +1,10 @@
 ---
-// Les formules en accordéon (une seule ouverte à la fois) : nom et prix toujours
-// visibles, le détail se déplie. Accordéon natif (<details name>) : clavier et
-// moteurs lisent tout, sans JavaScript.
+// Les formules : nom et prix, puis visuel, accroche, points et action.
 // Écran large et assez haut : la section reste à l'écran et le scroll ouvre les
-// formules l'une après l'autre ; le visuel de la formule ouverte occupe la
-// colonne de gauche. Ailleurs : accordéon classique, le visuel suit le texte.
+// formules l'une après l'autre (une seule ouverte) ; le visuel de la formule
+// ouverte occupe la colonne de gauche. Ailleurs (mobile) : les trois formules
+// sont ouvertes, l'une sous l'autre. Éléments <details> : sans JavaScript, tout
+// reste ouvert et lisible.
 // Le titre de la section passe par le slot, pour rester à l'écran avec la liste.
 import Button from "./Button.astro";
 import CheckList from "./CheckList.astro";
@@ -15,7 +15,6 @@ export interface FormulaItem {
   price: string;
   pitch: string;
   features: string[];
-  featured?: boolean;
   /** Illustration de la formule : ce qu'elle produit, pas un site client. */
   media: { src: string; width: number; height: number; alt: string };
 }
@@ -31,13 +30,10 @@ const { items } = Astro.props;
   <div class="formulas-sticky flow">
     <slot />
     <div class="formulas">
-      {items.map((item, index) => (
-        <details class="formulas__item" name="formules" open={index === 0}>
+      {items.map((item) => (
+        <details class="formulas__item" open>
           <summary class="formulas__head">
-            <h3 class="formulas__name">
-              {item.name}
-              {item.featured && <span class="formulas__badge">Recommandé</span>}
-            </h3>
+            <h3 class="formulas__name">{item.name}</h3>
             <span class="formulas__price">{item.price}</span>
           </summary>
           <div class="formulas__body">
@@ -77,20 +73,24 @@ const { items } = Astro.props;
       items.forEach((details, i) => (details.open = i === index));
     };
 
+    // Formule ouverte par le scroll ; -1 tant qu'aucune ne l'a été (ou hors mode collant).
+    let current = -1;
     const sync = () => {
       const range = scrollRange();
       if (!PINNED.matches || range <= 0) return;
       const progress = (window.scrollY - scrollStart()) / range;
       const index = Math.min(items.length - 1, Math.max(0, Math.floor(progress * items.length)));
-      if (!items[index]?.open) open(index);
+      if (index === current) return;
+      current = index;
+      open(index);
     };
 
     items.forEach((details, index) => {
       details.querySelector("summary")?.addEventListener("click", (event) => {
-        // La formule ouverte ne se referme pas : la colonne du visuel resterait vide.
+        // Les formules ne se referment pas : sur mobile elles restent toutes
+        // ouvertes ; en mode collant, la colonne du visuel resterait vide.
         event.preventDefault();
-        if (details.open) return;
-        if (!PINNED.matches) return open(index);
+        if (details.open || !PINNED.matches) return;
         // Section collante : on scrolle jusqu'au milieu de la tranche de la formule.
         window.scrollTo({
           top: scrollStart() + (scrollRange() * (index + 0.5)) / items.length,
@@ -112,8 +112,14 @@ const { items } = Astro.props;
       },
       { passive: true },
     );
-    PINNED.addEventListener("change", sync);
-    sync();
+    // Mode collant : une formule à la fois, choisie par le scroll. Sinon : toutes ouvertes.
+    const applyMode = () => {
+      current = -1;
+      if (PINNED.matches) sync();
+      else items.forEach((details) => (details.open = true));
+    };
+    PINNED.addEventListener("change", applyMode);
+    applyMode();
   });
 </script>
 
@@ -212,15 +218,10 @@ const { items } = Astro.props;
     gap: var(--space-2) var(--space-5);
     padding-block: var(--space-5);
     list-style: none;
-    cursor: pointer;
   }
 
   .formulas__head::-webkit-details-marker {
     display: none;
-  }
-
-  .formulas__item[open] .formulas__head {
-    cursor: default;
   }
 
   .formulas__name {
@@ -239,16 +240,6 @@ const { items } = Astro.props;
 
   .formulas__item:not([open]) .formulas__head:hover .formulas__name {
     opacity: 1;
-  }
-
-  .formulas__badge {
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-accent);
-    color: var(--color-ink);
-    font-size: var(--fs-small);
-    font-weight: 700;
-    line-height: 1.4;
   }
 
   .formulas__price {
@@ -274,16 +265,21 @@ const { items } = Astro.props;
   }
 
   /* Fond des illustrations recalé sur --color-coal : le filet suffit à les cadrer. */
+  /* Formules empilées (mobile) : le visuel passe juste sous le nom. */
   .formulas__media {
+    order: -1;
     width: 100%;
     height: auto;
     border: 1px solid var(--line);
     border-radius: var(--radius-md);
   }
 
-  /* Écran large : la liste à droite, le visuel de la formule ouverte sorti du
-     flux et placé dans la colonne de gauche (repère : .formulas). */
-  @media (min-width: 62em) {
+  /* Écran large et assez haut pour tout montrer : la section occupe l'écran et y
+     reste pendant une tranche de scroll par formule. Contenu centré : la barre
+     de navigation, qui réapparaît en remontant, ne le recouvre pas. La liste
+     passe à droite, le visuel de la formule ouverte sort du flux et se place dans
+     la colonne de gauche (repère : .formulas). */
+  @media (min-width: 62em) and (min-height: 48em) {
     .formulas {
       min-height: 28rem;
       padding-left: calc(var(--media-width) + var(--space-8));
@@ -295,12 +291,11 @@ const { items } = Astro.props;
       left: 0;
       width: var(--media-width);
     }
-  }
 
-  /* Écran large et assez haut pour tout montrer : la section occupe l'écran et y
-     reste pendant une tranche de scroll par formule. Contenu centré : la barre
-     de navigation, qui réapparaît en remontant, ne le recouvre pas. */
-  @media (min-width: 62em) and (min-height: 48em) {
+    .formulas__item:not([open]) .formulas__head {
+      cursor: pointer;
+    }
+
     .formulas-track {
       --step: 70svh;
 

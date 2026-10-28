@@ -30,7 +30,6 @@ const { columns, rows, caption } = Astro.props;
         <td></td>
         {columns.map((column) => (
           <th scope="col" class:list={["compare__head", column.featured && "is-featured"]}>
-            {column.featured && <span class="compare__badge">Recommandé</span>}
             <span class="compare__name">{column.name}</span>
             <span class="compare__price">{column.price}</span>
           </th>
@@ -92,17 +91,6 @@ const { columns, rows, caption } = Astro.props;
 
   .compare__head {
     padding-top: var(--space-6);
-  }
-
-  .compare__badge {
-    display: inline-block;
-    margin-bottom: var(--space-2);
-    padding: var(--space-1) var(--space-3);
-    border-radius: var(--radius-sm);
-    background-color: var(--color-accent);
-    color: var(--color-ink);
-    font-size: var(--fs-small);
-    font-weight: 700;
   }
 
   .compare__name,
