@@ -15,7 +15,7 @@ interface Props {
 const { items, cols = items.length } = Astro.props;
 ---
 
-<ul class="points" style={`--cols: ${cols}`}>
+<ul class:list={["points", cols === 1 && "points--stacked"]} style={`--cols: ${cols}`}>
   {items.map((item) => (
     <li class="points__item">
       <h3>{item.title}</h3>
@@ -36,6 +36,17 @@ const { items, cols = items.length } = Astro.props;
     gap: var(--space-3);
     padding-top: var(--space-5);
     border-top: 2px solid var(--color-accent);
+  }
+
+  /* Une seule colonne (à côté d'une image) : empilés, les filets dorés découpent
+     le texte en tranches. Filet fin et neutre, plus d'air : le titre sert de repère. */
+  .points--stacked {
+    gap: var(--space-7);
+  }
+
+  .points--stacked .points__item {
+    padding-top: var(--space-6);
+    border-top: 1px solid var(--line);
   }
 
   @media (min-width: 62em) {

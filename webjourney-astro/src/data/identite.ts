@@ -7,6 +7,68 @@ import { SITE } from "../lib/site";
 
 const PAGE_URL = `${SITE.url}/identite-visuelle`;
 
+export interface ProcessImage {
+  src: string;
+  width: number;
+  height: number;
+  alt: string;
+}
+
+export interface ProcessStep {
+  title: string;
+  text: string;
+  /** Une image, ou deux montrées côte à côte (même étape vue sous deux angles). */
+  images: ProcessImage[];
+}
+
+// La méthode montrée sur un vrai projet : l'identité de WAPI, de la recherche au
+// logo final. Déroulé décrit par Max le 2026-10-28 ; textes à valider.
+const IMG = "/assets/images";
+export const designProcess: ProcessStep[] = [
+  {
+    title: "La recherche",
+    text: "On cherche plusieurs directions, puis on les teste en situation, sur de vraies photos, pour voir laquelle correspond à votre activité.",
+    images: [
+      {
+        src: `${IMG}/identite--wapi-directions.webp`,
+        width: 1200,
+        height: 886,
+        alt: "Six directions de logo WAPI « ride beyond », chacune avec ses couleurs et sa typographie",
+      },
+      {
+        src: `${IMG}/identite--wapi-en-situation.webp`,
+        width: 1200,
+        height: 1017,
+        alt: "Directions de logo WAPI testées sur quatre photos de VTT",
+      },
+    ],
+  },
+  {
+    title: "Le travail du logo",
+    text: "La direction retenue est retravaillée en détail : la forme du W, le sommet, l'équilibre entre les lettres.",
+    images: [
+      {
+        src: `${IMG}/identite--wapi-dessin.webp`,
+        width: 1200,
+        height: 638,
+        alt: "Travail du logo WAPI : variations de la lettre W et du sommet, superposées et annotées",
+      },
+    ],
+  },
+  {
+    title: "La construction",
+    text: "Le logo final est tracé sur une grille, point par point, pour qu'il reste net et juste à toutes les tailles.",
+    images: [
+      {
+        src: `${IMG}/identite--wapi-construction.webp`,
+        width: 1200,
+        height: 490,
+        alt: "Logo WAPI final, tracé sur sa grille de construction avec ses points d'ancrage",
+      },
+    ],
+  },
+];
+
 // Repris de la home, où seuls les titres restent affichés.
 export const designIncluded: Point[] = [
   {

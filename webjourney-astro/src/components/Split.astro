@@ -9,13 +9,17 @@ interface Props {
   reverse?: boolean;
   /** Proportion du cadre de l'image, ex. "4 / 5". Par défaut, celle du fichier. */
   ratio?: string;
+  /** Filet autour de l'image : pour une illustration sur fond sombre, dont le bord se devine sinon. */
+  framed?: boolean;
+  /** Image calée en haut, sur le titre, quand le texte est bien plus haut qu'elle. */
+  alignTop?: boolean;
 }
 
-const { image, alt, width, height, reverse = false, ratio } = Astro.props;
+const { image, alt, width, height, reverse = false, ratio, framed = false, alignTop = false } = Astro.props;
 ---
 
-<div class:list={["split", reverse && "split--reverse"]}>
-  <div class="split__media" style={ratio ? `aspect-ratio: ${ratio}` : undefined}>
+<div class:list={["split", reverse && "split--reverse", alignTop && "split--top"]}>
+  <div class:list={["split__media", framed && "split__media--framed"]} style={ratio ? `aspect-ratio: ${ratio}` : undefined}>
     <img src={image} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
   </div>
   <div class="split__content stack">
@@ -30,9 +34,17 @@ const { image, alt, width, height, reverse = false, ratio } = Astro.props;
     align-items: center;
   }
 
+  .split--top {
+    align-items: start;
+  }
+
   .split__media {
     overflow: hidden;
     border-radius: var(--radius-md);
+  }
+
+  .split__media--framed {
+    border: 1px solid var(--line);
   }
 
   .split__media img {
@@ -53,6 +65,13 @@ const { image, alt, width, height, reverse = false, ratio } = Astro.props;
 
     .split--reverse .split__media {
       order: 2;
+    }
+
+    /* Image calée en haut : elle reste à l'écran pendant qu'on lit le texte, sous
+       la barre de navigation quand celle-ci réapparaît. */
+    .split--top .split__media {
+      position: sticky;
+      top: calc(var(--nav-height) + var(--space-6));
     }
   }
 </style>

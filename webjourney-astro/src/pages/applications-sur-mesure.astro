@@ -12,6 +12,7 @@ import PointList from "../components/PointList.astro";
 import ReplyNote from "../components/ReplyNote.astro";
 import Section from "../components/Section.astro";
 import SectionHead from "../components/SectionHead.astro";
+import Split from "../components/Split.astro";
 import Steps from "../components/Steps.astro";
 import TestimonialCard from "../components/TestimonialCard.astro";
 import { appFaq, appIncluded, appReview, appStructuredData } from "../data/applications";
@@ -41,12 +42,19 @@ const examples = cases.filter((item) => item.types.includes("app"));
   <div class="page-deep tone-ink">
   <!-- ─── CE QUE LES APPLICATIONS FONT ─── -->
   <Section>
-    <div class="flow">
+    <Split
+      image="/assets/images/illustration--applications.webp"
+      alt="Illustration : votre logiciel de gestion et votre application en ligne, synchronisés en temps réel"
+      width={1200}
+      height={896}
+      framed
+      alignTop
+    >
       <SectionHead>
         <Fragment slot="title">Des outils qui <Accent text="travaillent pour vous" /></Fragment>
       </SectionHead>
-      <PointList items={appIncluded} cols={2} />
-    </div>
+      <PointList items={appIncluded} cols={1} />
+    </Split>
   </Section>
 
   <!-- ─── PREUVES ─── -->

@@ -13,10 +13,11 @@ import PointList from "../components/PointList.astro";
 import ReplyNote from "../components/ReplyNote.astro";
 import Section from "../components/Section.astro";
 import SectionHead from "../components/SectionHead.astro";
+import Split from "../components/Split.astro";
 import Steps from "../components/Steps.astro";
 import { faqStructuredData } from "../data/faq";
 import { methodSteps } from "../data/home";
-import { designFaq, designIncluded, designStructuredData } from "../data/identite";
+import { designFaq, designIncluded, designProcess, designStructuredData } from "../data/identite";
 import { designProduct } from "../data/products";
 import { cases } from "../data/projects";
 import { PROJECT_CTA, SITE } from "../lib/site";
@@ -41,11 +42,64 @@ const examples = cases.filter((item) => item.types.includes("identite"));
   <div class="page-deep tone-ink">
   <!-- ─── CE QUE COMPREND UNE IDENTITÉ ─── -->
   <Section>
-    <div class="flow">
+    <Split
+      image="/assets/images/illustration--identite.webp"
+      alt="Illustration : un logo, sa charte graphique (couleurs, typographie) et ses déclinaisons sur papier, site et mobile"
+      width={1200}
+      height={896}
+      framed
+      alignTop
+    >
       <SectionHead>
         <Fragment slot="title">Une identité, <Accent text="du web au papier" /></Fragment>
       </SectionHead>
-      <PointList items={designIncluded} cols={2} />
+      <PointList items={designIncluded} cols={1} />
+    </Split>
+  </Section>
+
+  <!-- ─── MÉTHODE EN IMAGES (WAPI) ─── -->
+  <Section>
+    <div class="flow flow--lg">
+      <SectionHead>
+        <Fragment slot="title">De la première idée <Accent text="au logo final" /></Fragment>
+      </SectionHead>
+      {designProcess.map((step, index) => {
+        const number = String(index + 1).padStart(2, "0");
+        const [first, ...others] = step.images;
+        if (!first) return null;
+        // Deux images : le texte au-dessus, les images côte à côte à la même hauteur.
+        if (others.length > 0) {
+          return (
+            <div class="process__wide">
+              <div class="process__text stack">
+                <p class="process__step">{number}</p>
+                <h3>{step.title}</h3>
+                <p class="muted">{step.text}</p>
+              </div>
+              <div class="process__row">
+                {step.images.map((image) => (
+                  <img
+                    src={image.src}
+                    alt={image.alt}
+                    width={image.width}
+                    height={image.height}
+                    loading="lazy"
+                    decoding="async"
+                    style={`flex-grow: ${image.width / image.height}`}
+                  />
+                ))}
+              </div>
+            </div>
+          );
+        }
+        return (
+          <Split image={first.src} alt={first.alt} width={first.width} height={first.height} reverse={index % 2 === 0}>
+            <p class="process__step">{number}</p>
+            <h3>{step.title}</h3>
+            <p class="muted">{step.text}</p>
+          </Split>
+        );
+      })}
     </div>
   </Section>
 
@@ -102,3 +156,50 @@ const examples = cases.filter((item) => item.types.includes("identite"));
   </Section>
   </div>
 </BaseLayout>
+
+<style>
+  .process__step {
+    color: var(--accent-text);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+  }
+
+  .process__wide {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .process__text {
+    --stack-gap: var(--space-5);
+
+    max-width: 40rem;
+  }
+
+  .process__row {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+  }
+
+  .process__row img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+  }
+
+  /* Côte à côte : chaque image prend une largeur proportionnelle à son format
+     (flex-grow = largeur / hauteur), donc les deux ont la même hauteur. */
+  @media (min-width: 48em) {
+    .process__row {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    .process__row img {
+      flex-basis: 0;
+      min-width: 0;
+    }
+  }
+</style>
