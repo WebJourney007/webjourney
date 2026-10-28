@@ -1,5 +1,5 @@
 ---
-// Bandeau de contact au-dessus de la navigation : téléphone et email.
+// Bandeau de contact au-dessus de la navigation : téléphone, et email sur desktop.
 // Il défile avec la page ; seule la barre de navigation reste collée en haut.
 import { SITE } from "../lib/site";
 ---
@@ -7,7 +7,7 @@ import { SITE } from "../lib/site";
 <div class="topbar tone-ink" data-topbar>
   <div class="container topbar__inner">
     <a href={SITE.phoneHref} class="topbar__link">{SITE.phoneDisplay}</a>
-    <a href={`mailto:${SITE.email}`} class="topbar__link">{SITE.email}</a>
+    <a href={`mailto:${SITE.email}`} class="topbar__link topbar__email">{SITE.email}</a>
   </div>
 </div>
 
@@ -42,6 +42,13 @@ import { SITE } from "../lib/site";
   .topbar__link:focus-visible {
     color: var(--color-accent);
     text-decoration-color: currentColor;
+  }
+
+  /* Mobile et tablette : le téléphone seul. */
+  @media (max-width: 61.99em) {
+    .topbar__email {
+      display: none;
+    }
   }
 
   @media (min-width: 62em) {

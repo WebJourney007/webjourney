@@ -1,7 +1,7 @@
 ---
 // Barre de navigation.
-// Logo au centre, bouton de réservation à droite. À gauche : les liens sur desktop,
-// le bouton du menu déroulant sur mobile et tablette.
+// Logo au centre. Desktop : les liens à gauche, « Démarrer votre projet » à droite.
+// Mobile et tablette : le bouton du menu à gauche, l'action principale dans le menu.
 // Elle suit le bandeau de contact puis reste collée en haut de l'écran.
 // En haut d'une page à hero sombre elle est transparente ; elle sort de l'écran
 // quand on descend et revient avec son fond quand on remonte (scripts/nav.ts).
@@ -19,6 +19,8 @@ const { currentPath, overlay } = Astro.props;
 const isCurrent = (href: string) => (href === currentPath ? "page" : undefined);
 // Sur une page service, « Services » passe en doré comme un lien courant.
 const inServices = SERVICE_LINKS.some((service) => service.href === currentPath);
+// Menu mobile : la page contact s'ajoute aux liens de la barre.
+const MENU_MORE_LINKS = [...NAV_LINKS, { label: "Contact", href: "/contact" }];
 ---
 
 <header class:list={["nav", overlay && "nav--overlay", overlay === "dark" && "nav--overlay-dark"]} data-nav>
@@ -74,14 +76,13 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
 
     <div class="nav__end">
       <Button href={PROJECT_CTA.href} variant="accent" icon="arrow" class="nav__cta">
-        <span class="nav__cta-long">{PROJECT_CTA.label}</span><span class="nav__cta-short">{PROJECT_CTA.short}</span>
+        {PROJECT_CTA.label}
       </Button>
     </div>
   </div>
 
   <div id="site-menu" class="menu" data-menu-panel inert>
     <nav aria-label="Menu">
-      <p class="menu__label">Services</p>
       <ul class="menu__list">
         {SERVICE_LINKS.map((service) => (
           <li>
@@ -90,7 +91,7 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
         ))}
       </ul>
       <ul class="menu__list menu__list--more">
-        {NAV_LINKS.map((link) => (
+        {MENU_MORE_LINKS.map((link) => (
           <li>
             <a href={link.href} class="menu__link" aria-current={isCurrent(link.href)}>{link.label}</a>
           </li>
@@ -101,7 +102,6 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
       <Button href={PROJECT_CTA.href} variant="accent" icon="arrow"
         >{PROJECT_CTA.label}</Button
       >
-      <Button href={`mailto:${SITE.email}`} icon="mail">{SITE.email}</Button>
     </div>
   </div>
 </header>
@@ -400,15 +400,6 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
     gap: var(--space-2);
   }
 
-  .menu__label {
-    margin-bottom: var(--space-3);
-    color: var(--fg-muted);
-    font-size: var(--fs-small);
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
   .menu__list--more {
     margin-top: var(--space-5);
     padding-top: var(--space-5);
@@ -454,16 +445,16 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
 
   @media (min-width: 62em) {
     .nav :global(.nav__trigger),
-    .menu,
-    .nav__cta-short {
+    .menu {
       display: none;
     }
   }
 
-  /* Mobile et tablette : le bouton de réservation reste visible, en version courte. */
+  /* Mobile et tablette : l'action principale passe dans le menu. La colonne de
+     droite reste, vide, pour garder le logo au centre. */
   @media (max-width: 61.99em) {
     .nav__links,
-    .nav__cta-long {
+    .nav :global(.nav__cta) {
       display: none;
     }
   }
@@ -475,14 +466,9 @@ const inServices = SERVICE_LINKS.some((service) => service.href === currentPath)
       gap: var(--space-2);
     }
 
-    .nav :global(.nav__trigger),
-    .nav :global(.nav__cta) {
+    .nav :global(.nav__trigger) {
       min-width: 0;
       padding-inline: 0.75rem;
-    }
-
-    .nav :global(.nav__cta .btn__icon) {
-      display: none;
     }
 
     .nav__logo {

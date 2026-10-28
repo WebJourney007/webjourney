@@ -34,10 +34,10 @@ export const SITE = {
 // de contact. Max ne prend plus de rendez-vous téléphoniques (2026-10-25).
 // « Démarrer » plutôt que « Réserver un appel » : le visiteur n'a pas besoin de
 // savoir précisément ce qu'il veut pour écrire.
-export const PROJECT_CTA = { label: "Démarrer votre projet", short: "Démarrer", href: "/contact" } as const;
+export const PROJECT_CTA = { label: "Démarrer votre projet", href: "/contact" } as const;
 
 // Les trois services, un par besoin du client : panneau « Services » de la
-// barre, menu mobile, pied de page et bloc « Nos autres services » (B-009).
+// barre, menu mobile et pied de page (B-009).
 export const SERVICE_LINKS = [
   { label: "Sites internet", href: "/creation-site-internet" },
   { label: "Applications sur mesure", href: "/applications-sur-mesure" },
