@@ -7,7 +7,7 @@ import Cta from "../components/Cta.astro";
 import Faq from "../components/Faq.astro";
 import FitList from "../components/FitList.astro";
 import HeroText from "../components/HeroText.astro";
-import OfferGlance from "../components/OfferGlance.astro";
+import OfferAccordion from "../components/OfferAccordion.astro";
 import PointList from "../components/PointList.astro";
 import ReplyNote from "../components/ReplyNote.astro";
 import Section from "../components/Section.astro";
@@ -20,7 +20,7 @@ import {
   compareRows,
   fitNo,
   fitYes,
-  glance,
+  formulas,
   included,
   serviceFaq,
   serviceSteps,
@@ -48,14 +48,13 @@ import { PROJECT_CTA, SITE } from "../lib/site";
   </HeroText>
 
   <div class="page-deep tone-ink">
-  <!-- ─── L'OFFRE D'UN COUP D'ŒIL ─── -->
+  <!-- ─── LES FORMULES ─── -->
   <Section id="formules">
-    <div class="flow">
+    <OfferAccordion items={formulas}>
       <SectionHead>
         <Fragment slot="title">Trois <Accent text="formules" /></Fragment>
       </SectionHead>
-      <OfferGlance items={glance} />
-    </div>
+    </OfferAccordion>
   </Section>
 
   <!-- ─── COMPARATIF DES FORMULES ─── -->

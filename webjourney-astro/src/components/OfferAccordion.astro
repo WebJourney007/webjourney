@@ -1,0 +1,319 @@
+---
+// Les formules en accordéon (une seule ouverte à la fois) : nom et prix toujours
+// visibles, le détail se déplie. Accordéon natif (<details name>) : clavier et
+// moteurs lisent tout, sans JavaScript.
+// Écran large et assez haut : la section reste à l'écran et le scroll ouvre les
+// formules l'une après l'autre ; le visuel de la formule ouverte occupe la
+// colonne de gauche. Ailleurs : accordéon classique, le visuel suit le texte.
+// Le titre de la section passe par le slot, pour rester à l'écran avec la liste.
+import Button from "./Button.astro";
+import CheckList from "./CheckList.astro";
+import { PROJECT_CTA } from "../lib/site";
+
+export interface FormulaItem {
+  name: string;
+  price: string;
+  pitch: string;
+  features: string[];
+  featured?: boolean;
+  /** Illustration de la formule : ce qu'elle produit, pas un site client. */
+  media: { src: string; width: number; height: number; alt: string };
+}
+
+interface Props {
+  items: FormulaItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<div class="formulas-track" style={`--items: ${items.length}`} data-formulas>
+  <div class="formulas-sticky flow">
+    <slot />
+    <div class="formulas">
+      {items.map((item, index) => (
+        <details class="formulas__item" name="formules" open={index === 0}>
+          <summary class="formulas__head">
+            <h3 class="formulas__name">
+              {item.name}
+              {item.featured && <span class="formulas__badge">Recommandé</span>}
+            </h3>
+            <span class="formulas__price">{item.price}</span>
+          </summary>
+          <div class="formulas__body">
+            <p class="formulas__pitch">{item.pitch}</p>
+            <CheckList items={item.features} />
+            <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
+            <img
+              class="formulas__media"
+              src={item.media.src}
+              alt={item.media.alt}
+              width={item.media.width}
+              height={item.media.height}
+              loading="lazy"
+              decoding="async"
+            />
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</div>
+
+<script>
+  // Même requête que le CSS : c'est elle qui active la section collante.
+  const PINNED = matchMedia("(min-width: 62em) and (min-height: 48em)");
+  const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)");
+
+  document.querySelectorAll<HTMLElement>("[data-formulas]").forEach((track) => {
+    const items = [...track.querySelectorAll<HTMLDetailsElement>("details")];
+
+    // Course de scroll pendant laquelle la section reste à l'écran, découpée en
+    // une tranche par formule.
+    const scrollStart = () => track.getBoundingClientRect().top + window.scrollY;
+    const scrollRange = () => track.offsetHeight - window.innerHeight;
+
+    const open = (index: number) => {
+      items.forEach((details, i) => (details.open = i === index));
+    };
+
+    const sync = () => {
+      const range = scrollRange();
+      if (!PINNED.matches || range <= 0) return;
+      const progress = (window.scrollY - scrollStart()) / range;
+      const index = Math.min(items.length - 1, Math.max(0, Math.floor(progress * items.length)));
+      if (!items[index]?.open) open(index);
+    };
+
+    items.forEach((details, index) => {
+      details.querySelector("summary")?.addEventListener("click", (event) => {
+        // La formule ouverte ne se referme pas : la colonne du visuel resterait vide.
+        event.preventDefault();
+        if (details.open) return;
+        if (!PINNED.matches) return open(index);
+        // Section collante : on scrolle jusqu'au milieu de la tranche de la formule.
+        window.scrollTo({
+          top: scrollStart() + (scrollRange() * (index + 0.5)) / items.length,
+          behavior: reduceMotion.matches ? "auto" : "smooth",
+        });
+      });
+    });
+
+    let ticking = false;
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          sync();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+    PINNED.addEventListener("change", sync);
+    sync();
+  });
+</script>
+
+<style>
+  .formulas {
+    --media-width: 55%;
+    --open-time: 0.5s;
+
+    position: relative;
+    /* Permet d'animer la hauteur jusqu'à `auto`. */
+    interpolate-size: allow-keywords;
+  }
+
+  /* Changement de formule : le contenu se déplie en hauteur pendant que l'ancien
+     se replie. Navigateurs sans ::details-content : ouverture sèche, le reste des
+     animations s'applique quand même. */
+  .formulas__item::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size var(--open-time) var(--ease),
+      content-visibility var(--open-time) allow-discrete;
+  }
+
+  .formulas__item[open]::details-content {
+    block-size: auto;
+  }
+
+  /* Texte : monte et apparaît, ligne après ligne. */
+  .formulas__body > :not(.formulas__media) {
+    opacity: 0;
+    translate: 0 0.75rem;
+    transition:
+      opacity 0.25s ease,
+      translate 0.25s ease;
+  }
+
+  .formulas__item[open] .formulas__body > :not(.formulas__media) {
+    opacity: 1;
+    translate: none;
+    transition-duration: 0.5s;
+    transition-timing-function: cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .formulas__item[open] .formulas__body > :nth-child(1) { transition-delay: 0.1s; }
+  .formulas__item[open] .formulas__body > :nth-child(2) { transition-delay: 0.18s; }
+  .formulas__item[open] .formulas__body > :nth-child(3) { transition-delay: 0.26s; }
+
+  /* Visuel : fondu enchaîné avec celui de la formule précédente. */
+  .formulas__media {
+    opacity: 0;
+    scale: 0.96;
+    transition:
+      opacity 0.6s ease,
+      scale 0.6s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .formulas__item[open] .formulas__media {
+    opacity: 1;
+    scale: 1;
+  }
+
+  /* Point de départ quand une formule s'ouvre (son contenu sort de l'état masqué). */
+  @starting-style {
+    .formulas__item[open] .formulas__body > :not(.formulas__media) {
+      opacity: 0;
+      translate: 0 0.75rem;
+    }
+
+    .formulas__item[open] .formulas__media {
+      opacity: 0;
+      scale: 0.96;
+    }
+  }
+
+  /* La règle globale ne couvre pas ce pseudo-élément. */
+  @media (prefers-reduced-motion: reduce) {
+    .formulas__item::details-content {
+      transition: none;
+    }
+  }
+
+  .formulas__item {
+    border-top: 1px solid var(--line);
+  }
+
+  .formulas__item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .formulas__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-5);
+    padding-block: var(--space-5);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .formulas__head::-webkit-details-marker {
+    display: none;
+  }
+
+  .formulas__item[open] .formulas__head {
+    cursor: default;
+  }
+
+  .formulas__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    font-size: var(--fs-h3);
+  }
+
+  /* Formules fermées en retrait : l'œil va à celle qui est ouverte. */
+  .formulas__item:not([open]) .formulas__name {
+    opacity: 0.6;
+    transition: opacity 0.2s var(--ease);
+  }
+
+  .formulas__item:not([open]) .formulas__head:hover .formulas__name {
+    opacity: 1;
+  }
+
+  .formulas__badge {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-sm);
+    background-color: var(--color-accent);
+    color: var(--color-ink);
+    font-size: var(--fs-small);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+
+  .formulas__price {
+    font-size: var(--fs-lead);
+    font-weight: 700;
+  }
+
+  .formulas__item[open] .formulas__price {
+    color: var(--color-accent);
+  }
+
+  .formulas__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-5);
+    padding-bottom: var(--space-6);
+  }
+
+  .formulas__pitch {
+    font-size: var(--fs-lead);
+    line-height: 1.35;
+  }
+
+  /* Fond des illustrations recalé sur --color-coal : le filet suffit à les cadrer. */
+  .formulas__media {
+    width: 100%;
+    height: auto;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+  }
+
+  /* Écran large : la liste à droite, le visuel de la formule ouverte sorti du
+     flux et placé dans la colonne de gauche (repère : .formulas). */
+  @media (min-width: 62em) {
+    .formulas {
+      min-height: 28rem;
+      padding-left: calc(var(--media-width) + var(--space-8));
+    }
+
+    .formulas__media {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: var(--media-width);
+    }
+  }
+
+  /* Écran large et assez haut pour tout montrer : la section occupe l'écran et y
+     reste pendant une tranche de scroll par formule. Contenu centré : la barre
+     de navigation, qui réapparaît en remontant, ne le recouvre pas. */
+  @media (min-width: 62em) and (min-height: 48em) {
+    .formulas-track {
+      --step: 70svh;
+
+      height: calc(100svh + var(--items) * var(--step));
+    }
+
+    .formulas-sticky {
+      position: sticky;
+      top: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      min-height: 100svh;
+    }
+  }
+</style>

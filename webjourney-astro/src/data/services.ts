@@ -3,7 +3,7 @@
 // `offers.ts`, partagé avec la home : un seul prix partout.
 import type { CompareColumn, CompareRow } from "../components/CompareTable.astro";
 import type { FaqItem } from "../components/Faq.astro";
-import type { GlanceItem } from "../components/OfferGlance.astro";
+import type { FormulaItem } from "../components/OfferAccordion.astro";
 import type { Point } from "../components/PointList.astro";
 import type { Step } from "../components/Steps.astro";
 import { SITE } from "../lib/site";
@@ -24,18 +24,37 @@ export const fitNo = [
   "Vous voulez construire votre site vous-même : un outil comme Wix vous conviendra mieux.",
 ];
 
-// Pour qui et en combien de temps, dans l'ordre de `offers.ts` : partagés par le
-// bloc d'un coup d'œil et par le comparatif.
+// Pour qui et en combien de temps, dans l'ordre de `offers.ts`, pour le comparatif.
 const AUDIENCES = ["Lancer une offre précise", "Présenter toute votre activité", "Réservation, e-commerce, application"];
 const DELAYS = ["1 à 2 semaines", "3 à 6 semaines", "Selon le projet"];
 
-export const glance: GlanceItem[] = offers.map(({ name, price, featured }, index) => ({
-  name,
-  price,
-  featured,
-  audience: AUDIENCES[index] ?? "",
-  delay: `Délai : ${DELAYS[index]?.toLowerCase()}`,
-}));
+// Illustration de chaque formule, dans l'ordre de `offers.ts` (générées par IA,
+// fond recalé sur --color-coal).
+const FORMULA_MEDIA: FormulaItem["media"][] = [
+  {
+    src: "/assets/images/formule--landing-page.webp",
+    width: 1200,
+    height: 896,
+    alt: "Illustration d'une landing page : une seule page qui mène le visiteur jusqu'au formulaire de contact, sur ordinateur et sur mobile",
+  },
+  {
+    src: "/assets/images/formule--site-vitrine.webp",
+    width: 1200,
+    height: 896,
+    alt: "Illustration d'un site vitrine : plusieurs pages reliées par un menu, accueil, à propos, services, galerie et contact",
+  },
+  {
+    src: "/assets/images/formule--sur-mesure.webp",
+    width: 1200,
+    height: 896,
+    alt: "Illustration d'un projet sur mesure : des modules, réservation, paiement en ligne, avis, statistiques, choisis et assemblés dans votre site",
+  },
+];
+
+export const formulas: FormulaItem[] = offers.flatMap((offer, index) => {
+  const media = FORMULA_MEDIA[index];
+  return media ? [{ ...offer, media }] : [];
+});
 
 // Comparatif des formules : les colonnes reprennent nom et prix de `offers.ts`.
 // Un tiret = absent de la formule telle que l'ancienne page la décrivait.
