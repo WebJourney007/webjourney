@@ -112,16 +112,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
     </div>
   </Section>
 
-  <!-- ─── FAQ ─── -->
-  <Section>
-    <div class="two-col">
-      <SectionHead>
-        <Fragment slot="title">Questions sur <Accent text="votre futur site" /></Fragment>
-      </SectionHead>
-      <Faq items={serviceFaq} />
-    </div>
-  </Section>
-
   <!-- ─── APPEL À L'ACTION ─── -->
   <Section>
     <Cta>
@@ -137,6 +127,16 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         </Button>
       </Fragment>
     </Cta>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre futur site" /></Fragment>
+      </SectionHead>
+      <Faq items={serviceFaq} />
+    </div>
   </Section>
   </div>
 </BaseLayout>
