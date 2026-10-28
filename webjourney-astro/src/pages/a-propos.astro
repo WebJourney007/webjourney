@@ -8,11 +8,8 @@ import PointList from "../components/PointList.astro";
 import ReplyNote from "../components/ReplyNote.astro";
 import Section from "../components/Section.astro";
 import SectionHead from "../components/SectionHead.astro";
-import Stats from "../components/Stats.astro";
-import Steps from "../components/Steps.astro";
 import TeamGrid from "../components/TeamGrid.astro";
 import { aboutStructuredData, principles, team } from "../data/about";
-import { keyFigures, methodSteps } from "../data/home";
 import { PROJECT_CTA, SITE } from "../lib/site";
 
 ---
@@ -29,19 +26,13 @@ import { PROJECT_CTA, SITE } from "../lib/site";
       Une petite équipe de créatifs et de développeurs, un seul interlocuteur, et un objectif : que votre site vous
       apporte des clients.
     </p>
-    <div class="actions">
-      <Button href={PROJECT_CTA.href} variant="accent" icon="arrow">{PROJECT_CTA.label}</Button>
-      <Button href="/nos-sites-internet">Voir nos réalisations</Button>
-    </div>
   </HeroText>
 
-  <div class="page-deep tone-ink">
   <!-- ─── ÉQUIPE ─── -->
   <Section>
     <div class="flow">
       <SectionHead>
         <Fragment slot="title">L'équipe <Accent text="derrière vos projets" /></Fragment>
-        <p>Trois profils complémentaires, du design au code. Vous parlez toujours à la même personne.</p>
       </SectionHead>
       <TeamGrid items={team} />
     </div>
@@ -58,16 +49,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
         </p>
       </SectionHead>
       <PointList items={principles} />
-    </div>
-  </Section>
-
-  <!-- ─── EN CHIFFRES ─── -->
-  <Section>
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Des résultats <Accent text="concrets" /></Fragment>
-      </SectionHead>
-      <Stats items={keyFigures} cols={3} />
     </div>
   </Section>
 
@@ -90,16 +71,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
     </div>
   </Section>
 
-  <!-- ─── MÉTHODE ─── -->
-  <Section>
-    <div class="flow">
-      <SectionHead>
-        <Fragment slot="title">Comment on <Accent text="travaille ensemble" /></Fragment>
-      </SectionHead>
-      <Steps items={methodSteps} />
-    </div>
-  </Section>
-
   <!-- ─── APPEL À L'ACTION ─── -->
   <Section>
     <Cta>
@@ -114,7 +85,6 @@ import { PROJECT_CTA, SITE } from "../lib/site";
       </Fragment>
     </Cta>
   </Section>
-  </div>
 </BaseLayout>
 
 <style>
