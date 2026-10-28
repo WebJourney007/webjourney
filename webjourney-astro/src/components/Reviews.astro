@@ -29,7 +29,7 @@ const { video, items } = Astro.props;
   }
 
   .reviews__video {
-    max-width: 20rem;
+    max-width: 24rem;
   }
 
   .reviews__cards {
@@ -40,7 +40,8 @@ const { video, items } = Astro.props;
 
   @media (min-width: 62em) {
     .reviews {
-      grid-template-columns: 20rem 1fr;
+      /* Cartes plafonnées : des lignes trop longues se lisent mal. */
+      grid-template-columns: 24rem minmax(0, 46rem);
       align-items: start;
     }
   }
