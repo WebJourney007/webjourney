@@ -50,7 +50,7 @@ const examples = cases.filter((item) => item.types.includes("identite"));
       framed
       alignTop
     >
-      <SectionHead>
+      <SectionHead slot="head">
         <Fragment slot="title">Une identité, <Accent text="du web au papier" /></Fragment>
       </SectionHead>
       <PointList items={designIncluded} cols={1} />
@@ -127,16 +127,6 @@ const examples = cases.filter((item) => item.types.includes("identite"));
     </div>
   </Section>
 
-  <!-- ─── FAQ ─── -->
-  <Section>
-    <div class="two-col">
-      <SectionHead>
-        <Fragment slot="title">Questions sur <Accent text="votre identité" /></Fragment>
-      </SectionHead>
-      <Faq items={designFaq} />
-    </div>
-  </Section>
-
   <!-- ─── APPEL À L'ACTION ─── -->
   <Section>
     <Cta>
@@ -153,6 +143,16 @@ const examples = cases.filter((item) => item.types.includes("identite"));
         </Button>
       </Fragment>
     </Cta>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre identité" /></Fragment>
+      </SectionHead>
+      <Faq items={designFaq} />
+    </div>
   </Section>
   </div>
 </BaseLayout>

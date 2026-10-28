@@ -1,5 +1,7 @@
 ---
-// Image d'un côté, texte de l'autre. Sur mobile l'image passe toujours en premier.
+// Image d'un côté, texte de l'autre. Sur mobile l'image passe en premier, sauf
+// le slot « head » (titre de section) qui la précède alors ; sur desktop, il
+// reste en haut de la colonne de texte.
 interface Props {
   image: string;
   alt: string;
@@ -16,9 +18,15 @@ interface Props {
 }
 
 const { image, alt, width, height, reverse = false, ratio, framed = false, alignTop = false } = Astro.props;
+const hasHead = Astro.slots.has("head");
 ---
 
-<div class:list={["split", reverse && "split--reverse", alignTop && "split--top"]}>
+<div class:list={["split", reverse && "split--reverse", alignTop && "split--top", hasHead && "split--head"]}>
+  {hasHead && (
+    <div class="split__head">
+      <slot name="head" />
+    </div>
+  )}
   <div class:list={["split__media", framed && "split__media--framed"]} style={ratio ? `aspect-ratio: ${ratio}` : undefined}>
     <img src={image} alt={alt} width={width} height={height} loading="lazy" decoding="async" />
   </div>
@@ -72,6 +80,33 @@ const { image, alt, width, height, reverse = false, ratio, framed = false, align
     .split--top .split__media {
       position: sticky;
       top: calc(var(--nav-height) + var(--space-6));
+    }
+
+    /* Avec titre : titre puis texte dans une colonne, l'image sur les deux rangées. */
+    .split--head {
+      grid-template-areas:
+        "media head"
+        "media content";
+      grid-template-rows: auto 1fr;
+      row-gap: var(--space-5);
+    }
+
+    .split--head.split--reverse {
+      grid-template-areas:
+        "head media"
+        "content media";
+    }
+
+    .split--head .split__head {
+      grid-area: head;
+    }
+
+    .split--head .split__media {
+      grid-area: media;
+    }
+
+    .split--head .split__content {
+      grid-area: content;
     }
   }
 </style>

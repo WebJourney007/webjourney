@@ -50,7 +50,7 @@ const examples = cases.filter((item) => item.types.includes("app"));
       framed
       alignTop
     >
-      <SectionHead>
+      <SectionHead slot="head">
         <Fragment slot="title">Des outils qui <Accent text="travaillent pour vous" /></Fragment>
       </SectionHead>
       <PointList items={appIncluded} cols={1} />
@@ -86,16 +86,6 @@ const examples = cases.filter((item) => item.types.includes("app"));
     </div>
   </Section>
 
-  <!-- ─── FAQ ─── -->
-  <Section>
-    <div class="two-col">
-      <SectionHead>
-        <Fragment slot="title">Questions sur <Accent text="votre application" /></Fragment>
-      </SectionHead>
-      <Faq items={appFaq} />
-    </div>
-  </Section>
-
   <!-- ─── APPEL À L'ACTION ─── -->
   <Section>
     <Cta>
@@ -112,6 +102,16 @@ const examples = cases.filter((item) => item.types.includes("app"));
         </Button>
       </Fragment>
     </Cta>
+  </Section>
+
+  <!-- ─── FAQ ─── -->
+  <Section>
+    <div class="two-col">
+      <SectionHead>
+        <Fragment slot="title">Questions sur <Accent text="votre application" /></Fragment>
+      </SectionHead>
+      <Faq items={appFaq} />
+    </div>
   </Section>
   </div>
 </BaseLayout>
