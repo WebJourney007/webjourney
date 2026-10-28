@@ -55,7 +55,8 @@
   --space-8: 4rem;
 
   /* Rythme vertical : 72px sur mobile, 160px sur desktop. */
-  --section-y: clamp(4.5rem, 11vw, 10rem);
+  /* Mobile : 96 px entre les sections (demande de Max du 2026-10-28) ; desktop inchangé. */
+  --section-y: clamp(6rem, 11vw, 10rem);
 
   /* Mise en page */
   --container-max: 82.5rem;
